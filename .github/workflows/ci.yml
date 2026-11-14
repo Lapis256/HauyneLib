@@ -14,22 +14,49 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  targets:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.targets.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - id: targets
+        run: echo "matrix=$(python scripts/targets.py --matrix)" >> "$GITHUB_OUTPUT"
+      - run: python -m unittest discover -s scripts -p 'test_*.py'
+
+  jvm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
       - uses: ./.github/actions/setup-common-env
-
-      - name: Run CI checks
-        run: ./gradlew ciCheck -PmodPublishDryRun=true
-
+      - run: ./gradlew spotlessCheck checkActiveProjects verifyJvm prepareJvmPublications
+      - run: python scripts/verify_artifacts.py --jvm-only
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
-          name: results
+          name: results-jvm
           path: |
             **/build/reports/
             **/build/test-results/
-            **/build/libs/
-            **/build/publishMods/
+
+  build:
+    needs: targets
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.targets.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: ./.github/actions/setup-common-env
+      - name: Build, test, publish locally and simulate distribution
+        run: ./gradlew 'verify${{ matrix.series }}' -PmodPublishDryRun=true
+      - run: python scripts/verify_artifacts.py --minecraft-only '${{ matrix.series }}'
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: results-${{ matrix.series }}
+          path: |
+            **/build/reports/
+            **/build/test-results/
+            hauyne-lib/**/build/libs/
+            hauyne-lib/**/build/publishMods/

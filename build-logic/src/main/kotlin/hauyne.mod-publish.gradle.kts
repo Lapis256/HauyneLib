@@ -27,17 +27,19 @@ publishMods {
     }
 }
 
-rootProject.tasks.named("verifyRequired") {
-    dependsOn(tasks.named("publishMods"))
-}
+if (rootProject.extensions.getByType<HauyneTargets>().isReleaseProject(project.path)) {
+    rootProject.tasks.named("verifyRequired") {
+        dependsOn(tasks.named("publishMods"))
+    }
 
-rootProject.tasks.named("publishRelease") {
-    dependsOn(tasks.named("publishMods"))
-}
+    rootProject.tasks.named("publishRelease") {
+        dependsOn(tasks.named("publishMods"))
+    }
 
-val modFile = publishMods.file
-rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
-    modFiles.from(modFile)
+    val modFile = publishMods.file
+    rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
+        modFiles.from(modFile)
+    }
 }
 
 val validateModRelease = tasks.register<ValidateReleaseSettings>("validateModRelease") {

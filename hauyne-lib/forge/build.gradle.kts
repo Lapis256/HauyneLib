@@ -9,15 +9,6 @@ plugins {
 
 val mc = stonecutter.current.version
 
-hauyneLibrary {
-    componentPath = parent!!.path
-}
-
-hauyneMinecraft {
-    minecraftVersion = mc
-    versionPropertiesFile = rootProject.layout.projectDirectory.file("versions/$mc/gradle.properties")
-}
-
 hauyneModMetadata {
     modId = providers.gradleProperty("modId")
     modName = providers.gradleProperty("modName")
@@ -27,10 +18,6 @@ hauyneModMetadata {
     minecraftVersionRange = "[$mc]"
     loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
     javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
-}
-
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(hauyneMinecraft.versionProperty("javaVersion").get().toInt())
 }
 
 extensions.configure<LegacyForgeExtension> {
@@ -54,10 +41,10 @@ extensions.configure<LegacyForgeExtension> {
 }
 
 dependencies {
-    implementation(project(":hauyne-config:forge:$mc"))
+    implementation(project(":hauyne-config:forge:${stonecutter.current.project}"))
     "jarJar"(project(":hauyne-config:core"))
-    "jarJar"(project(":hauyne-config:minecraft:$mc"))
-    "jarJar"(project(":hauyne-config:forge:$mc"))
+    "jarJar"(project(":hauyne-config:minecraft:${stonecutter.current.project}"))
+    "jarJar"(project(":hauyne-config:forge:${stonecutter.current.project}"))
 }
 
 publishMods {

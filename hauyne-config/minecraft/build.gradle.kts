@@ -10,19 +10,6 @@ plugins {
 
 val mc = stonecutter.current.version
 
-hauyneLibrary {
-    componentPath = parent!!.path
-}
-
-hauyneMinecraft {
-    minecraftVersion = mc
-    versionPropertiesFile = rootProject.layout.projectDirectory.file("versions/$mc/gradle.properties")
-}
-
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(hauyneMinecraft.versionProperty("javaVersion").get().toInt())
-}
-
 if (stonecutter.eval(mc, "<1.21")) {
     apply(plugin = libs.plugins.legacyforge.get().pluginId)
     extensions.configure<LegacyForgeExtension> {

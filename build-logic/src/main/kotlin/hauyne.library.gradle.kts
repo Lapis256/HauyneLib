@@ -4,16 +4,12 @@ plugins {
     `java-library`
 }
 
-rootProject.tasks.named("verifyRequired") {
-    dependsOn(tasks.named("build"))
-}
-
 repositories {
     mavenCentral()
 }
 
 group = rootProject.property("mavenGroup")!!
-version = rootProject.property("modVersion")!!
+version = rootProject.version
 val library = extensions.create<HauyneLibraryExtension>("hauyneLibrary")
 library.componentPath.convention(project.path)
 

@@ -28,6 +28,7 @@ eclipse
 **/run-server/
 runs
 .kotlin/
+__pycache__/
 
 /documentation/
 /.release/

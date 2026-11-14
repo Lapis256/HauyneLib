@@ -54,8 +54,8 @@ class ReleaseTest {
             assertEquals("v$version\n", root.resolve(".release/tag").readText())
             val notes = root.resolve(".release/notes.md").readText()
             val full = root.resolve("CHANGELOG.md").readText()
-            assertTrue(message.substringAfter(": ") in notes)
-            assertTrue("initial" !in notes && "initial" in full)
+            assertTrue(message.substringAfter(": ") in notes.lowercase())
+            assertTrue("initial" !in notes.lowercase() && "initial" in full.lowercase())
             assertTrue(notes.trim() in full)
         }
         root.resolve("gradle.properties").writeText("modVersion=0.2.0\n")

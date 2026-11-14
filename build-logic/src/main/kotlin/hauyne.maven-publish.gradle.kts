@@ -7,29 +7,31 @@ publishing.publications.create<MavenPublication>("maven") {
     from(components["java"])
 }
 
-rootProject.tasks.named("verifyRequired") {
-    dependsOn(tasks.named("publishToMavenLocal"))
-}
+if (rootProject.extensions.getByType<HauyneTargets>().isReleaseProject(project.path)) {
+    rootProject.tasks.named("verifyRequired") {
+        dependsOn(tasks.named("publishToMavenLocal"))
+    }
 
-rootProject.tasks.named("publishRelease") {
-    dependsOn(tasks.named("publish"))
-}
+    rootProject.tasks.named("publishRelease") {
+        dependsOn(tasks.named("publish"))
+    }
 
-gradle.projectsEvaluated {
-    val publication = publishing.publications.getByName("maven") as MavenPublication
-    val coordinate = "${publication.groupId.replace('.', '/')}/${publication.artifactId}/${publication.version}"
-    val base = "${publication.artifactId}-${publication.version}"
-    val files = publication.artifacts.associate {
-        val classifier = it.classifier?.takeIf(String::isNotBlank)?.let { value -> "-$value" }.orEmpty()
-        it.file.relativeTo(rootDir).invariantSeparatorsPath to "$coordinate/$base$classifier.${it.extension}"
-    } + mapOf(
-        layout.buildDirectory.file("publications/maven/pom-default.xml").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
-            "$coordinate/$base.pom",
-        layout.buildDirectory.file("publications/maven/module.json").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
-            "$coordinate/$base.module",
-    )
-    rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
-        publicationFiles.putAll(files)
+    gradle.projectsEvaluated {
+        val publication = publishing.publications.getByName("maven") as MavenPublication
+        val coordinate = "${publication.groupId.replace('.', '/')}/${publication.artifactId}/${publication.version}"
+        val base = "${publication.artifactId}-${publication.version}"
+        val files = publication.artifacts.associate {
+            val classifier = it.classifier?.takeIf(String::isNotBlank)?.let { value -> "-$value" }.orEmpty()
+            it.file.relativeTo(rootDir).invariantSeparatorsPath to "$coordinate/$base$classifier.${it.extension}"
+        } + mapOf(
+            layout.buildDirectory.file("publications/maven/pom-default.xml").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
+                "$coordinate/$base.pom",
+            layout.buildDirectory.file("publications/maven/module.json").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
+                "$coordinate/$base.module",
+        )
+        rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
+            publicationFiles.putAll(files)
+        }
     }
 }
 

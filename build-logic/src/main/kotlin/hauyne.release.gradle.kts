@@ -1,3 +1,5 @@
+extensions.add("hauyneTargets", HauyneTargets(providers.fileContents(layout.projectDirectory.file("versions/targets.properties")).asText.get()))
+
 tasks.register("verifyRequired") {
     group = "verification"
     description = "Build, test, publish locally and dry-run all registered release targets"

@@ -8,19 +8,6 @@ plugins {
 
 val mc = stonecutter.current.version
 
-hauyneLibrary {
-    componentPath = parent!!.path
-}
-
-hauyneMinecraft {
-    minecraftVersion = mc
-    versionPropertiesFile = rootProject.layout.projectDirectory.file("versions/$mc/gradle.properties")
-}
-
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(hauyneMinecraft.versionProperty("javaVersion").get().toInt())
-}
-
 extensions.configure<LegacyForgeExtension> {
     enable {
         forgeVersion = hauyneMinecraft.versionProperty("forgeVersion").get()
@@ -30,7 +17,7 @@ extensions.configure<LegacyForgeExtension> {
 }
 
 dependencies {
-    api(project(":hauyne-config:minecraft:$mc"))
+    api(project(":hauyne-config:minecraft:${stonecutter.current.project}"))
 }
 
 configurations.matching {
