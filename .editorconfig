@@ -1,0 +1,34 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 150
+
+[*.{kt,kts}]
+ktlint_code_style = intellij_idea
+ktlint_standard_function-naming = disabled
+ktlint_standard_function-literal = disabled
+ktlint_standard_package-name = disabled
+ktlint_standard_backing-property-naming = disabled
+ktlint_standard_no-empty-file = disabled
+ij_kotlin_name_count_to_use_star_import = 9999
+ij_kotlin_name_count_to_use_star_import_for_members = 9999
+ij_kotlin_packages_to_use_import_on_demand =
+
+[*.{yaml,yml}]
+indent_size = 2
+
+[*.{json,jsonc,mcmeta}]
+indent_size = 2
+ij_json_array_wrapping = on_every_item
+
+[*.{mixins,ktmixins}.{json,jsonc}]
+ij_json_array_wrapping = split_into_lines
+
+[*.md]
+trim_trailing_whitespace = false
