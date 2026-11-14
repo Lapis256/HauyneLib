@@ -42,9 +42,12 @@ no API key, $0).
 
 ## Writing conventions
 
+- Use English as the primary language for public-facing essentials, such as the README and public API documentation.
+- Write KDoc in both English and Japanese, with English first.
+- Write code comments and internal development documentation in Japanese, prioritizing the Japanese-speaking maintainer's readability.
 - Write commit messages and pull request titles in English using Conventional Commits.
 - Keep both concise while conveying the necessary scope; commit messages should normally consist of the subject line only.
-- Write all agent-facing documentation in English.
+- Write all agent-facing documentation in English as an exception to the internal documentation rule.
 
 ## Agent skills
 
