@@ -69,7 +69,7 @@ default=26.1
 20.1=1.20.1,forge,false
 ```
 
-系列を追加するときは、この宣言と `versions/<系列>/gradle.properties` を追加します。Stonecutter の対象、系列別の検証・公開タスク、CI matrix、Release の公開対象、成果物検証は宣言から決まります。新しいローダーを追加する場合は、そのローダー用モジュールの実装も必要です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release の対象からは除外します。
+系列を追加するときは、この宣言と `versions/<系列>/gradle.properties` を追加します。Stonecutter の対象、系列別の検証・公開タスク、CI matrix、Release の公開対象は宣言から決まります。CI matrix は Gradle の `printCiMatrix` タスクで出力します。新しいローダーを追加する場合は、そのローダー用モジュールの実装も必要です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release の対象からは除外します。
 
 | タスク | 用途 |
 | --- | --- |
@@ -92,10 +92,11 @@ default=26.1
 ./gradlew verifyRequired -PmodPublishDryRun=true
 ./gradlew verify20.1 -PmodPublishDryRun=true
 ./gradlew buildAndCollect
-python scripts/verify_artifacts.py 26.1 21.1 20.1
 ```
 
 `verifyRequired` は公開対象の全ローダー・全バージョンと JVM/KSP 例のビルド・テスト・ローカル公開・配布 dry-run を実行します。
+
+Gradle の設定、標準タスク、ディレクトリ構成、ファイルの存在を細かく確認するセットアップ用テストは追加しません。ビルドやコンパイルで検出できる問題は、通常の Gradle タスクで検証します。独自のビルド処理や通常のビルドでは検出できない重要な仕様に限り、具体的な不具合を検出する最小限のテストを追加します。
 
 ```sh
 ./gradlew :hauyne-config:minecraft:20.1:build :hauyne-config:forge:20.1:build :hauyne-lib:forge:20.1:build

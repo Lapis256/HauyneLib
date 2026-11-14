@@ -2,6 +2,8 @@
 
 2026年11月13日に Windows 上で検証しました。本番アップロードは実行していません。
 
+以下は過去のセットアップ検証の記録です。2026年11月15日に、Python による成果物検査とセットアップ確認だけを目的としたテストを削除しました。現在の検証手順は [ビルドと公開](publishing.md) を参照してください。
+
 ## 実行コマンドと結果
 
 | コマンド | 結果 |
@@ -9,7 +11,7 @@
 | `./gradlew.bat help projects` | 成功。通常モジュールと Minecraft 3バージョンのパスを確認 |
 | `./gradlew.bat build test publishToMavenLocal` | 成功。JVM/KSP、NeoForge 2バージョン、Forge 1.20.1 を含む |
 | `./gradlew.bat :hauyne-lib:neoforge:26.1.2:publishMods :hauyne-lib:neoforge:1.21.1:publishMods :hauyne-lib:forge:1.20.1:publishMods -PmodPublishDryRun=true` | 成功。全3成果物で CurseForge と Modrinth の dry-run を確認 |
-| `python scripts/verify_artifacts.py 26.1.2 1.21.1 1.20.1` | 成功。JAR、Java 対象、Jar-in-Jar、POM、metadata を確認 |
+| 当時の成果物検査スクリプト（削除済み） | 成功。JAR、Java 対象、Jar-in-Jar、POM、metadata を確認 |
 | 検証用の別 Gradle プロジェクトで `resolve2612 resolve1211 resolve1201` | 成功。Maven local から対応する Minecraft 共通層と Core を推移的に解決 |
 | Stonecutter の `Set active project to 1.21.1`、1.21.1 の `build`、`Reset active project` | 成功。Minecraft 共通層・NeoForge アダプター・Mod の controller を切替後、26.1.2 に復帰 |
 | `./gradlew.bat :hauyne-lib:neoforge:26.1.2:validateModRelease -PmodPublishDryRun=false` | 想定どおり失敗。未設定の `curseforgeProjectId` を検出。アップロードなし |

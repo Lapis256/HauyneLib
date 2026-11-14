@@ -12,6 +12,11 @@ plugins {
 version = providers.gradleProperty("modVersion").get()
 
 val targets = extensions.getByType<HauyneTargets>()
+tasks.register("printCiMatrix") {
+    val matrix = targets.all.joinToString(prefix = "{\"include\":[", postfix = "]}") { "{\"series\":\"${it.series}\"}" }
+    doLast { logger.quiet(matrix) }
+}
+
 val jvmModules = listOf(":hauyne-config:core", ":hauyne-config:ksp", ":hauyne-config:memory", ":hauyne-config:nightconfig", ":examples:jvm")
 val publishedJvmModules = listOf(":hauyne-config:core", ":hauyne-config:ksp", ":hauyne-config:nightconfig")
 
