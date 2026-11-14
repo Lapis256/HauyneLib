@@ -1,13 +1,13 @@
-# ドメイン文書
+# Domain documentation
 
-## 配置と読み方
+## Location and reading order
 
-単一構成とし、用語集はルートの `GLOSSARY.md`、設計上の決定は `docs/adr/` に置きます。
-コードを調べる前に `GLOSSARY.md` と、作業対象に関係する ADR を読んでください。
-文書が存在しない場合はそのまま作業を進め、欠落の報告や作成の提案はしないでください。用語や設計上の決定が固まったときに `domain-modeling` スキルで作成します。
+Use a single documentation structure: the glossary lives in the root `GLOSSARY.md`, and architectural decisions live in `docs/adr/`.
+Before examining code, read `GLOSSARY.md` and the ADRs relevant to the task.
+If these documents do not exist, continue without reporting their absence or proposing their creation. Create them with the `domain-modeling` skill when terminology or architectural decisions are settled.
 
-## 用語と設計上の決定
+## Terminology and architectural decisions
 
-課題のタイトル、改善案、仮説、テスト名でドメインの概念を表すときは、用語集にある名称を使ってください。
-必要な概念が用語集にない場合は、プロジェクトで使われている用語か確認し、用語集に補う必要があれば `domain-modeling` で扱う事項として記録してください。
-提案が既存の ADR と矛盾する場合は、対象の ADR と再検討する理由を明示してください。
+Use glossary terms when expressing domain concepts in issue titles, improvement proposals, hypotheses, and test names.
+If a needed concept is missing from the glossary, check whether the term is used in the project. If the glossary needs an addition, record it as an item for `domain-modeling`.
+If a proposal conflicts with an existing ADR, identify the ADR and explain why it should be reconsidered.

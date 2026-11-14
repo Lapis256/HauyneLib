@@ -40,16 +40,22 @@ After big code changes, refresh the graph with `trail build` (deterministic,
 no API key, $0).
 <!-- trail:end -->
 
+## Writing conventions
+
+- Write commit messages and pull request titles in English using Conventional Commits.
+- Keep both concise while conveying the necessary scope; commit messages should normally consist of the subject line only.
+- Write all agent-facing documentation in English.
+
 ## Agent skills
 
 ### Issue tracker
 
-課題と仕様は GitHub Issues（Lapis256/HauyneLib）で管理します。課題を扱う前に `docs/agents/issue-tracker.md` を読んでください。
+Track issues and specifications in GitHub Issues (`Lapis256/HauyneLib`). Read `docs/agents/issue-tracker.md` before working on issues.
 
 ### Triage labels
 
-GitHub のラベル名には空白を使います。課題を分類する前に `docs/agents/triage-labels.md` の対応表を読んでください。
+GitHub label names use spaces. Read the mapping in `docs/agents/triage-labels.md` before classifying issues.
 
 ### Domain docs
 
-ドメイン文書は単一構成です。コードを調べる前に `docs/agents/domain.md` に従って用語集と関連する ADR を読んでください。
+Domain documentation uses a single structure. Follow `docs/agents/domain.md` to read the glossary and relevant ADRs before examining code.

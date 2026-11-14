@@ -1,13 +1,13 @@
-# トリアージラベル
+# Triage labels
 
-スキルで使う役割名と GitHub 上のラベル名を次のように対応させます。
+Map skill role names to GitHub label names as follows.
 
-| スキル内の役割名 | GitHub のラベル名 | 意味 |
+| Skill role | GitHub label | Meaning |
 | --- | --- | --- |
-| `needs-triage` | `needs triage` | メンテナーによる評価が必要 |
-| `needs-info` | `needs info` | 報告者からの追加情報を待っている |
-| `ready-for-agent` | `ready for agent` | 仕様が固まり、エージェントが自律的に実装できる |
-| `ready-for-human` | `ready for human` | 人による実装が必要 |
-| `wontfix` | `wontfix` | 対応しない |
+| `needs-triage` | `needs triage` | Requires maintainer evaluation |
+| `needs-info` | `needs info` | Awaiting additional information from the reporter |
+| `ready-for-agent` | `ready for agent` | Specification is settled; an agent can implement it autonomously |
+| `ready-for-human` | `ready for human` | Requires human implementation |
+| `wontfix` | `wontfix` | Will not be addressed |
 
-スキルが役割名でラベルを指定した場合は、対応する GitHub のラベル名を使ってください。空白を含むラベル名はコマンドの引数で引用符で囲んでください。
+When a skill specifies a label by role name, use the corresponding GitHub label name. Quote label names containing spaces in command arguments.
