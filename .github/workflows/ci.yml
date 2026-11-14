@@ -14,47 +14,17 @@ permissions:
   contents: read
 
 jobs:
-  targets:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.targets.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - uses: ./.github/actions/setup-common-env
-      - id: targets
-        run: |
-          matrix=$(./gradlew -q printCiMatrix)
-          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
-
-  jvm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - uses: ./.github/actions/setup-common-env
-      - run: ./gradlew spotlessCheck checkActiveProjects verifyJvm prepareJvmPublications
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        if: always()
-        with:
-          name: results-jvm
-          path: |
-            **/build/reports/
-            **/build/test-results/
-
   build:
-    needs: targets
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.targets.outputs.matrix) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - uses: ./.github/actions/setup-common-env
       - name: Build, test, publish locally and simulate distribution
-        run: ./gradlew 'verify${{ matrix.series }}' -PmodPublishDryRun=true
+        run: ./gradlew checkActiveProjects ciCheck -PmodPublishDryRun=true
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
-          name: results-${{ matrix.series }}
+          name: results
           path: |
             **/build/reports/
             **/build/test-results/

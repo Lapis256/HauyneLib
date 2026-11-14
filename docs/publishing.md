@@ -69,7 +69,7 @@ default=26.1
 20.1=1.20.1,forge,false
 ```
 
-系列を追加するときは、この宣言と `versions/<系列>/gradle.properties` を追加します。Stonecutter の対象、系列別の検証・公開タスク、CI matrix、Release の公開対象は宣言から決まります。CI matrix は Gradle の `printCiMatrix` タスクで出力します。新しいローダーを追加する場合は、そのローダー用モジュールの実装も必要です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release の対象からは除外します。
+系列を追加するときは、この宣言と `versions/<系列>/gradle.properties` を追加します。Stonecutter の対象、系列別の検証・公開タスク、Release の公開対象は宣言から決まります。新しいローダーを追加する場合は、そのローダー用モジュールの実装も必要です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release の対象からは除外します。
 
 | タスク | 用途 |
 | --- | --- |
@@ -78,7 +78,7 @@ default=26.1
 | `verify26.1`・`verify21.1`・`verify20.1` | 指定系列の3モジュールのビルド・テスト・ローカル公開・Mod 配布検証。`-PmodPublishDryRun=true` を付けて実行 |
 | `switchTo21.1` など | 指定系列の Minecraft 共通層・アダプター・Mod を一括切替 |
 | `resetActiveProjects` | 全 controller を VCS の既定系列へ戻す |
-| `checkActiveProjects` | 既定系列への戻し忘れを検出。CI の JVM job でも実行 |
+| `checkActiveProjects` | 既定系列への戻し忘れを検出。CI でも実行 |
 | `checkActiveSelection` | 選択中の系列に関係する3つの controller が同じ系列か確認 |
 | `runActiveServer` | Minecraft 共通層で選択中の系列のサーバーを起動。controller の選択が揃っていなければ起動前に失敗 |
 | `buildAndCollect` | 全系列と JVM ライブラリをビルドし、現在のバージョンの本体・sources JAR を `build/collected/` に収集 |
@@ -152,7 +152,7 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
 
-CI は JVM 検証を独立 job に分け、各 Minecraft 系列を宣言から作る matrix job で検証します。Minecraft job では必要な Core のビルドとローカル公開は行いますが、KSP・NightConfig・JVM 利用例の検証を繰り返しません。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。Forge はゲーム起動の検証が完了するまで本番公開に含めません。
+CI は1つのジョブで `./gradlew checkActiveProjects ciCheck -PmodPublishDryRun=true` を実行し、JVM と全 Minecraft 系列を検証します。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。Forge はゲーム起動の検証が完了するまで本番公開に含めません。
 
 ### GitHub Actions からのリリース
 
