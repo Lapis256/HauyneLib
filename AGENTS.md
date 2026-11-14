@@ -39,3 +39,17 @@ re-read whole files.
 After big code changes, refresh the graph with `trail build` (deterministic,
 no API key, $0).
 <!-- trail:end -->
+
+## Agent skills
+
+### Issue tracker
+
+課題と仕様は GitHub Issues（Lapis256/HauyneLib）で管理します。課題を扱う前に `docs/agents/issue-tracker.md` を読んでください。
+
+### Triage labels
+
+GitHub のラベル名には空白を使います。課題を分類する前に `docs/agents/triage-labels.md` の対応表を読んでください。
+
+### Domain docs
+
+ドメイン文書は単一構成です。コードを調べる前に `docs/agents/domain.md` に従って用語集と関連する ADR を読んでください。
