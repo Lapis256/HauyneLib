@@ -49,6 +49,10 @@ no API key, $0).
 - Keep both concise while conveying the necessary scope; commit messages should normally consist of the subject line only.
 - Write all agent-facing documentation in English as an exception to the internal documentation rule.
 
+## Commit workflow
+
+On any branch other than the default branch, treat explicit or implicit requests to change files as including a request to commit the completed changes. After appropriate verification, create focused commits containing only the task's changes without waiting for a separate commit instruction.
+
 ## Agent skills
 
 ### Issue tracker
