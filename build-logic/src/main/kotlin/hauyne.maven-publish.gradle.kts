@@ -7,6 +7,32 @@ publishing.publications.create<MavenPublication>("maven") {
     from(components["java"])
 }
 
+rootProject.tasks.named("verifyRequired") {
+    dependsOn(tasks.named("publishToMavenLocal"))
+}
+
+rootProject.tasks.named("publishRelease") {
+    dependsOn(tasks.named("publish"))
+}
+
+gradle.projectsEvaluated {
+    val publication = publishing.publications.getByName("maven") as MavenPublication
+    val coordinate = "${publication.groupId.replace('.', '/')}/${publication.artifactId}/${publication.version}"
+    val base = "${publication.artifactId}-${publication.version}"
+    val files = publication.artifacts.associate {
+        val classifier = it.classifier?.takeIf(String::isNotBlank)?.let { value -> "-$value" }.orEmpty()
+        it.file.relativeTo(rootDir).invariantSeparatorsPath to "$coordinate/$base$classifier.${it.extension}"
+    } + mapOf(
+        layout.buildDirectory.file("publications/maven/pom-default.xml").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
+            "$coordinate/$base.pom",
+        layout.buildDirectory.file("publications/maven/module.json").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
+            "$coordinate/$base.module",
+    )
+    rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
+        publicationFiles.putAll(files)
+    }
+}
+
 afterEvaluate {
     publishing.publications.withType<MavenPublication>().configureEach {
         artifactId = project.extensions.getByType<BasePluginExtension>().archivesName.get()
@@ -57,7 +83,14 @@ configure<PublishingExtension> {
 }
 
 tasks.withType<PublishToMavenRepository>().configureEach {
+    mustRunAfter(":validateRelease")
+    val releaseManifest = providers.gradleProperty("releaseManifest")
+    val releaseRoot = rootProject.layout.projectDirectory.asFile
     doFirst {
+        releaseManifest.orNull?.let {
+            ReleaseArtifacts.verify(releaseRoot, releaseRoot.resolve(it), publication.artifacts.map { artifact -> artifact.file })
+        }
+
         require(!System.getenv("R2_ACCESS_KEY").isNullOrBlank() && !System.getenv("R2_SECRET_KEY").isNullOrBlank()) {
             "R2_ACCESS_KEY and R2_SECRET_KEY are required"
         }

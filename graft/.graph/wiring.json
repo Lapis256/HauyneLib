@@ -1,0 +1,4009 @@
+{
+  "meta": {
+    "version": 1,
+    "nodeCount": 169,
+    "edgeCount": 240,
+    "languages": [
+      "java",
+      "kotlin"
+    ],
+    "scopes": [
+      {
+        "prefix": "hauyne-config/nightconfig",
+        "label": "hauyne-config/nightconfig",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "hauyne-config/minecraft",
+        "label": "hauyne-config/minecraft",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "hauyne-config/neoforge",
+        "label": "hauyne-config/neoforge",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "hauyne-config/forge",
+        "label": "hauyne-config/forge",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "hauyne-lib/neoforge",
+        "label": "hauyne-lib/neoforge",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "hauyne-config/core",
+        "label": "hauyne-config/core",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "hauyne-lib/forge",
+        "label": "hauyne-lib/forge",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "build-logic",
+        "label": "build-logic",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      },
+      {
+        "prefix": "",
+        "label": "",
+        "markers": [
+          "build.gradle.kts"
+        ]
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "build-logic/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/build.gradle.kts",
+      "span": "L1-L23",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "380ad0e8b79300ac9eeaea7d9e3662d379956c7d245add26dc99e67c14be1e73",
+      "chars": 474,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/settings.gradle.kts",
+      "name": "settings.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/settings.gradle.kts",
+      "span": "L1-L22",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "bb926cf79416ae798effb8c056e475401a44388e051b99eaed36eac5dbdb9081",
+      "chars": 365,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "name": "GenerateModConstants.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "span": "L1-L35",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a1e8c8b335a073d8ede1bdf8c04d828857115cd88cb852ab579760f621b7bbf5",
+      "chars": 965,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/GenerateModConstants.kt#GenerateModConstants",
+      "name": "GenerateModConstants",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "span": "L8-L34",
+      "signature": "abstract class GenerateModConstants : DefaultTask()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b8659bbab86cd1de816abc9a389f4a21d83b8ffef5ee4b9debffe7d21a7d7908",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/GenerateModConstants.kt#GenerateModConstants.generate",
+      "name": "generate",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "span": "L18-L33",
+      "signature": "@TaskAction fun generate()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "36bf77a35d118efb4698dec670aea962eb4503682b1cc71e50fc75bdc8ae6f6f",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "GenerateModConstants"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "name": "hauyne.formatting.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "span": "L1-L48",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b1561110829ed60f660552da905add7703de3ba00748bb04b84ab0a58ce6a7ed",
+      "chars": 1817,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts#catalog",
+      "name": "catalog",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "span": "L13-L13",
+      "signature": "val catalog = extensions.getByType<VersionCatalogsExtension>().named(\"libs\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8a1f23a5f1cef3e3612b56bb49b99ccd488c96bcba7c6748d9ebd5d1c592f1a6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts#editorConfig",
+      "name": "editorConfig",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "span": "L21-L23",
+      "signature": "val editorConfig = ResourcePropertiesService.builder().build().queryProperties( Resource.Resources.ofPath(file(\"src/main/java/Formatting.java\").toPath(), Charsets.UTF_8), ).properties",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "af655a33f1387962873ecffc5bc84a7b6c3252face26e8d9c9ce18dff6f2fd25",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.kotlin-library.gradle.kts",
+      "name": "hauyne.kotlin-library.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.kotlin-library.gradle.kts",
+      "span": "L1-L14",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "f6cbbd18153bb2a578ace749c58b6e363b7400752187321a5dd293e6dd5319cd",
+      "chars": 281,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "name": "hauyne.library.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "span": "L1-L54",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "be5510c8cc98e4d415944393001ed13ba884147848636e67c1e10073f3c27bd3",
+      "chars": 1257,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.library.gradle.kts#catalog",
+      "name": "catalog",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "span": "L47-L47",
+      "signature": "val catalog = extensions.getByType<VersionCatalogsExtension>().named(\"libs\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8a1f23a5f1cef3e3612b56bb49b99ccd488c96bcba7c6748d9ebd5d1c592f1a6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.library.gradle.kts#library",
+      "name": "library",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "span": "L17-L17",
+      "signature": "val library = extensions.create<HauyneLibraryExtension>(\"hauyneLibrary\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6a2dd7b8e9ad1265a32f2306ca274bad708d7ab749f8de4f660c1f1054ac7b1f",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.library.gradle.kts#licenseFileName",
+      "name": "licenseFileName",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "span": "L34-L34",
+      "signature": "val licenseFileName = \"LICENSE_${rootProject.property(\"modId\")}\"",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "174cbe9dbcc82841719e8e8390485e80275e5d223407cc4fd7a13b8a599e80f3",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "name": "hauyne.maven-publish.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L1-L101",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "58a44615ac798e0d0e52df4d634d28fe34faf897af45ae7f1e9820f3e4890e90",
+      "chars": 3702,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#base",
+      "name": "base",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L21-L21",
+      "signature": "val base = \"${publication.artifactId}-${publication.version}\"",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "f6cdff1289e8692fbfbe2b2ad3297df3b128acce568811debe20283aa4593657",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#coordinate",
+      "name": "coordinate",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L20-L20",
+      "signature": "val coordinate = \"${publication.groupId.replace('.', '/')}/${publication.artifactId}/${publication.version}\"",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "884f06e8db35e9953894a6f794ca080c2733fef0098d61db5762289205a8fe6b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#files",
+      "name": "files",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L22-L30",
+      "signature": "val files = publication.artifacts.associate { val classifier = it.classifier?.takeIf(String::isNotBlank)?.let { value -> \"-$value\" }.orEmpty() it.file.relativeTo(rootDir).invariantSeparatorsPath to \"$coordinate/$base$classifier.${it.extension}\" } + mapOf( layout.buildDirectory.file(\"publications/maven/pom-default.xml\").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to \"$coordinate/$base.pom\", layout.buildDirectory.file(\"publications/maven/module.json\").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to \"$coordinate/$base.module\", )",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "ccab54920fa6642ba20c3faa9a0c2b4c0833960f9d40778e39fe4c20b142afa6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#publication",
+      "name": "publication",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L19-L19",
+      "signature": "val publication = publishing.publications.getByName(\"maven\") as MavenPublication",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4e3d1991f30c527ac3ec44564d86e8e71968182087a6c13c793ed1102c09ebdb",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#releaseManifest",
+      "name": "releaseManifest",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L87-L87",
+      "signature": "val releaseManifest = providers.gradleProperty(\"releaseManifest\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "00fbb158e894a731351e564cfbac59e3289b20a1a6d0675b14505f43df5a33be",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#releaseRoot",
+      "name": "releaseRoot",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "span": "L88-L88",
+      "signature": "val releaseRoot = rootProject.layout.projectDirectory.asFile",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2bdccfa6b213b381a4abcfffebf08409dba63089c02de27565ab688f958ef49d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "name": "hauyne.minecraft-library.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "span": "L1-L23",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8a6a7b7b08dca6efe1b4fed4515795fc520813f9a8e7883a06af4ffc194a9e53",
+      "chars": 721,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts#artifact",
+      "name": "artifact",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "span": "L10-L10",
+      "signature": "val artifact = base.archivesName.get()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b0cf7542b3d1df238386c2556abb6acdd605e53aca568f22c3d17e49af7071b8",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts#minecraft",
+      "name": "minecraft",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "span": "L5-L5",
+      "signature": "val minecraft = extensions.create<HauyneMinecraftExtension>(\"hauyneMinecraft\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b7a994d7bd6329abb8ad6c17373eef68806c652b34ff73cb53c4c51afa5b9d87",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts#series",
+      "name": "series",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "span": "L8-L8",
+      "signature": "val series = minecraft.minecraftVersion.get().removePrefix(\"1.\").split('.').take(2).joinToString(\".\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "f488dfefadad97bf3b8a8140e678464917b4a65e5bd0ed4242c360daec0f386a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "name": "hauyne.mod-metadata.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "span": "L1-L52",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "fb5a1ecf3f11641804cd0dcd00442e07257a31153661a44c4c1963300a8d16d2",
+      "chars": 1578,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#constants",
+      "name": "constants",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "span": "L6-L10",
+      "signature": "val constants = tasks.register<GenerateModConstants>(\"generateModConstants\") { modId = metadata.modId modPackage = metadata.modPackage outputDirectory = layout.buildDirectory.dir(\"generated/sources/modConstants\") }",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "965966c7728015e0b6e3a414d56c92a9f9bd5664c652498a20e545b50a2aae29",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#dependencies",
+      "name": "dependencies",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "span": "L22-L35",
+      "signature": "val dependencies = listOf( \"minecraft\" to metadata.minecraftVersionRange.get(), (if (loader == HauyneModLoader.FORGE) \"forge\" else \"neoforge\") to metadata.loaderVersionRange.get(), ).joinToString(\"\\n\") { (id, range) -> \"\"\" [[dependencies.${metadata.modId.get()}]] modId=\"$id\" versionRange=\"$range\" ${if (loader == HauyneModLoader.FORGE) \"mandatory=true\" else \"type=\\\"required\\\"\"} ordering=\"NONE\" side=\"BOTH\" \"\"\".trimIndent() }",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a95132a27a64e216c4f18806838ccc8058cde48659374bfe7e9e529b6f866e28",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#loader",
+      "name": "loader",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "span": "L21-L21",
+      "signature": "val loader = metadata.loader.get()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "98092e0f143dc9fe9bbcc22a347c8fca6c30dc21c7edf3058a72879d822b75c9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#metadata",
+      "name": "metadata",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "span": "L5-L5",
+      "signature": "val metadata = extensions.create<HauyneModMetadataExtension>(\"hauyneModMetadata\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "f61e82fad6a16e8ddd288a615441aa24cca7e478029454eeabf9329287156b19",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#values",
+      "name": "values",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "span": "L37-L44",
+      "signature": "val values = mapOf( \"modId\" to metadata.modId.get(), \"modName\" to metadata.modName.get(), \"version\" to project.version.toString(), \"dependencies\" to dependencies, \"loaderVersion\" to metadata.javaFmlLoaderVersionRange.get(), \"license\" to metadata.license.get(), )",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "c51b1fa6f3897af9797eef8e2406434062806e5753e6fe0c7c2fc3c28e409b3d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "name": "hauyne.mod-publish.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "span": "L1-L79",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "56cc6a23a0a96a199c782306a266f00f5b61cddc6f97100c578869e17c9d0366",
+      "chars": 2721,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#modFile",
+      "name": "modFile",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "span": "L38-L38",
+      "signature": "val modFile = publishMods.file",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a8d28842ae782c8b35499c84d8c9a07979c55d4f2f158505181e95dc4374828a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#releaseFile",
+      "name": "releaseFile",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "span": "L72-L72",
+      "signature": "val releaseFile = publishMods.file",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6c39c77beaa38b7c3c2aef73758ebc4c9862149d170daf950f683986e1865ff4",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#releaseManifest",
+      "name": "releaseManifest",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "span": "L70-L70",
+      "signature": "val releaseManifest = providers.gradleProperty(\"releaseManifest\")",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "00fbb158e894a731351e564cfbac59e3289b20a1a6d0675b14505f43df5a33be",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#releaseRoot",
+      "name": "releaseRoot",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "span": "L71-L71",
+      "signature": "val releaseRoot = rootProject.layout.projectDirectory.asFile",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2bdccfa6b213b381a4abcfffebf08409dba63089c02de27565ab688f958ef49d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#validateModRelease",
+      "name": "validateModRelease",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "span": "L43-L62",
+      "signature": "val validateModRelease = tasks.register<ValidateReleaseSettings>(\"validateModRelease\") { required = providers.gradleProperty(\"modPublishDryRun\").map { !it.toBooleanStrict() }.orElse(false) for (key in listOf(\"curseforgeProjectId\", \"modrinthProjectId\")) { configurationPresent.put( key, providers.gradleProperty(key).map { it.isNotBlank() }.orElse(false), ) } for (key in listOf(\"CURSEFORGE_TOKEN\", \"MODRINTH_TOKEN\")) { configurationPresent.put( key, providers.environmentVariable(key).map { it.isNotBlank() }.orElse(false), ) } }",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "032f070c31d126107efa25037a7a6745cf328d2778014fa56c2aca6d34c91b1e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.release.gradle.kts",
+      "name": "hauyne.release.gradle.kts",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/hauyne.release.gradle.kts",
+      "span": "L1-L47",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6504d30db51bab29dc1e000e63d692495ba4df9987b9709e9c4d8fd58c7c77da",
+      "chars": 1864,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.release.gradle.kts#localMaven",
+      "name": "localMaven",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.release.gradle.kts",
+      "span": "L37-L37",
+      "signature": "val localMaven = repositories.mavenLocal().url",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "303d754da8f0b056c4314ab5f22d456574f8a76563e7a05ec1d4550058825858",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/hauyne.release.gradle.kts#validateRelease",
+      "name": "validateRelease",
+      "kind": "variable",
+      "path": "build-logic/src/main/kotlin/hauyne.release.gradle.kts",
+      "span": "L12-L22",
+      "signature": "val validateRelease = tasks.register<ValidateReleaseSettings>(\"validateRelease\") { group = \"publishing\" description = \"Validate all publication settings before uploading\" required = providers.environmentVariable(\"CI\").map(String::toBooleanStrict).orElse(false) for (key in listOf(\"R2_ACCESS_KEY\", \"R2_SECRET_KEY\", \"R2_ENDPOINT\", \"CURSEFORGE_TOKEN\", \"MODRINTH_TOKEN\")) { configurationPresent.put(key, providers.environmentVariable(key).map { it.isNotBlank() }.orElse(false)) } for (key in listOf(\"curseforgeProjectId\", \"modrinthProjectId\")) { configurationPresent.put(key, providers.gradleProperty(key).map { it.isNotBlank() }.orElse(false)) } }",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a33bec5161df92460eced851338f0fb6b3a5488da614bddc7df4f4c4fb8ed7cf",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt",
+      "name": "HauyneLibraryExtension.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt",
+      "span": "L1-L6",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "3efd2096132fb5803e419654c297672e6b15c5953b550252999a7f348df9960e",
+      "chars": 132,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt#HauyneLibraryExtension",
+      "name": "HauyneLibraryExtension",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt",
+      "span": "L3-L5",
+      "signature": "abstract class HauyneLibraryExtension",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "489b18a4f188462896bed16bbf71f30e2a28e4aa74d24f9f4251eba4d74a4e6d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "name": "HauyneMinecraftExtension.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "span": "L1-L23",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2f2bd44fb82f1fb0779e3c5c847a74c65cf50d71ad72781f880c0db63b09c1bf",
+      "chars": 802,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt#HauyneMinecraftExtension",
+      "name": "HauyneMinecraftExtension",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "span": "L8-L22",
+      "signature": "abstract class HauyneMinecraftExtension @Inject constructor(providers: ProviderFactory)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "c004ebd0bb2181eb235bf3fd4acd874616d41959f26894b16c064fd372fa4366",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt#HauyneMinecraftExtension.versionProperty",
+      "name": "versionProperty",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "span": "L18-L21",
+      "signature": "fun versionProperty(name: String): Provider<String>",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a72c3f51110df875328da34495e4f01a39f6e56e577ae322e6a6d1495e00ad54",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "HauyneMinecraftExtension"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "name": "HauyneModMetadataExtension.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "span": "L1-L18",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a3420f095ffd116833fb15177f50a9a3ef88889657ef9d892524e02ecb273e9c",
+      "chars": 540,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt#HauyneModLoader",
+      "name": "HauyneModLoader",
+      "kind": "enum",
+      "path": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "span": "L3-L6",
+      "signature": "enum class HauyneModLoader",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9b7cc8105ce71551d90bc42599e7544350e920ea79ef1377e9599870a01a6ae1",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt#HauyneModMetadataExtension",
+      "name": "HauyneModMetadataExtension",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "span": "L8-L17",
+      "signature": "abstract class HauyneModMetadataExtension",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9fb6f9e48fca1513bc634ebcc24cd12ff2aed169f3c19aa02c8693799bb78672",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "name": "PrepareRelease.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L1-L91",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "93bc47834c28c6ff45c4eb4efbbf3bc096302a8e4ff3cc7c880b28c71709df76",
+      "chars": 3683,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "name": "PrepareRelease",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L12-L90",
+      "signature": "abstract class PrepareRelease : DefaultTask()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a87f8e9e479c815dd70b98332d2ccb158c4a5c234cdca0d89d09e33958653f99",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.currentVersion",
+      "name": "currentVersion",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L43-L47",
+      "signature": "private fun currentVersion(source: String): String",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "7aa790a6d81fe3ad6eb7173791821b8d93b68477decf6b180f1911a3bd0e0c37",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.generateChangelogs",
+      "name": "generateChangelogs",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L76-L80",
+      "signature": "private fun generateChangelogs(root: File, tag: String)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "afc82f61bf044ab051022a1f5b95a818a53e69f3782b40c02c6df2b08ec8fee3",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.gitCliff",
+      "name": "gitCliff",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L89-L89",
+      "signature": "private fun gitCliff(vararg args: String): String",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "d095626f0c39ff9f663005877b5aaa0606516e30611e91556fcc4911c485910e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.initialTag",
+      "name": "initialTag",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L60-L69",
+      "signature": "private fun initialTag(current: String, mode: String): String",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "307a19709fc0c125d32add7dfe06a62f251b70603df45f16c265b0bda5176b12",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.nextTag",
+      "name": "nextTag",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L49-L58",
+      "signature": "private fun nextTag(current: String, mode: String): String",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "efcbda725404704898c9a61747852038ced0340e3801e2b1636c73da28b1f9d4",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.prepare",
+      "name": "prepare",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L32-L41",
+      "signature": "@TaskAction fun prepare()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2cb424a37e5f1719c7988e47913ae1eabcaf05015cc475ac9dc4ab6e4a69d960",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.run",
+      "name": "run",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L22-L30",
+      "signature": "private fun run(vararg args: String): String",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "ecd706055dc8cbdb6518f863210b45d4fafb74b81f186240f5f7369fe8a6be56",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.validateTag",
+      "name": "validateTag",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L71-L74",
+      "signature": "private fun validateTag(tag: String)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "4b423251adcb6e65e73e2e22b6866a5a2186ee5cc237a0a509fe93d5e7aae556",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.writeReleaseVersion",
+      "name": "writeReleaseVersion",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "span": "L82-L87",
+      "signature": "private fun writeReleaseVersion(root: File, source: String, tag: String)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "d7876645f25fe97a48b49439c44a5dee0420d72d362d036648c08af01cd5a0a6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "PrepareRelease"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "name": "RecordReleaseArtifacts.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "span": "L1-L71",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "835cd59101f57670397a385fe193e87b844ac88af1ee1bcdd5efdbe318e1f718",
+      "chars": 2952,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts",
+      "name": "RecordReleaseArtifacts",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "span": "L11-L70",
+      "signature": "abstract class RecordReleaseArtifacts : DefaultTask()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a24d06af7870c10d2bd538c0bc8acacdae21ad6159d1755ed1ae322a8a8b0d7c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts.copyVerifiedArtifacts",
+      "name": "copyVerifiedArtifacts",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "span": "L43-L59",
+      "signature": "private fun copyVerifiedArtifacts(root: File, repository: File, assets: File): Pair<List<String>, List<String>>",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "46295763be96e00f596f2c308f1629b96469aee2e52bb5f0d16a3c1949372111",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "RecordReleaseArtifacts"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts.record",
+      "name": "record",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "span": "L24-L41",
+      "signature": "@TaskAction fun record()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9af10348a03cf27e80bcfb76c911cbd735020965d3d271913a49742270a884ec",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "RecordReleaseArtifacts"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts.writeChecksums",
+      "name": "writeChecksums",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "span": "L61-L69",
+      "signature": "private fun writeChecksums(root: File, entries: List<String>, checksums: List<String>)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "f892846e8fc5c11a30b86582e5f17e6ff497852de6c5910776fbfe9c1facf99f",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "RecordReleaseArtifacts"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "name": "ReleaseArtifacts.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "span": "L1-L25",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "5375e840ec4cd558804e40128f205f829fbacbdeddae9233b9016a2dc5c20146",
+      "chars": 942,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts",
+      "name": "ReleaseArtifacts",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "span": "L4-L24",
+      "signature": "object ReleaseArtifacts",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "d2d524673205b7f1c1f9146a823e2f92593a44e0b9907abfa57b73bc66a108fa",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts.sha256",
+      "name": "sha256",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "span": "L5-L6",
+      "signature": "fun sha256(file: File): String",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9a224201fc74118e5ad018ccc4f499479278ca9faccc425717a14803c7baae2b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseArtifacts"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts.verify",
+      "name": "verify",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "span": "L8-L23",
+      "signature": "fun verify(root: File, manifest: File, artifacts: Iterable<File> = emptyList())",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "38c6297da0b282654dfe61a38c915581ae90f73ab16eb68f58ad44c0d1faad78",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseArtifacts"
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "name": "ValidateReleaseSettings.kt",
+      "kind": "file",
+      "path": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "span": "L1-L24",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6f8f5314116b328e0f0c6051ef0cc765c672ad5f88d67b734523e2c36f3dd11b",
+      "chars": 635,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt#ValidateReleaseSettings",
+      "name": "ValidateReleaseSettings",
+      "kind": "class",
+      "path": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "span": "L7-L23",
+      "signature": "abstract class ValidateReleaseSettings : DefaultTask()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2a350d741bdd6e456097f0fed35c91cd97dafb10679f4f3695d054308720d5d2",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt#ValidateReleaseSettings.validate",
+      "name": "validate",
+      "kind": "method",
+      "path": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "span": "L14-L22",
+      "signature": "@TaskAction fun validate()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "c036040c8b6dff3199c665d9ad24b9fb4130cd49b273f7288f9f259adda518c9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ValidateReleaseSettings"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "name": "ReleaseTest.kt",
+      "kind": "file",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L1-L127",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a2be8562b00e557fd606340c4607e23e68bfeff1683c1df3f1accc0fd758bc65",
+      "chars": 5775,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "name": "ReleaseTest",
+      "kind": "class",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L9-L126",
+      "signature": "class ReleaseTest",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "d253c346639f5fec353bb5f1dcb17c1edc58a33fcb0909830b0563428f4afbfa",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.autoBumpsAndSeparatesReleaseNotesFromHistory",
+      "name": "autoBumpsAndSeparatesReleaseNotesFromHistory",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L45-L63",
+      "signature": "@Test fun autoBumpsAndSeparatesReleaseNotesFromHistory()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "d592c57ec05fc0b5b3a58cd2eab4f4cad9ea4f80cd14bb847595bfe84f969cde",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.git",
+      "name": "git",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L13-L18",
+      "signature": "private fun git(vararg args: String)",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "a72bf64f1f5fb7d7926c3e8b4771ce77517e9364f4617f413c111323f6b52e38",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.initialReleaseSupportsEveryBump",
+      "name": "initialReleaseSupportsEveryBump",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L34-L43",
+      "signature": "@Test fun initialReleaseSupportsEveryBump()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2f490b366b487afafae1eaad89a820466fe966896df59c6c842fb9726e790ea5",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.integrityRejectsChangedMissingAndUnrecordedFiles",
+      "name": "integrityRejectsChangedMissingAndUnrecordedFiles",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L65-L80",
+      "signature": "@Test fun integrityRejectsChangedMissingAndUnrecordedFiles()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4481c0d79bff3c2bb66e18e2be8715bbbbb4ad722d951d8c4347f26b9a5b118b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.prepareTask",
+      "name": "prepareTask",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L20-L32",
+      "signature": "private fun prepareTask(): PrepareRelease",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "f988e1b5d965c6224cec47de7f2549a07137aebe1bba0f4a3f2f99b38729bd0b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.recordsAnyRegisteredLoaderAndRejectsUnregisteredModFiles",
+      "name": "recordsAnyRegisteredLoaderAndRejectsUnregisteredModFiles",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L95-L125",
+      "signature": "@Test fun recordsAnyRegisteredLoaderAndRejectsUnregisteredModFiles()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4a09ca0abd35ebb1eaae65e6deaf59092eb0a523926da27e5dd34466819aff0e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.settingsValidationCanOnlyBeSkippedWhenNotRequired",
+      "name": "settingsValidationCanOnlyBeSkippedWhenNotRequired",
+      "kind": "method",
+      "path": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "span": "L82-L93",
+      "signature": "@Test fun settingsValidationCanOnlyBeSkippedWhenNotRequired()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4c7701aaa26383dc7182b3660f90894e367f192eae8ed4d58bf8d96d27025755",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ReleaseTest"
+    },
+    {
+      "id": "build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "build.gradle.kts",
+      "span": "L1-L8",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a9a003f37ee0c6751adb7e1ea5d861ce43d79d001c77dc9e3a7b553edd830ba7",
+      "chars": 157,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "examples/jvm/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "examples/jvm/build.gradle.kts",
+      "span": "L1-L14",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b39c976b0dd59809b18e174c7d5d8da0d5cf47e4ba2a80ac1bc0e65e5d85f11e",
+      "chars": 213,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "name": "Example.kt",
+      "kind": "file",
+      "path": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "span": "L1-L10",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "c3dfce44748b3474cee0520317741d2be67e5136d67e64bb9c21e804244f624e",
+      "chars": 207,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt#Example",
+      "name": "Example",
+      "kind": "class",
+      "path": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "span": "L6-L9",
+      "signature": "@Config class Example",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6d563750bc202ffcbbfafbbbedd4a15729cb6cd2bd6258a1421d9e36ac704c69",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt#Example.generated",
+      "name": "generated",
+      "kind": "method",
+      "path": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "span": "L8-L8",
+      "signature": "fun generated()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "e9a81ade3b4daddcf94c535d0dcb7300ce2b032e954af6688ba7438464d08ef1",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "Example"
+    },
+    {
+      "id": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "name": "ExampleTest.java",
+      "kind": "file",
+      "path": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "span": "L1-L13",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8cf4ae05000d58cec9b40f3cc2794567c5da58bd7616b08431dee300da4b9c29",
+      "chars": 258,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest",
+      "name": "ExampleTest",
+      "kind": "class",
+      "path": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "span": "L6-L12",
+      "signature": "class ExampleTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "a0bc26cedb38dc8b9a1e6ada7d352739e1173b669fb650ebec0a0be91789c53b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest.processorGeneratesCompilableSource",
+      "name": "processorGeneratesCompilableSource",
+      "kind": "method",
+      "path": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "span": "L8-L11",
+      "signature": "@Test void processorGeneratesCompilableSource()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "09265b642a16eb008a7def05e6135a4ca2609f934d1bd06a693cac79194b832a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ExampleTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-config/core/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/core/build.gradle.kts",
+      "span": "L1-L9",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "e44bb6bd8bc78384c11ff7bc60fa2163a39cc899b2a6f63647d405da3df4c760",
+      "chars": 194,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "name": "Config.kt",
+      "kind": "file",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L1-L18",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "162621f711c9538e8c7a64fccc1170922ef10779bca8335f24ec1f9e30e31fa5",
+      "chars": 312,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "name": "Backend",
+      "kind": "interface",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L7-L11",
+      "signature": "interface Backend",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "7ddeef02919ee90d35f9606132dfe8df340aec628b6293a16f1363c070ce2045",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend.read",
+      "name": "read",
+      "kind": "method",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L8-L8",
+      "signature": "fun read(key: String): String?",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "57a7a669c808058d1058ca2b44b2c786ea01e3364cc0ffcc25d30b7b289a2602",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "Backend"
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend.write",
+      "name": "write",
+      "kind": "method",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L10-L10",
+      "signature": "fun write(key: String, value: String)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "de0798c9b3cb4a7d6c0f27e8bcde19ac0bc0700bdda0fd1422cfb7ac29bbf770",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "Backend"
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec",
+      "name": "Codec",
+      "kind": "interface",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L13-L17",
+      "signature": "interface Codec<T>",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "2b00e1bee876af13ca78cb5fba1f290cacb5d557a61a2342d196ea3fb317ff54",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec.decode",
+      "name": "decode",
+      "kind": "method",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L16-L16",
+      "signature": "fun decode(value: String): T",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "afac7a313fbefe829a82c743a393bcfa2cb1ef47113c3339453fc9cb14a5b795",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "Codec"
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec.encode",
+      "name": "encode",
+      "kind": "method",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L14-L14",
+      "signature": "fun encode(value: T): String",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "1868234bec266c863395cb8ea29e127172246453fa79392c80906d41e19faf34",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "Codec"
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Config",
+      "name": "Config",
+      "kind": "interface",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L3-L3",
+      "signature": "annotation class Config",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "ac4e8c64847d8fe3afceb0035bc799422854524757a87fe354e79f30e37627e1",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#ConfigEntry",
+      "name": "ConfigEntry",
+      "kind": "class",
+      "path": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "span": "L5-L5",
+      "signature": "data class ConfigEntry<T>(val key: String, val default: T)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9e6c68e4d14fa5ef478ddf25ed0d4b50a691e63d7ef2553ba57bfec87c99b3f6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "name": "ConfigTest.java",
+      "kind": "file",
+      "path": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "span": "L1-L15",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "94eccbadc265859b184c6558a175b366c0f672c0c2a767236a4eb423d67201e0",
+      "chars": 337,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest",
+      "name": "ConfigTest",
+      "kind": "class",
+      "path": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "span": "L6-L14",
+      "signature": "class ConfigTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "c0a8d8a0862976da34d22fd817ad91d563bdf3a18ffb4fd3941196526fd43cbe",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest.entryKeepsDefault",
+      "name": "entryKeepsDefault",
+      "kind": "method",
+      "path": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "span": "L8-L13",
+      "signature": "@Test void entryKeepsDefault()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "34a9584303baf80d399064da4769c67e1fc211a9af3c66d3ba1084d86976bee9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ConfigTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-config/forge/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/forge/build.gradle.kts",
+      "span": "L1-L47",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8f252378369dfdeeea1bbb7ecab8399d67030c5fd56bba54ea94193c60d4824a",
+      "chars": 1139,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/forge/build.gradle.kts#mc",
+      "name": "mc",
+      "kind": "variable",
+      "path": "hauyne-config/forge/build.gradle.kts",
+      "span": "L9-L9",
+      "signature": "val mc = stonecutter.current.version",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "87d811fc31937b0ea8b241d8c401cb8bec15ffea95b35afd5c0e0eac549c9448",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "name": "ForgeBackend.java",
+      "kind": "file",
+      "path": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "span": "L1-L31",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "777856f5816276a12f553bd46877ec1b1fce71f683cb94c9820d857486abcce5",
+      "chars": 992,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "name": "ForgeBackend",
+      "kind": "class",
+      "path": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "span": "L8-L30",
+      "signature": "public final class ForgeBackend implements Backend",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "c4781f2e90c97f34f82aef30efc4754f533db9fa67a5a071ec5bda522f0647d0",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.ForgeBackend",
+      "name": "ForgeBackend",
+      "kind": "method",
+      "path": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "span": "L12-L16",
+      "signature": "public ForgeBackend(Map<String, String> defaults)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "d74c807ac4ef95ee65b7157e7001371d62f43163e358a055f1fd71021144f33c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ForgeBackend",
+      "arity": 1
+    },
+    {
+      "id": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.read",
+      "name": "read",
+      "kind": "method",
+      "path": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "span": "L18-L21",
+      "signature": "public String read(String key)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8767d0b81dcdd0a5589e8c95dbdf048970ebf8a2bca825647f45f81a1ecc2125",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ForgeBackend",
+      "arity": 1
+    },
+    {
+      "id": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.write",
+      "name": "write",
+      "kind": "method",
+      "path": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "span": "L23-L29",
+      "signature": "public void write(String key, String value)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "66520eb127c832c52cdc67f716913b6faafd3a8f7e39c1994e2accccee96cabf",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ForgeBackend",
+      "arity": 2
+    },
+    {
+      "id": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "name": "ForgeBackendTest.java",
+      "kind": "file",
+      "path": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "span": "L1-L15",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "e3730a27f9d0d0f11733cc33e9f83cdcd55cae580d5806c9d369d6958f7f3f57",
+      "chars": 409,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest",
+      "name": "ForgeBackendTest",
+      "kind": "class",
+      "path": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "span": "L6-L14",
+      "signature": "class ForgeBackendTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "0d6374d6e04f272573b04ae380587fe251ece015fe3189350b5de5533f1566b7",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest.verifiesBehavior",
+      "name": "verifiesBehavior",
+      "kind": "method",
+      "path": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "span": "L8-L13",
+      "signature": "@Test void verifiesBehavior()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "d489294e0b509f7ff370e83b9cf2704d3a6aa2defb2f7fc0aa305fdf9367fd5b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ForgeBackendTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-config/forge/stonecutter.gradle.kts",
+      "name": "stonecutter.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/forge/stonecutter.gradle.kts",
+      "span": "L1-L6",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "43c7f7581c9aea0a2ff909f53152c5dac19821a09cc985c5cab97f4ac1cd522b",
+      "chars": 77,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/ksp/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/ksp/build.gradle.kts",
+      "span": "L1-L10",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "197b8a0b4ef2bae888be9e9abe8e8339b0338ce67f26ac30c3754367bc309ede",
+      "chars": 177,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "name": "ConfigProcessorProvider.kt",
+      "kind": "file",
+      "path": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "span": "L1-L45",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "28fb25ae838b026e813ff8be5f5ab6a48410235efcfbf8cf60ca72fb9f7396d2",
+      "chars": 1732,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider",
+      "name": "ConfigProcessorProvider",
+      "kind": "class",
+      "path": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "span": "L10-L44",
+      "signature": "class ConfigProcessorProvider : SymbolProcessorProvider",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6e2e17bac0584093eb48a1695f06cbf49c3441e386a35699b5c3f53e35d571b2",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider.create",
+      "name": "create",
+      "kind": "method",
+      "path": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "span": "L11-L43",
+      "signature": "override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "52b16b7b6062377e7e8549d664d8acbcc35f4bea4950d500d0ac7fc2f54b2213",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ConfigProcessorProvider"
+    },
+    {
+      "id": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider.create.process",
+      "name": "process",
+      "kind": "function",
+      "path": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "span": "L14-L42",
+      "signature": "override fun process(resolver: Resolver): List<KSAnnotated>",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8bf43884e819270c3df04606b2ddf038006e65800984a2ce23163372a52467f0",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/memory/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/memory/build.gradle.kts",
+      "span": "L1-L8",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "32051d234bb00f5bb19f0a6a9ddbd08440919f12c1bec4c33868ec6f0cb5bb57",
+      "chars": 102,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "name": "MemoryBackend.kt",
+      "kind": "file",
+      "path": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "span": "L1-L14",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "f98f008a1620235968fbfdabc448b32f5c735a4cafef6813a1eb5ecdec97f6f0",
+      "chars": 314,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend",
+      "name": "MemoryBackend",
+      "kind": "class",
+      "path": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "span": "L5-L13",
+      "signature": "class MemoryBackend : Backend",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8dfd2d77962aceb364775f2deb77961981f39e252d62b336d11bba606a8700a5",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend.read",
+      "name": "read",
+      "kind": "method",
+      "path": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "span": "L8-L8",
+      "signature": "override fun read(key: String)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8d415595b2bad47282fed40dbfb5e29c812c0fb111ab08686b482f73670054f7",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "MemoryBackend"
+    },
+    {
+      "id": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend.write",
+      "name": "write",
+      "kind": "method",
+      "path": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "span": "L10-L12",
+      "signature": "override fun write(key: String, value: String)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "e19ba86bcfe819819d644cbfd5019ccd0d2cee7ba72ab7cb2885b2a3ff853ad3",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "MemoryBackend"
+    },
+    {
+      "id": "hauyne-config/minecraft/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/minecraft/build.gradle.kts",
+      "span": "L1-L61",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "55d52156a1e65c88eda4d41df19e9a3921d2d333d2c66d30dc84740fed90dc73",
+      "chars": 1639,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/minecraft/build.gradle.kts#mc",
+      "name": "mc",
+      "kind": "variable",
+      "path": "hauyne-config/minecraft/build.gradle.kts",
+      "span": "L11-L11",
+      "signature": "val mc = stonecutter.current.version",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "87d811fc31937b0ea8b241d8c401cb8bec15ffea95b35afd5c0e0eac549c9448",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java",
+      "name": "MinecraftConfig.java",
+      "kind": "file",
+      "path": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java",
+      "span": "L1-L10",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "26adcc8d360e9106f3241395b6702c7074de79fd26e57b575180623ee395f389",
+      "chars": 241,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java#MinecraftConfig",
+      "name": "MinecraftConfig",
+      "kind": "class",
+      "path": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java",
+      "span": "L5-L9",
+      "signature": "public final class MinecraftConfig",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4b47312612b6c6c405cb5a4c1e2200f43154a221bf7b1bf88688cb251be6b7f8",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java#MinecraftConfig.describe",
+      "name": "describe",
+      "kind": "method",
+      "path": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java",
+      "span": "L6-L8",
+      "signature": "public static String describe(net.minecraft.core.BlockPos pos)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "7d2676f84732b8fce167205cd85356f2e33a9a6ef96a99871f5a53b03d0eaecb",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "MinecraftConfig",
+      "arity": 1
+    },
+    {
+      "id": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "name": "MinecraftConfigTest.java",
+      "kind": "file",
+      "path": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "span": "L1-L13",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "cc8d7193348f8b8857f83ba88cf14353ff894a00bc351e121ffabbeb4cb27402",
+      "chars": 311,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java#MinecraftConfigTest",
+      "name": "MinecraftConfigTest",
+      "kind": "class",
+      "path": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "span": "L6-L12",
+      "signature": "class MinecraftConfigTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "90ef4de5568f85d20c2c7cc65120e5f0f654ba488749c1d0a2a684a52599e32b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java#MinecraftConfigTest.verifiesBehavior",
+      "name": "verifiesBehavior",
+      "kind": "method",
+      "path": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "span": "L8-L11",
+      "signature": "@Test void verifiesBehavior()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "16f704e424550f98274a2538fd8153fa90b2aca7b031e8d79bb87a2e1d1971d4",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "MinecraftConfigTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-config/minecraft/stonecutter.gradle.kts",
+      "name": "stonecutter.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/minecraft/stonecutter.gradle.kts",
+      "span": "L1-L6",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9bb3f2ebd17f9c055c830216959be77d1b9fc71ad3d658ca80ffa91f1a8e5232",
+      "chars": 77,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/neoforge/build.gradle.kts",
+      "span": "L1-L35",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4efbaf1ec0384fdef603edb6847086d7129dcc6746b811e643e1f2e4f5f0a73e",
+      "chars": 795,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/build.gradle.kts#mc",
+      "name": "mc",
+      "kind": "variable",
+      "path": "hauyne-config/neoforge/build.gradle.kts",
+      "span": "L9-L9",
+      "signature": "val mc = stonecutter.current.version",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "87d811fc31937b0ea8b241d8c401cb8bec15ffea95b35afd5c0e0eac549c9448",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "name": "NeoforgeBackend.java",
+      "kind": "file",
+      "path": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "span": "L1-L31",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9152c84f09b2c7a68056d1c56327ca51e905858ecfab55668a288934bf26fee1",
+      "chars": 997,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "name": "NeoforgeBackend",
+      "kind": "class",
+      "path": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "span": "L8-L30",
+      "signature": "public final class NeoforgeBackend implements Backend",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "b1ee6e5d82cc35cffc8edc85354d434fd74a73d18ed7bfdc37791c996763a574",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.NeoforgeBackend",
+      "name": "NeoforgeBackend",
+      "kind": "method",
+      "path": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "span": "L12-L16",
+      "signature": "public NeoforgeBackend(Map<String, String> defaults)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "d2938096a0ae66c6c8d90cba2ec88c6868740b86ed3630e152213ec0f38b90af",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NeoforgeBackend",
+      "arity": 1
+    },
+    {
+      "id": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.read",
+      "name": "read",
+      "kind": "method",
+      "path": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "span": "L18-L21",
+      "signature": "public String read(String key)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8767d0b81dcdd0a5589e8c95dbdf048970ebf8a2bca825647f45f81a1ecc2125",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NeoforgeBackend",
+      "arity": 1
+    },
+    {
+      "id": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.write",
+      "name": "write",
+      "kind": "method",
+      "path": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "span": "L23-L29",
+      "signature": "public void write(String key, String value)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "66520eb127c832c52cdc67f716913b6faafd3a8f7e39c1994e2accccee96cabf",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NeoforgeBackend",
+      "arity": 2
+    },
+    {
+      "id": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "name": "NeoforgeBackendTest.java",
+      "kind": "file",
+      "path": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "span": "L1-L15",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "f5d6610f68b5b75618b8a0da9514dfba5ca3f259b77ec8a0b0e57532244c4bd6",
+      "chars": 418,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest",
+      "name": "NeoforgeBackendTest",
+      "kind": "class",
+      "path": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "span": "L6-L14",
+      "signature": "class NeoforgeBackendTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "0529a5c5f4d61261acc620720a0cc38f12c78d2ca711c3171cc486e24e5a363c",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest.verifiesBehavior",
+      "name": "verifiesBehavior",
+      "kind": "method",
+      "path": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "span": "L8-L13",
+      "signature": "@Test void verifiesBehavior()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "1409447f29444ffbf6936bcc805c01bbbac297b7e144eebb6aed2d002a50f02d",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "NeoforgeBackendTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-config/neoforge/stonecutter.gradle.kts",
+      "name": "stonecutter.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/neoforge/stonecutter.gradle.kts",
+      "span": "L1-L6",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9bb3f2ebd17f9c055c830216959be77d1b9fc71ad3d658ca80ffa91f1a8e5232",
+      "chars": 77,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/nightconfig/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-config/nightconfig/build.gradle.kts",
+      "span": "L1-L10",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "ab15ddcf9c318f3b0b40956b85d7f160b08324e198e7cc82594c2dbbc6963862",
+      "chars": 170,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "name": "TomlBackend.kt",
+      "kind": "file",
+      "path": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "span": "L1-L23",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "51f3435ddf4a1550188e73f501267707310ecb7605b881111eb9bbdf279ccdc9",
+      "chars": 572,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "name": "TomlBackend",
+      "kind": "class",
+      "path": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "span": "L7-L22",
+      "signature": "class TomlBackend(path: Path) : Backend, AutoCloseable",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "7c70e32209167f3305e000219f248d1452dcd7c26326dcd9ef855b1d45c501b4",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.close",
+      "name": "close",
+      "kind": "method",
+      "path": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "span": "L21-L21",
+      "signature": "override fun close()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "545ac8b0d399c3fafd440c350915e80c16d621952c5a12f4ede4a6bf7fb32f7e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TomlBackend"
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.read",
+      "name": "read",
+      "kind": "method",
+      "path": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "span": "L14-L14",
+      "signature": "override fun read(key: String): String?",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "e021d55820b236927bd360cc10a0f16c33a344db91fb66c3259d3e6b632c9899",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TomlBackend"
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.write",
+      "name": "write",
+      "kind": "method",
+      "path": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "span": "L16-L19",
+      "signature": "override fun write(key: String, value: String)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9698f0df7714c87c446c3d1c80796d45e7774eb329aa81044ae223b21371744a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TomlBackend"
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "name": "TomlTest.java",
+      "kind": "file",
+      "path": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "span": "L1-L24",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "464488d6bcac8ea9ad4d7aa051f91db457bc94b77ef0f696ef6222b1fbcea69d",
+      "chars": 586,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest",
+      "name": "TomlTest",
+      "kind": "class",
+      "path": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "span": "L8-L23",
+      "signature": "class TomlTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "a5f6028d7ea7787bf800ca4294dd77de11047e426f8f113a8bfbb3a1116cfc06",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest.persistsValues",
+      "name": "persistsValues",
+      "kind": "method",
+      "path": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "span": "L12-L22",
+      "signature": "@Test void persistsValues()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "0717f7f8f63b959c345ad5cef3a1d2cc5085832aee9f0abb6c798b390f5863f7",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "TomlTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-lib/forge/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-lib/forge/build.gradle.kts",
+      "span": "L1-L89",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "168fc6a79176a5929e8ff212e35542eb48c38744841b061b358f38063aa74db4",
+      "chars": 2319,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/forge/build.gradle.kts#mc",
+      "name": "mc",
+      "kind": "variable",
+      "path": "hauyne-lib/forge/build.gradle.kts",
+      "span": "L10-L10",
+      "signature": "val mc = stonecutter.current.version",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "87d811fc31937b0ea8b241d8c401cb8bec15ffea95b35afd5c0e0eac549c9448",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java",
+      "name": "HauyneLib.java",
+      "kind": "file",
+      "path": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java",
+      "span": "L1-L22",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "0c0a3a0578c772be09aa920e65949c299219590e49c8f4a02f8247369a5a8b1c",
+      "chars": 953,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib",
+      "name": "HauyneLib",
+      "kind": "class",
+      "path": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java",
+      "span": "L5-L21",
+      "signature": "@Mod(HauyneConstants.MOD_ID) public final class HauyneLib",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "8adf4bf42e89670f0fe283309fd96feb97dc8743aa2f6c0b2aa7f0924a2c547a",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib.HauyneLib",
+      "name": "HauyneLib",
+      "kind": "method",
+      "path": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java",
+      "span": "L8-L20",
+      "signature": "public HauyneLib()",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6f1cf1161dd31832ca301aceb43705633f0321392a815befa0e1750a3796107b",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "HauyneLib",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "name": "ModTest.java",
+      "kind": "file",
+      "path": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "span": "L1-L13",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "08b421c65c13a39c521132e27bcea8f7adeb2452c34cb17d97b11a7ee81c89ac",
+      "chars": 279,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java#ModTest",
+      "name": "ModTest",
+      "kind": "class",
+      "path": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "span": "L6-L12",
+      "signature": "class ModTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "92ac36bfa1b55017d15bf254d2050429870c4a92f4c7f8c46bb61993758e8af9",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java#ModTest.metadataIsPackaged",
+      "name": "metadataIsPackaged",
+      "kind": "method",
+      "path": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "span": "L8-L11",
+      "signature": "@Test void metadataIsPackaged()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "18513de09e69dc3972e3f2e85ccf94e1e2cda8db08b6d4841cfbabc6a075fb5e",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ModTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-lib/forge/stonecutter.gradle.kts",
+      "name": "stonecutter.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-lib/forge/stonecutter.gradle.kts",
+      "span": "L1-L6",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "43c7f7581c9aea0a2ff909f53152c5dac19821a09cc985c5cab97f4ac1cd522b",
+      "chars": 77,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/build.gradle.kts",
+      "name": "build.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-lib/neoforge/build.gradle.kts",
+      "span": "L1-L77",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "62339d855ee2ddafaf70565facf360092f6d88d8f37dc765a01270416b132f7f",
+      "chars": 1935,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/build.gradle.kts#mc",
+      "name": "mc",
+      "kind": "variable",
+      "path": "hauyne-lib/neoforge/build.gradle.kts",
+      "span": "L10-L10",
+      "signature": "val mc = stonecutter.current.version",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "87d811fc31937b0ea8b241d8c401cb8bec15ffea95b35afd5c0e0eac549c9448",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java",
+      "name": "HauyneLib.java",
+      "kind": "file",
+      "path": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java",
+      "span": "L1-L21",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "a8f66c1a2b45f5e0b873fed795ca7a0f457e02e3826d43cd2a402b7acdc2362d",
+      "chars": 881,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib",
+      "name": "HauyneLib",
+      "kind": "class",
+      "path": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java",
+      "span": "L5-L20",
+      "signature": "@Mod(HauyneConstants.MOD_ID) public final class HauyneLib",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "4c3a8998bffdc8d0915dd18a268ebf9c5cf8c41453119d231d4025dd5f77e4a6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib.HauyneLib",
+      "name": "HauyneLib",
+      "kind": "method",
+      "path": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java",
+      "span": "L8-L19",
+      "signature": "public HauyneLib(net.neoforged.bus.api.IEventBus bus, net.neoforged.fml.ModContainer container)",
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "6544c1b218cabc5a7aa2c8fd3f3ecb3cd9afe8dfe4007fe2635e9fb2e3d81a00",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "HauyneLib",
+      "arity": 2
+    },
+    {
+      "id": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "name": "ModTest.java",
+      "kind": "file",
+      "path": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "span": "L1-L13",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "0776b4f00d98706a17434bed2ebf23739c608a923433c4dffbf820bf77e9e337",
+      "chars": 291,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java#ModTest",
+      "name": "ModTest",
+      "kind": "class",
+      "path": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "span": "L6-L12",
+      "signature": "class ModTest",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "00e90c793b8209f27bf20062f6c134b460d277c0ab13ccbf6bf73c5b1f5bcde6",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java#ModTest.metadataIsPackaged",
+      "name": "metadataIsPackaged",
+      "kind": "method",
+      "path": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "span": "L8-L11",
+      "signature": "@Test void metadataIsPackaged()",
+      "exported": false,
+      "origin": "ast",
+      "body_hash": "45c95270dbedb08ab50b5c77cc639d72fcb11ffba6e91884a4725e416c12f6e7",
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null,
+      "owner": "ModTest",
+      "arity": 0
+    },
+    {
+      "id": "hauyne-lib/neoforge/stonecutter.gradle.kts",
+      "name": "stonecutter.gradle.kts",
+      "kind": "file",
+      "path": "hauyne-lib/neoforge/stonecutter.gradle.kts",
+      "span": "L1-L6",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9bb3f2ebd17f9c055c830216959be77d1b9fc71ad3d658ca80ffa91f1a8e5232",
+      "chars": 77,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    },
+    {
+      "id": "settings.gradle.kts",
+      "name": "settings.gradle.kts",
+      "kind": "file",
+      "path": "settings.gradle.kts",
+      "span": "L1-L57",
+      "signature": null,
+      "exported": true,
+      "origin": "ast",
+      "body_hash": "9e3a700a2822f445b8c88a206d6f2856c61b91da16a2464adace249da401a341",
+      "chars": 1285,
+      "summary_state": "pending",
+      "summary": null,
+      "crux": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "build-logic/src/main/kotlin/GenerateModConstants.kt#GenerateModConstants",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "org.gradle.api.DefaultTask",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "org.gradle.api.file.DirectoryProperty",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "org.gradle.api.provider.Property",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "org.gradle.api.tasks.Input",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "org.gradle.api.tasks.OutputDirectory",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt",
+      "target": "org.gradle.api.tasks.TaskAction",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/GenerateModConstants.kt#GenerateModConstants",
+      "target": "build-logic/src/main/kotlin/GenerateModConstants.kt#GenerateModConstants.generate",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts#catalog",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts#editorConfig",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "target": "org.ec4j.core.Resource",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "target": "org.ec4j.core.ResourcePropertiesService",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.formatting.gradle.kts",
+      "target": "org.gradle.api.artifacts.VersionCatalogsExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.library.gradle.kts#catalog",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.library.gradle.kts#library",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.library.gradle.kts#licenseFileName",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.library.gradle.kts",
+      "target": "org.gradle.api.artifacts.VersionCatalogsExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#base",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#coordinate",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#files",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#publication",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#releaseManifest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.maven-publish.gradle.kts#releaseRoot",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts#artifact",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts#minecraft",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.minecraft-library.gradle.kts#series",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#constants",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#dependencies",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#loader",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#metadata",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-metadata.gradle.kts#values",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#modFile",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#releaseFile",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#releaseManifest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#releaseRoot",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.mod-publish.gradle.kts#validateModRelease",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.release.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.release.gradle.kts#localMaven",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/hauyne.release.gradle.kts",
+      "target": "build-logic/src/main/kotlin/hauyne.release.gradle.kts#validateRelease",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt",
+      "target": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt#HauyneLibraryExtension",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneLibraryExtension.kt",
+      "target": "org.gradle.api.provider.Property",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt#HauyneMinecraftExtension",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "java.util.Properties",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "javax.inject.Inject",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "org.gradle.api.file.RegularFileProperty",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "org.gradle.api.provider.Property",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "org.gradle.api.provider.Provider",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt",
+      "target": "org.gradle.api.provider.ProviderFactory",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt#HauyneMinecraftExtension",
+      "target": "build-logic/src/main/kotlin/HauyneMinecraftExtension.kt#HauyneMinecraftExtension.versionProperty",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "target": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt#HauyneModLoader",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "target": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt#HauyneModMetadataExtension",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/HauyneModMetadataExtension.kt",
+      "target": "org.gradle.api.provider.Property",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "java.io.ByteArrayOutputStream",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "java.io.File",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "javax.inject.Inject",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.api.DefaultTask",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.api.file.DirectoryProperty",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.api.provider.Property",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.api.tasks.Input",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.api.tasks.Internal",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.api.tasks.TaskAction",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt",
+      "target": "org.gradle.process.ExecOperations",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.currentVersion",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.generateChangelogs",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.gitCliff",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.initialTag",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.nextTag",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.prepare",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.run",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.validateTag",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease",
+      "target": "build-logic/src/main/kotlin/PrepareRelease.kt#PrepareRelease.writeReleaseVersion",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "java.io.File",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.DefaultTask",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.file.ConfigurableFileCollection",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.file.DirectoryProperty",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.provider.MapProperty",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.tasks.Input",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.tasks.InputFiles",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.tasks.Internal",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt",
+      "target": "org.gradle.api.tasks.TaskAction",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts",
+      "target": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts.copyVerifiedArtifacts",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts",
+      "target": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts.record",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts",
+      "target": "build-logic/src/main/kotlin/RecordReleaseArtifacts.kt#RecordReleaseArtifacts.writeChecksums",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "target": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "target": "java.io.File",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ReleaseArtifacts.kt",
+      "target": "java.security.MessageDigest",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts",
+      "target": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts.sha256",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts",
+      "target": "build-logic/src/main/kotlin/ReleaseArtifacts.kt#ReleaseArtifacts.verify",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "target": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt#ValidateReleaseSettings",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "target": "org.gradle.api.DefaultTask",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "target": "org.gradle.api.provider.MapProperty",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "target": "org.gradle.api.provider.Property",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "target": "org.gradle.api.tasks.Input",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt",
+      "target": "org.gradle.api.tasks.TaskAction",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt#ValidateReleaseSettings",
+      "target": "build-logic/src/main/kotlin/ValidateReleaseSettings.kt#ValidateReleaseSettings.validate",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "java.io.File",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "org.gradle.testfixtures.ProjectBuilder",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "org.junit.jupiter.api.Assertions.assertEquals",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "org.junit.jupiter.api.Assertions.assertThrows",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "org.junit.jupiter.api.Assertions.assertTrue",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "org.junit.jupiter.api.io.TempDir",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.autoBumpsAndSeparatesReleaseNotesFromHistory",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.git",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.initialReleaseSupportsEveryBump",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.integrityRejectsChangedMissingAndUnrecordedFiles",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.prepareTask",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.recordsAnyRegisteredLoaderAndRejectsUnregisteredModFiles",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest",
+      "target": "build-logic/src/test/kotlin/ReleaseTest.kt#ReleaseTest.settingsValidationCanOnlyBeSkippedWhenNotRequired",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "target": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt#Example",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "target": "dev.lapis256.hauyne.config.Config",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt",
+      "target": "dev.lapis256.hauyne.config.generated.ConfigMarker",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt#Example",
+      "target": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt#Example.generated",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "target": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest",
+      "target": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest.processorGeneratesCompilableSource",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest.processorGeneratesCompilableSource",
+      "target": "examples/jvm/src/main/kotlin/dev/lapis256/hauyne/example/Example.kt#Example",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "examples/jvm/src/test/java/dev/lapis256/hauyne/example/ExampleTest.java#ExampleTest.processorGeneratesCompilableSource",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Config",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#ConfigEntry",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend.read",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend.write",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec.decode",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Codec.encode",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "target": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest",
+      "target": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest.entryKeepsDefault",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest.entryKeepsDefault",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#ConfigEntry",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/core/src/test/java/dev/lapis256/hauyne/config/ConfigTest.java#ConfigTest.entryKeepsDefault",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/forge/build.gradle.kts",
+      "target": "hauyne-config/forge/build.gradle.kts#mc",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/build.gradle.kts",
+      "target": "net.neoforged.moddevgradle.legacyforge.dsl.LegacyForgeExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "target": "dev.lapis256.hauyne.config.Backend",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "target": "java.util.HashMap",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "target": "java.util.Map",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java",
+      "target": "net.minecraftforge.common.ForgeConfigSpec",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.ForgeBackend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.read",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.write",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "relation": "implements",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "target": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest",
+      "target": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest.verifiesBehavior",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest.verifiesBehavior",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest.verifiesBehavior",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.write",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/forge/src/test/java/dev/lapis256/hauyne/config/forge/ForgeBackendTest.java#ForgeBackendTest.verifiesBehavior",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "com.google.devtools.ksp.processing.Dependencies",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "com.google.devtools.ksp.processing.Resolver",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "com.google.devtools.ksp.processing.SymbolProcessor",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "com.google.devtools.ksp.processing.SymbolProcessorEnvironment",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "com.google.devtools.ksp.processing.SymbolProcessorProvider",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt",
+      "target": "com.google.devtools.ksp.symbol.KSAnnotated",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider",
+      "target": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider.create",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider",
+      "target": "SymbolProcessorProvider",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider.create",
+      "target": "hauyne-config/ksp/src/main/kotlin/dev/lapis256/hauyne/config/ksp/ConfigProcessorProvider.kt#ConfigProcessorProvider.create.process",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "target": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt",
+      "target": "dev.lapis256.hauyne.config.Backend",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend",
+      "target": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend.read",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend",
+      "target": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend.write",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/memory/src/main/kotlin/dev/lapis256/hauyne/config/memory/MemoryBackend.kt#MemoryBackend",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/minecraft/build.gradle.kts",
+      "target": "hauyne-config/minecraft/build.gradle.kts#mc",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/build.gradle.kts",
+      "target": "net.neoforged.moddevgradle.dsl.NeoForgeExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/build.gradle.kts",
+      "target": "net.neoforged.moddevgradle.legacyforge.dsl.LegacyForgeExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java",
+      "target": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java#MinecraftConfig",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java",
+      "target": "dev.lapis256.hauyne.config.Backend",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java#MinecraftConfig",
+      "target": "hauyne-config/minecraft/src/main/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfig.java#MinecraftConfig.describe",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "target": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java#MinecraftConfigTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java#MinecraftConfigTest",
+      "target": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java#MinecraftConfigTest.verifiesBehavior",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/minecraft/src/test/java/dev/lapis256/hauyne/config/minecraft/MinecraftConfigTest.java#MinecraftConfigTest.verifiesBehavior",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/neoforge/build.gradle.kts",
+      "target": "hauyne-config/neoforge/build.gradle.kts#mc",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/build.gradle.kts",
+      "target": "net.neoforged.moddevgradle.dsl.NeoForgeExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "target": "dev.lapis256.hauyne.config.Backend",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "target": "java.util.HashMap",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "target": "java.util.Map",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java",
+      "target": "net.neoforged.neoforge.common.ModConfigSpec",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.NeoforgeBackend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.read",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.write",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "relation": "implements",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "target": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest",
+      "target": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest.verifiesBehavior",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest.verifiesBehavior",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest.verifiesBehavior",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.write",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/neoforge/src/test/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackendTest.java#NeoforgeBackendTest.verifiesBehavior",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "target": "com.electronwill.nightconfig.core.file.FileConfig",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "target": "dev.lapis256.hauyne.config.Backend",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt",
+      "target": "java.nio.file.Path",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.close",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.read",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.write",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "target": "AutoCloseable",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "target": "hauyne-config/core/src/main/kotlin/dev/lapis256/hauyne/config/Config.kt#Backend",
+      "relation": "extends",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "target": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "target": "java.nio.file.Path",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "target": "org.junit.jupiter.api.io.TempDir",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest",
+      "target": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest.persistsValues",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest.persistsValues",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest.persistsValues",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.read",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest.persistsValues",
+      "target": "hauyne-config/nightconfig/src/main/kotlin/dev/lapis256/hauyne/config/nightconfig/TomlBackend.kt#TomlBackend.write",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-config/nightconfig/src/test/java/dev/lapis256/hauyne/config/nightconfig/TomlTest.java#TomlTest.persistsValues",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-lib/forge/build.gradle.kts",
+      "target": "hauyne-lib/forge/build.gradle.kts#mc",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/build.gradle.kts",
+      "target": "net.neoforged.moddevgradle.legacyforge.dsl.LegacyForgeExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java",
+      "target": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java",
+      "target": "net.minecraftforge.fml.common.Mod",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib",
+      "target": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib.HauyneLib",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib",
+      "target": "Mod",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-lib/forge/src/main/java/dev/lapis256/hauyne/lib/forge/HauyneLib.java#HauyneLib.HauyneLib",
+      "target": "hauyne-config/forge/src/main/java/dev/lapis256/hauyne/config/forge/ForgeBackend.java#ForgeBackend.read",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "target": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java#ModTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java#ModTest",
+      "target": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java#ModTest.metadataIsPackaged",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/forge/src/test/java/dev/lapis256/hauyne/lib/forge/ModTest.java#ModTest.metadataIsPackaged",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-lib/neoforge/build.gradle.kts",
+      "target": "hauyne-lib/neoforge/build.gradle.kts#mc",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/build.gradle.kts",
+      "target": "net.neoforged.moddevgradle.dsl.NeoForgeExtension",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java",
+      "target": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java",
+      "target": "net.neoforged.fml.common.Mod",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib",
+      "target": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib.HauyneLib",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib",
+      "target": "Mod",
+      "relation": "references",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/main/java/dev/lapis256/hauyne/lib/neoforge/HauyneLib.java#HauyneLib.HauyneLib",
+      "target": "hauyne-config/neoforge/src/main/java/dev/lapis256/hauyne/config/neoforge/NeoforgeBackend.java#NeoforgeBackend.read",
+      "relation": "calls",
+      "confidence": "inferred"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "target": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java#ModTest",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "target": "org.junit.jupiter.api.Assertions",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java",
+      "target": "org.junit.jupiter.api.Test",
+      "relation": "imports",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java#ModTest",
+      "target": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java#ModTest.metadataIsPackaged",
+      "relation": "contains",
+      "confidence": "extracted"
+    },
+    {
+      "source": "hauyne-lib/neoforge/src/test/java/dev/lapis256/hauyne/lib/neoforge/ModTest.java#ModTest.metadataIsPackaged",
+      "target": "Test",
+      "relation": "references",
+      "confidence": "inferred"
+    }
+  ]
+}

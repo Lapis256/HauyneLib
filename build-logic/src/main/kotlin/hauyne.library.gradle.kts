@@ -4,6 +4,10 @@ plugins {
     `java-library`
 }
 
+rootProject.tasks.named("verifyRequired") {
+    dependsOn(tasks.named("build"))
+}
+
 repositories {
     mavenCentral()
 }

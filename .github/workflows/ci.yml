@@ -15,54 +15,21 @@ permissions:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        minecraft: ['26.1.2', '1.21.1', '1.20.1']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - uses: ./.github/actions/setup-common-env
 
-      - name: Configure
-        run: ./gradlew help projects
-
-      - name: Check formatting
-        run: ./gradlew spotlessCheck
-
-      - name: Build, test, publish locally and simulate distribution
-        shell: bash
-        run: |
-          loader=neoforge
-          if [[ '${{ matrix.minecraft }}' == '1.20.1' ]]; then
-            loader=forge
-          fi
-          ./gradlew \
-            :hauyne-config:core:build \
-            :hauyne-config:ksp:build \
-            :hauyne-config:memory:build \
-            :hauyne-config:nightconfig:build \
-            :examples:jvm:build \
-            ":hauyne-lib:$loader:${{ matrix.minecraft }}:build" \
-            ":hauyne-config:minecraft:${{ matrix.minecraft }}:test" \
-            ":hauyne-config:$loader:${{ matrix.minecraft }}:test" \
-            ":hauyne-config:core:publishToMavenLocal" \
-            ":hauyne-config:ksp:publishToMavenLocal" \
-            ":hauyne-config:nightconfig:publishToMavenLocal" \
-            ":hauyne-config:minecraft:${{ matrix.minecraft }}:publishToMavenLocal" \
-            ":hauyne-config:$loader:${{ matrix.minecraft }}:publishToMavenLocal" \
-            ":hauyne-lib:$loader:${{ matrix.minecraft }}:publishToMavenLocal" \
-            ":hauyne-lib:$loader:${{ matrix.minecraft }}:publishMods" \
-            -PmodPublishDryRun=true
-          python scripts/verify_artifacts.py '${{ matrix.minecraft }}'
+      - name: Run CI checks
+        run: ./gradlew ciCheck -PmodPublishDryRun=true
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
-          name: results-${{ matrix.minecraft }}
+          name: results
           path: |
             **/build/reports/
             **/build/test-results/
-            hauyne-lib/**/build/libs/
-            hauyne-lib/**/build/publishMods/
+            **/build/libs/
+            **/build/publishMods/

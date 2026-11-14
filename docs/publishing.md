@@ -16,13 +16,13 @@ hauyneMinecraft {
 }
 ```
 
-Mod メタデータでは `loader = HauyneModLoader.NEOFORGE` または `FORGE` を明示します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。これらの値は、移行前の生成結果を維持して設定ファイルへ移しています。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
+Mod メタデータでは `loader = HauyneModLoader.NEOFORGE` または `FORGE` を明示します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。これらの値は移行前の生成結果を維持して設定ファイルへ移しています。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
 
 モジュールのルートは `hauyne-config/` と `hauyne-lib/`、Gradle パスは `:hauyne-config:*` と `:hauyne-lib:*` です。Minecraft 共通層は `:hauyne-config:minecraft` のままです。`hauyne-lib:common` は作成していません。将来追加する場合のパッケージは `dev.lapis256.hauyne.lib` とします。
 
 公開 API は `dev.lapis256.hauyne.config`、実装は `dev.lapis256.hauyne.config.<module>` に置きます。Mod 実装は `dev.lapis256.hauyne.lib.neoforge` と `dev.lapis256.hauyne.lib.forge` に分けています。KSP のサービス登録先と生成ソースも、この構成に合わせています。
 
-依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で変更してください。Minecraft ごとの Java・NeoForm・NeoForge・Forge の値は `versions/<Minecraft>/gradle.properties` に置き、同じゲーム版の全モジュールで共有します。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
+依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの Java・NeoForm・NeoForge・Forge の値は `versions/<Minecraft>/gradle.properties` に置き、同じゲーム版の全モジュールで共有します。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
 
 Java 17 の制約は共通 JVM ライブラリに適用します。Minecraft 側の Toolchain 指定は各モジュールの `java` ブロックから、対応するバージョンファイルの `javaVersion` を参照します。Kotlin の共通設定で Minecraft 側を Java 17 に固定することはありません。
 
@@ -60,7 +60,7 @@ Java の Mod 初期化クラスを使い、Core・対応する Minecraft 共通�
 | 1.21.1 | `21.1` | `21.1-0.1.0` |
 | 26.1.2 | `26.1` | `26.1-0.1.0` |
 
-同じ機能のリリースには MC 系列をまたいで同じ `x.y.z` を付けます。特定の系列だけを修正する場合は、その系列だけパッチ番号を進めて公開できます。モジュールごとの独立した採番は行いません。同じ `x.y.z` でも MC 系列間のバイナリ互換性は意味しません。Minecraft の依存範囲と Toolchain の指定には完全な Minecraft バージョンを使います。
+同じ機能のリリースには MC 系列をまたいで同じ `x.y.z` を付けます。Release workflow は必須の2系列をまとめて公開します。モジュールごとの独立した採番は行いません。同じ `x.y.z` でも MC 系列間のバイナリ互換性は意味しません。Minecraft の依存範囲と Toolchain の指定には完全な Minecraft バージョンを使います。
 
 ## ローカル検証
 
@@ -68,13 +68,13 @@ Windows では `./gradlew` を `./gradlew.bat` に読み替えてください。
 
 ```sh
 ./gradlew help projects
+./gradlew ciCheck -PmodPublishDryRun=true
 ./gradlew build test publishToMavenLocal
 ./gradlew verifyRequired -PmodPublishDryRun=true
 ./gradlew :hauyne-lib:forge:1.20.1:publishMods -PmodPublishDryRun=true
-python scripts/verify_artifacts.py 26.1.2 1.21.1 1.20.1
 ```
 
-`verifyRequired` は必須の NeoForge 2バージョンと JVM/KSP 例のビルド・テスト・ローカル公開・配布 dry-run を実行します。Forge は別に検証できます。
+`verifyRequired` は公開対象の全ローダー・全バージョンと JVM/KSP 例のビルド・テスト・ローカル公開・配布 dry-run を実行します。
 
 ```sh
 ./gradlew :hauyne-config:minecraft:1.20.1:build :hauyne-config:forge:1.20.1:build :hauyne-lib:forge:1.20.1:build
@@ -103,6 +103,8 @@ Stonecutter の切替は関連する controller をまとめて行います。Fo
 
 GitHub の `release` Environment に承認ルールを設定してください。リポジトリのファイルだけでは環境保護を有効化できません。
 
+リポジトリの Settings → General → Releases で `Enable release immutability` を有効にしてください。Release workflow は既定ブランチへのバージョン更新コミットとタグの push を行います。ブランチ保護や Ruleset を設定している場合は、GitHub Actions にこの更新を許可してください。
+
 | 種類 | 設定名 | 用途 |
 | --- | --- | --- |
 | Secret | `R2_ACCESS_KEY` / `R2_SECRET_KEY` | R2 の Maven バケットへの書き込み |
@@ -127,9 +129,59 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布バージョンにはローダー名も加え、異なる成果物を区別します。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
 
-CI は3バージョンを独立した matrix job で検証します。Release workflow は `v<modVersion>` タグとの一致を確認し、必須2バージョンの検証後に、環境承認を経て Maven、CurseForge、Modrinth、GitHub Release 添付の順に処理します。Forge はゲーム起動の検証が完了するまで本番公開に含めません。
+CI は `ciCheck` で全3バージョンを1つの job で検証します。ビルド・公開の対象は各モジュールの Convention Plugin から登録し、Actions は `ciCheck`・`validateRelease`・`publishRelease` を呼び出します。Forge 1.20.1 も公開対象です。ローダーを追加する場合は、対応するプロジェクトを Gradle に追加して既存の公開用 Convention Plugin を適用します。CI・公開・成果物記録への追加登録は不要です。
 
-一部の公開先だけ失敗した場合は、公開済みのバージョンとファイルを各サービスで確認し、失敗した公開先のタスクだけを再実行してください。`publishCurseforge` と `publishModrinth` を個別に指定できます。公開済みバージョンへの再登録はサービス側で拒否される可能性があるため、公開ジョブ全体を無条件に再実行しないでください。
+### GitHub Actions からのリリース
+
+Actions → Release → Run workflow で実行します。本番公開は既定ブランチからのみ実行でき、dry-run は作業ブランチでも実行できます。
+
+| 入力 | 値 | 動作 |
+| --- | --- | --- |
+| `bump` | `auto` | git-cliff が Conventional Commits から更新幅を判定 |
+| `bump` | `major` / `minor` / `patch` | 指定した桁を更新 |
+| `dry_run` | `true` | チェンジログ生成、ビルド、テスト、Maven ローカル公開、CF/Modrinth の dry-run |
+| `dry_run` | `false`、または省略 | 検証後に GitHub・CurseForge・Modrinth・Maven へ公開 |
+
+`bump` の既定値は `auto` です。`fix:` はパッチ、`feat:` はマイナー、破壊的変更はメジャーを進めます。0.x でも同じ規則を使います。タグのない初回の `auto` は `gradle.properties` の現在値を使い、明示指定ではその現在値から指定した桁を進めます。2回目以降は最新タグと `modVersion` の一致を要求します。
+
+git-cliff 2.14.2 と `cliff.toml` から、全リリースを含む `CHANGELOG.md` と、そのバージョンだけの `.release/notes.md` を生成します。GitHub Releases・CurseForge・Modrinth は同じリリースノートを使います。Actions のサマリにはリリース予定版と両方のチェンジログを表示します。
+
+バージョン更新とチェンジログ生成は Kotlin の `prepareRelease` タスク、成果物の照合と記録は `recordReleaseArtifacts` タスクで実装しています。どちらも `build-logic` の `hauyne.release` Convention Plugin にまとめています。ローカルで準備する場合も git-cliff 2.14.2 を PATH に配置し、次の順に実行してください。`prepareRelease` は作業ツリーの `gradle.properties` と `CHANGELOG.md` を更新します。
+
+```sh
+./gradlew prepareRelease -PreleaseBump=auto
+./gradlew recordReleaseArtifacts -PmodPublishDryRun=true -PreleaseChangelog=.release/notes.md
+```
+
+dry-run ではリポジトリへのコミット・タグの push、GitHub Release 作成、外部公開、構成証明の登録を行いません。`release` Environment の保護ルールは dry-run にも適用されます。生成物と dry-run の出力は Actions の Artifact に保存します。
+
+`validateRelease` はローカルでは常に通過します。`CI=true` の環境では dry-run でも認証情報とプロジェクト ID を検証し、不足があれば失敗します。Release workflow では本番と dry-run の両方でこの検証を実行します。
+
+本番では登録された全公開対象を検証し、バージョンと `CHANGELOG.md` をコミットして `v<modVersion>` タグとともに push します。すべての公開ファイルに構成証明を登録し、GitHub Draft Release に添付します。Maven・CF・Modrinth への公開が完了したら Draft を公開します。Immutable Release に後からファイルを追加する処理や `--clobber` による上書きは使いません。
+
+### 成果物の一致と利用者による検証
+
+同じジョブの検証済み成果物を全公開先で使います。各モジュールの Maven Publication に登録された JAR・sources JAR・POM・Gradle Module Metadata をローカル Maven 公開物とバイト単位で照合し、GitHub 添付用にコピーします。Mod の配布ファイルも Maven 公開対象に含まれることを確認します。Mod の JAR は Maven・GitHub・CF・Modrinth で同じファイルです。公開前に各ファイルの SHA-256 を照合し、内容の変更や未記録の公開ファイルを検出した場合はそのタスクを停止します。
+
+GitHub Release には全公開ファイルと `SHA256SUMS` を添付します。`actions/attest` で各ファイルのビルド構成証明を登録するため、公開先から取得したファイルを利用者が検証できます。Workflow 内での公開後の検証は行いません。
+
+```sh
+# GitHub・CF・Modrinth・Maven から取得したファイルのビルド構成証明
+gh attestation verify ./hauyne-lib-neoforge-26.1-0.1.0.jar -R Lapis256/HauyneLib
+
+# Immutable Release と、その添付ファイルの構成証明
+gh release verify v0.1.0 -R Lapis256/HauyneLib
+gh release verify-asset v0.1.0 ./hauyne-lib-neoforge-26.1-0.1.0.jar -R Lapis256/HauyneLib
+
+# 全添付ファイルと SHA256SUMS を同じディレクトリに取得した場合
+sha256sum --check SHA256SUMS
+```
+
+構成証明の生成には Workflow の `id-token: write` と `attestations: write` を使います。Release immutability はリポジトリ設定が前提です。[GitHub の構成証明の手順](https://docs.github.com/ja/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations) と [Immutable Release の仕様](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases) を参照してください。
+
+### 公開途中で失敗した場合
+
+外部サービスをまたぐ公開は一括で取り消せません。失敗時は各サービスの公開状況と、保存された Actions Artifact を確認してください。GitHub は公開前なら Draft のまま残ります。タグとバージョン更新コミットが残る場合もあります。公開済みバージョンへの再登録はサービス側で拒否される可能性があるため、公開ジョブ全体を無条件に再実行しないでください。復旧には保存済みの同じ成果物を使い、再ビルドしたファイルで置き換えないでください。
 
 ## 検証の範囲
 
