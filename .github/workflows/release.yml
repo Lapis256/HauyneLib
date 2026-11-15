@@ -61,19 +61,10 @@ jobs:
           cat CHANGELOG.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n</details>\n' >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Validate publication settings
-        env:
-          R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
-          R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
-          R2_ENDPOINT: ${{ vars.R2_ENDPOINT }}
-          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        run: ./gradlew validateRelease
-
-      - name: Build, test and dry-run every release task
+      - name: Build artifacts and dry-run publication
         run: |
-          ./gradlew :build-logic:test recordReleaseArtifacts -PmodPublishDryRun=true -PreleaseChangelog=.release/notes.md
-          echo 'ビルド・テスト・Maven ローカル公開・CF/Modrinth dry-run・成果物一致チェックが完了しました。' >> "$GITHUB_STEP_SUMMARY"
+          ./gradlew recordReleaseArtifacts -PmodPublishDryRun=true -PreleaseChangelog=.release/notes.md
+          echo 'ビルド・Maven ローカル公開・CF/Modrinth dry-run・成果物一致チェックが完了しました。' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit version and changelog, then tag
         if: ${{ !inputs.dry_run }}

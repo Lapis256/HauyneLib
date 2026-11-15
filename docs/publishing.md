@@ -74,27 +74,25 @@ hauyne-config/neoforge/versions/21.1-neoforge/gradle.properties
 hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 ```
 
-ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1-neoforge` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `verifyRequired` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
+ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1-neoforge` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `ciCheck` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
 
 | タスク | 用途 |
 | --- | --- |
-| `verifyJvm` | 共通 JVM ライブラリと JVM/KSP 利用例のビルド・テスト |
+| `verifyJvm` | 共通 JVM ライブラリと JVM/KSP 利用例の `check` |
 | `prepareJvmPublications` | 公開する JVM ライブラリを Maven local に配置 |
-| `verify_hauyne-lib_forge_20.1-forge` など | プロジェクトパスの `:` を `_` にした名前で対象を指定。ビルド・テスト・ローカル公開と、Mod があれば配布検証を実行 |
-| `buildAndCollect` | 全系列と JVM ライブラリをビルドし、現在のバージョンの本体・sources JAR を `build/collected/` に収集 |
+| `verify_hauyne-lib_forge_20.1-forge` など | プロジェクトパスの `:` を `_` にした名前で対象を指定し、`check` を実行 |
+| `recordReleaseArtifacts` | 公開対象を生成し、Maven local との照合、Mod 配布の dry-run、成果物の収集を実行 |
 
-収集先は JVM が `jvm/`、Mod が `<ローダー>/<系列>/` です。Forge は再難読化後の配布 JAR を収集します。古いバージョンの JAR は収集しません。`Sync` タスクのため、収集先に手動で追加したファイルは次回の収集時に削除されます。
+リリース用の成果物は `.release/assets/` に収集します。Forge は再難読化後の配布 JAR を使います。
 
 ```sh
 ./gradlew help projects
-./gradlew ciCheck -PmodPublishDryRun=true
+./gradlew :build-logic:test ciCheck
 ./gradlew build test publishToMavenLocal
-./gradlew verifyRequired -PmodPublishDryRun=true
-./gradlew verify_hauyne-lib_forge_20.1-forge -PmodPublishDryRun=true
-./gradlew buildAndCollect
+./gradlew verify_hauyne-lib_forge_20.1-forge
 ```
 
-`verifyRequired` は公開対象の全ローダー・全バージョンと JVM/KSP 例のビルド・テスト・ローカル公開・配布 dry-run を実行します。
+CI はテストと整形チェックを実行します。公開可能かの確認は Release workflow の dry-run で行い、CI ではローカル公開や配布 dry-run を実行しません。
 
 Gradle の設定、標準タスク、ディレクトリ構成、ファイルの存在を細かく確認するセットアップ用テストは追加しません。ビルドやコンパイルで検出できる問題は、通常の Gradle タスクで検証します。独自のビルド処理や通常のビルドでは検出できない重要な仕様に限り、具体的な不具合を検出する最小限のテストを追加します。
 
@@ -149,7 +147,7 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
 
-CI は1つのジョブで `./gradlew ciCheck -PmodPublishDryRun=true` を実行し、JVM と全 Minecraft 系列を検証します。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
+CI は1つのジョブで `./gradlew :build-logic:test ciCheck` を実行し、ビルド処理のテスト、JVM と全 Minecraft 系列の `check`、整形チェックを行います。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はテストを実行せず、バージョンとチェンジログの生成、成果物の生成・照合、配布 dry-run を行います。本番では続けて、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
 
 ### GitHub Actions からのリリース
 
@@ -159,7 +157,7 @@ Actions → Release → Run workflow で実行します。本番公開は既定�
 | --- | --- | --- |
 | `bump` | `auto` | git-cliff が Conventional Commits から更新幅を判定 |
 | `bump` | `major` / `minor` / `patch` | 指定した桁を更新 |
-| `dry_run` | `true` | チェンジログ生成、ビルド、テスト、Maven ローカル公開、CF/Modrinth の dry-run |
+| `dry_run` | `true` | チェンジログ生成、ビルド、Maven ローカル公開、CF/Modrinth の dry-run、成果物の照合 |
 | `dry_run` | `false`、または省略 | 検証後に GitHub・CurseForge・Modrinth・Maven へ公開 |
 
 `bump` の既定値は `auto` です。`fix:` はパッチ、`feat:` はマイナー、破壊的変更はメジャーを進めます。0.x でも同じ規則を使います。タグのない初回の `auto` は `gradle.properties` の現在値を使い、明示指定ではその現在値から指定した桁を進めます。2回目以降は最新タグと `modVersion` の一致を要求します。
@@ -175,7 +173,7 @@ git-cliff 2.14.2 と `cliff.toml` から、全リリースを含む `CHANGELOG.m
 
 dry-run ではリポジトリへのコミット・タグの push、GitHub Release 作成、外部公開、構成証明の登録を行いません。`release` Environment の保護ルールは dry-run にも適用されます。生成物と dry-run の出力は Actions の Artifact に保存します。
 
-`validateRelease` はローカルでは常に通過します。`CI=true` の環境では dry-run でも認証情報とプロジェクト ID を検証し、不足があれば失敗します。Release workflow では本番と dry-run の両方でこの検証を実行します。
+認証情報の有無だけを調べる独自タスクは設けません。認証と公開権限は本番公開時に公開先の処理で確認します。dry-run は実際のアップロードを行わないため、認証や公開権限が有効であることまでは確認できません。
 
 本番では登録された全公開対象を検証し、バージョンと `CHANGELOG.md` をコミットして `v<modVersion>` タグとともに push します。すべての公開ファイルに構成証明を登録し、GitHub Draft Release に添付します。Maven・CF・Modrinth への公開が完了したら Draft を公開します。Immutable Release に後からファイルを追加する処理や `--clobber` による上書きは使いません。
 

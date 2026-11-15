@@ -1,4 +1,3 @@
-import dev.lapis256.hauyne.buildlogic.publishing.ValidateReleaseSettings
 import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
 import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
 plugins {
@@ -30,7 +29,7 @@ publishMods {
     }
 }
 
-rootProject.tasks.named("verifyRequired") {
+rootProject.tasks.named("recordReleaseArtifacts") {
     dependsOn(tasks.named("publishMods"))
 }
 
@@ -43,33 +42,10 @@ rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
     modFiles.from(modFile)
 }
 
-val validateModRelease = tasks.register<ValidateReleaseSettings>("validateModRelease") {
-    required = providers.gradleProperty("modPublishDryRun").map { !it.toBooleanStrict() }.orElse(false)
-    for (key in listOf("curseforgeProjectId", "modrinthProjectId")) {
-        configurationPresent.put(
-            key,
-            providers.gradleProperty(key).map {
-                it.isNotBlank()
-            }.orElse(false),
-        )
-    }
-
-    for (key in listOf("CURSEFORGE_TOKEN", "MODRINTH_TOKEN")) {
-        configurationPresent.put(
-            key,
-            providers.environmentVariable(key).map {
-                it.isNotBlank()
-            }.orElse(false),
-        )
-    }
-}
-
 tasks.matching {
     it.name.startsWith("publish") &&
         (it.name.contains("Curseforge", true) || it.name.contains("Modrinth", true) || it.name == "publishMods")
 }.configureEach {
-    dependsOn(validateModRelease)
-    mustRunAfter(":validateRelease")
     val releaseManifest = providers.gradleProperty("releaseManifest")
     val releaseRoot = rootProject.layout.projectDirectory.asFile
     val releaseFile = publishMods.file

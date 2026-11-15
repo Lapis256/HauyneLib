@@ -1,6 +1,5 @@
 package dev.lapis256.hauyne.buildlogic.release
 
-import dev.lapis256.hauyne.buildlogic.publishing.ValidateReleaseSettings
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -80,19 +79,6 @@ class ReleaseTest {
         }
         artifact.delete()
         assertThrows(java.io.FileNotFoundException::class.java) { ReleaseArtifacts.verify(root, manifest) }
-    }
-
-    @Test
-    fun settingsValidationCanOnlyBeSkippedWhenNotRequired() {
-        val task = ProjectBuilder.builder().withProjectDir(root).build().tasks
-            .register("validate", ValidateReleaseSettings::class.java).get()
-        task.configurationPresent.put("token", false)
-        task.required.set(false)
-        task.validate()
-        task.required.set(true)
-        assertThrows(IllegalArgumentException::class.java) { task.validate() }
-        task.configurationPresent.put("token", true)
-        task.validate()
     }
 
     @Test

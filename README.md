@@ -39,17 +39,16 @@ TomlBackend(Path.of("config.toml")).use { backend ->
 
 ## 開発する
 
-Java 25 で `./gradlew verifyRequired -PmodPublishDryRun=true` を実行すると、Minecraft 26.1.2、1.21.1、1.20.1 のビルド・テスト・ローカル Maven 公開・Mod 配布 dry-run を検証できます。Windows では `./gradlew.bat` を使ってください。
+Java 25 で `./gradlew :build-logic:test ciCheck` を実行すると、ビルド処理のテスト、JVM と Minecraft 26.1.2、1.21.1、1.20.1 のテスト、整形チェックを実行できます。公開可能かの確認は、GitHub Actions の Release workflow を `dry_run=true` で実行してください。Windows では `./gradlew.bat` を使ってください。
 
 ```sh
 ./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
 ./gradlew runActiveServer
 ./gradlew resetActiveProjects
 ./gradlew checkActiveProjects
-./gradlew buildAndCollect
 ```
 
-切替は controller ごとに行います。依存先のターゲットは明示されているため、他の controller を揃える必要はありません。`runActiveServer` は既定で lib の NeoForge controller を使います。Forge の場合は `-PserverController=:hauyne-lib:forge` を指定します。収集した配布 JAR と sources JAR は `build/collected/` に出力します。
+切替は controller ごとに行います。依存先のターゲットは明示されているため、他の controller を揃える必要はありません。`runActiveServer` は既定で lib の NeoForge controller を使います。Forge の場合は `-PserverController=:hauyne-lib:forge` を指定します。リリース用の成果物は `.release/assets/` に収集します。
 
 構成、Forge 1.20.1 の追加検証、認証情報、公開先ごとの再実行手順は [ビルドと公開](docs/publishing.md) を参照してください。公開済みの成果物を確認し、失敗した公開先のタスクだけを再実行してください。
 

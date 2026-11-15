@@ -8,7 +8,7 @@ publishing.publications.create<MavenPublication>("maven") {
     from(components["java"])
 }
 
-rootProject.tasks.named("verifyRequired") {
+rootProject.tasks.named("recordReleaseArtifacts") {
     dependsOn(tasks.named("publishToMavenLocal"))
 }
 
@@ -84,16 +84,11 @@ configure<PublishingExtension> {
 }
 
 tasks.withType<PublishToMavenRepository>().configureEach {
-    mustRunAfter(":validateRelease")
     val releaseManifest = providers.gradleProperty("releaseManifest")
     val releaseRoot = rootProject.layout.projectDirectory.asFile
     doFirst {
         releaseManifest.orNull?.let {
             ReleaseArtifacts.verify(releaseRoot, releaseRoot.resolve(it), publication.artifacts.map { artifact -> artifact.file })
-        }
-
-        require(!System.getenv("R2_ACCESS_KEY").isNullOrBlank() && !System.getenv("R2_SECRET_KEY").isNullOrBlank()) {
-            "R2_ACCESS_KEY and R2_SECRET_KEY are required"
         }
 
         require(!System.getProperty("org.gradle.s3.endpoint").isNullOrBlank()) { "org.gradle.s3.endpoint is required" }
