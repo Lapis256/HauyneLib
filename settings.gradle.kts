@@ -17,19 +17,16 @@ rootProject.name = "HauyneLib"
 includeBuild("build-logic")
 
 include(
+    ":examples:jvm",
     ":hauyne-config:core",
+    ":hauyne-config:forge",
     ":hauyne-config:ksp",
     ":hauyne-config:memory",
-    ":hauyne-config:nightconfig",
-    ":examples:jvm",
-)
-
-include(
     ":hauyne-config:minecraft",
     ":hauyne-config:neoforge",
-    ":hauyne-lib:neoforge",
-    ":hauyne-config:forge",
+    ":hauyne-config:nightconfig",
     ":hauyne-lib:forge",
+    ":hauyne-lib:neoforge",
 )
 
 stonecutter {
