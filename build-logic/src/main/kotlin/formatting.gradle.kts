@@ -19,7 +19,7 @@ spotless {
         target(
             fileTree(rootDir) {
                 include("**/src/**/*.java")
-                exclude("**/build/**", "**/.gradle/**")
+                exclude("**/build/**", "**/.gradle/**", "documentation/**")
             },
         )
         val editorConfig = ResourcePropertiesService.builder().build().queryProperties(
@@ -41,7 +41,7 @@ spotless {
         target(
             fileTree(rootDir) {
                 include("**/src/**/*.kt")
-                exclude("**/build/**", "**/.gradle/**")
+                exclude("**/build/**", "**/.gradle/**", "documentation/**")
             },
         )
         ktlint(catalog.findVersion("ktlint").get().requiredVersion).setEditorConfigPath(rootProject.file(".editorconfig"))
@@ -51,7 +51,7 @@ spotless {
         target(
             fileTree(rootDir) {
                 include("**/*.gradle.kts")
-                exclude("**/build/**", "**/.gradle/**")
+                exclude("**/build/**", "**/.gradle/**", "documentation/**")
             },
         )
         ktlint(catalog.findVersion("ktlint").get().requiredVersion).setEditorConfigPath(rootProject.file(".editorconfig"))

@@ -1,6 +1,10 @@
 plugins {
-    id("library")
+    alias(libs.plugins.kotlin)
     alias(libs.plugins.ksp)
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {

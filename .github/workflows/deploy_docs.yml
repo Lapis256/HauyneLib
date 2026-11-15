@@ -1,0 +1,70 @@
+name: Deploy Documentation
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: true
+
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          ref: ${{ inputs.ref || github.event.release.tag_name || github.ref }}
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-common-env
+
+      - name: Prepare documentation branch
+        run: |
+          if git show-ref --verify --quiet refs/remotes/origin/docs; then
+            git worktree add documentation origin/docs
+          else
+            git worktree add --detach documentation HEAD
+            git -C documentation switch --orphan docs
+          fi
+          mkdir -p documentation/version
+          if test -f documentation/docs/version.json; then
+            version=$(jq -er '.version' documentation/docs/version.json)
+            current=$(sed -n 's/^modVersion=//p' gradle.properties | tr -d '\r')
+            if test "$version" != "$current"; then
+              mkdir -p "documentation/version/$version"
+              rsync -a --delete --exclude=older documentation/docs/ "documentation/version/$version/"
+            fi
+          fi
+
+      - name: Generate documentation
+        run: ./gradlew :dokkaGeneratePublicationHtml "-PdocsRef=$(git rev-parse HEAD)"
+
+      - name: Verify documentation
+        run: |
+          test -s documentation/docs/index.html
+          test -s documentation/docs/version.json
+
+      - name: Commit documentation
+        working-directory: documentation
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs version
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update API documentation"
+            git push origin HEAD:docs
+          fi

@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.dokka.gradle)
     implementation(libs.spotless.gradle)
     implementation(libs.ec4j)
     implementation(libs.kotlin.gradle)

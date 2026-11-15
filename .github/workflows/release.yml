@@ -25,6 +25,8 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.prepare.outputs.tag }}
     environment: release
     permissions:
       contents: write
@@ -128,3 +130,12 @@ jobs:
             CHANGELOG.md
             .release/
             **/build/publishMods/
+
+  deploy_docs:
+    needs: release
+    if: ${{ !inputs.dry_run }}
+    permissions:
+      contents: write
+    uses: ./.github/workflows/deploy_docs.yml
+    with:
+      ref: ${{ needs.release.outputs.tag }}

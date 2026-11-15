@@ -1,9 +1,11 @@
 import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 
 plugins {
     `java-library`
     id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.dokka")
 }
 
 repositories {
@@ -12,6 +14,33 @@ repositories {
 
 group = rootProject.property("mavenGroup")!!
 version = rootProject.version
+
+rootProject.dependencies.add("dokka", project)
+
+dokka {
+    moduleName = project.path.trim(':').replace(':', '-')
+    moduleVersion = rootProject.version.toString()
+    dokkaSourceSets.configureEach {
+        // 非アクティブな Minecraft バージョンの Stonecutter 生成ソースも対象にする。
+        suppressGeneratedFiles = false
+        documentedVisibilities.set(VisibilityModifier.values().toSet())
+        skipDeprecated = false
+        enableAndroidDocumentationLink = false
+        val sourceUrl = "${rootProject.property("projectUrl")}/tree/${providers.gradleProperty("docsRef").getOrElse("main")}"
+        if (projectDir.parentFile.name == "versions") {
+            sourceLink {
+                localDirectory = layout.buildDirectory.dir("generated/stonecutter/main")
+                remoteUrl = uri("$sourceUrl/${parent!!.path.trim(':').replace(':', '/')}/src/main")
+                remoteLineSuffix = "#L"
+            }
+        }
+        sourceLink {
+            localDirectory = rootProject.projectDir
+            remoteUrl = uri(sourceUrl)
+            remoteLineSuffix = "#L"
+        }
+    }
+}
 val library = extensions.create<HauyneLibraryExtension>("hauyneLibrary")
 library.componentPath.convention(project.path)
 
