@@ -21,7 +21,7 @@ jobs:
       - uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff # v4
         with:
           version: v2.14.2
-          args: --offline --output /tmp/changelog-preview.md
+          args: --version
 
       - uses: ./.github/actions/setup-common-env
       - name: Run tests and formatting checks

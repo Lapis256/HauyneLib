@@ -10,7 +10,7 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 通常のライブラリには `library` を適用し、Kotlin・Java・テスト・JAR の共通設定を有効にします。Maven 公開が必要なモジュールには、加えて `maven-publishing` を適用します。Minecraft 用の `minecraft-library` は `library` と Maven 公開の設定をまとめて適用します。
 
-共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名を設定し、系列に対応する Minecraft バージョン・設定ファイル・Java Toolchain の既定値も設定します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。
+共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名を設定し、設定ファイルと Java Toolchain も設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。
 
 Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneModMetadata` の既定値として読み込みます。Forge と NeoForge の Mod には `mod` を適用し、`hauyneFmlMetadata` に `loader = HauyneFmlLoader.NEOFORGE` または `FORGE` と依存範囲を指定します。必須のローダー指定を省くと構成時に失敗します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
 
@@ -24,13 +24,11 @@ Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、�
 
 依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの設定は各モジュールの `versions/<ターゲット>/gradle.properties` に置きます。lib と config は別々に対応対象と設定値を持ちます。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
 
-Java 17 の制約は共通 JVM ライブラリに適用します。Minecraft 側の Toolchain は共通プラグインが対応するバージョンファイルの `javaVersion` から設定します。Kotlin の共通設定で Minecraft 側を Java 17 に固定することはありません。
+Java 17 の制約は共通 JVM ライブラリに適用します。Minecraft 側の Toolchain は共通プラグインが Stonecutter の Minecraft バージョンから設定します。Kotlin の共通設定で Minecraft 側を Java 17 に固定することはありません。
 
 例えば `hauyne-config/minecraft/versions/26.1/gradle.properties` は次の内容です。
 
 ```properties
-minecraftVersion=26.1.2
-javaVersion=25
 neoFormVersion=26.1.2-1
 ```
 

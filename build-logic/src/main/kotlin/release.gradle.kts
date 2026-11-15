@@ -25,9 +25,6 @@ tasks.register<RecordReleaseArtifacts>("recordReleaseArtifacts") {
 
 val publishedJvmModules = listOf(":hauyne-config:core", ":hauyne-config:ksp", ":hauyne-config:nightconfig")
 
-val prepareJvmPublications = tasks.register("prepareJvmPublications") {
+tasks.register("prepareJvmPublications") {
     dependsOn(publishedJvmModules.map { "$it:publishToMavenLocal" })
-}
-tasks.register("publishJvm") {
-    dependsOn(publishedJvmModules.map { "$it:publish" })
 }
