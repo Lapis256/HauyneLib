@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.minecraft
+
 import java.util.Properties
 
 data class HauyneTarget(val series: String, val minecraft: String, val loader: String, val release: Boolean) {

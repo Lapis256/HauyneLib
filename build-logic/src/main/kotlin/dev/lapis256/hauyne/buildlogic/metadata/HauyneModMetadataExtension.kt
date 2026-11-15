@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.metadata
+
 import org.gradle.api.provider.Property
 
 abstract class HauyneModMetadataExtension {

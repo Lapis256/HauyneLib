@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.release
+
 import java.io.File
 import java.security.MessageDigest
 

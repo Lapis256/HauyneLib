@@ -1,4 +1,6 @@
 import dev.kikugie.stonecutter.controller.StonecutterControllerExtension
+import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
+import dev.lapis256.hauyne.buildlogic.minecraft.ValidateActiveProjects
 
 plugins {
     base

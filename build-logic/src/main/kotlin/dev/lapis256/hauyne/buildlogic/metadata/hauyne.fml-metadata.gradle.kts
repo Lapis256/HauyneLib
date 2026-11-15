@@ -1,3 +1,6 @@
+import dev.lapis256.hauyne.buildlogic.metadata.GenerateFmlModMetadata
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlMetadataExtension
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
 plugins {
     id("hauyne.mod-metadata")
 }

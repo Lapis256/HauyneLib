@@ -1,3 +1,6 @@
+import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
+import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
+import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
 plugins {
     `maven-publish`
 }

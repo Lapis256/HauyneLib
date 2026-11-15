@@ -1,3 +1,5 @@
+import dev.lapis256.hauyne.buildlogic.metadata.GenerateModConstants
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
 plugins {
     id("hauyne.minecraft-library")
 }

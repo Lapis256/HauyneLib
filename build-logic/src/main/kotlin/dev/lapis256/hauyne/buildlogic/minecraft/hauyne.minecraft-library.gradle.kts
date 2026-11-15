@@ -1,3 +1,6 @@
+import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
+import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
+import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
 plugins {
     id("hauyne.library")
     id("hauyne.maven-publish")

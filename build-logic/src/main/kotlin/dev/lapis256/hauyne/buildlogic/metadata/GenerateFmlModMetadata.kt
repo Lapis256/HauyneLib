@@ -1,6 +1,8 @@
-import com.electronwill.nightconfig.core.Config
-import com.electronwill.nightconfig.toml.TomlFormat
-import com.electronwill.nightconfig.toml.TomlWriter
+package dev.lapis256.hauyne.buildlogic.metadata
+
+import com.akuleshov7.ktoml.Toml
+import com.akuleshov7.ktoml.TomlOutputConfig
+import kotlinx.serialization.encodeToString
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
@@ -47,33 +49,21 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
             dependency("minecraft", minecraftVersionRange.get()),
             dependency(loader.get().modId, loaderVersionRange.get()),
         )
-        val metadata = table(
-            "modLoader" to "javafml",
-            "loaderVersion" to javaFmlLoaderVersionRange.get(),
-            "license" to license.get(),
-            "mods" to listOf(
-                table(
-                    "modId" to id,
-                    "version" to modVersion.get(),
-                    "displayName" to modName.get(),
-                    "description" to modDescription.get(),
-                ),
-            ),
-            "dependencies" to table(id to dependencies),
+        val metadata = FmlModMetadata(
+            loaderVersion = javaFmlLoaderVersionRange.get(),
+            license = license.get(),
+            mods = listOf(FmlMod(id, modVersion.get(), modName.get(), modDescription.get())),
+            dependencies = mapOf(id to dependencies),
         )
         val file = outputFile.get().asFile
         file.parentFile.mkdirs()
-        val writer = TomlWriter().apply {
-            setNewline("\n")
-            setWriteStringMultilinePredicate { false }
-        }
-        file.writeText(writer.writeToString(metadata), Charsets.UTF_8)
+        val toml = Toml(outputConfig = TomlOutputConfig.compliant())
+        file.writeText(toml.encodeToString(metadata), Charsets.UTF_8)
     }
 
-    private fun dependency(id: String, range: String): Config {
-        val requirement = if (loader.get() == HauyneFmlLoader.FORGE) "mandatory" to true else "type" to "required"
-        return table("modId" to id, "versionRange" to range, requirement, "ordering" to "NONE", "side" to "BOTH")
+    private fun dependency(id: String, range: String): FmlDependency = if (loader.get() == HauyneFmlLoader.FORGE) {
+        FmlDependency(id, range, mandatory = true)
+    } else {
+        FmlDependency(id, range, type = "required")
     }
-
-    private fun table(vararg entries: Pair<String, Any>): Config = Config.wrap(linkedMapOf(*entries), TomlFormat.instance())
 }

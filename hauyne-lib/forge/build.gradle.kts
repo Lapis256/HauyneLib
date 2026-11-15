@@ -1,3 +1,4 @@
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlLoader
 import net.neoforged.moddevgradle.legacyforge.dsl.LegacyForgeExtension
 
 plugins {

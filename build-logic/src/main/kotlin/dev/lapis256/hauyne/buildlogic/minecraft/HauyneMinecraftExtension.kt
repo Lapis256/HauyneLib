@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.minecraft
+
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider

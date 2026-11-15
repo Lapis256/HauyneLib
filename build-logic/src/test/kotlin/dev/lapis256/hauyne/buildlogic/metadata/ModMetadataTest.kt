@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.metadata
+
 import com.electronwill.nightconfig.core.Config
 import com.electronwill.nightconfig.toml.TomlParser
 import org.gradle.testfixtures.ProjectBuilder

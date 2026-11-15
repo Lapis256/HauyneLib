@@ -6,6 +6,7 @@ stonecutter = "0.10"
 junit = "6.0.1"
 modpublish = "2.2.1"
 nightconfig = "3.8.3"
+ktoml = "0.7.1"
 spotless = "8.11.0"
 ktlint = "1.8.0"
 eclipse = "4.41"
@@ -19,6 +20,7 @@ modpublish-gradle = { module = "me.modmuss50:mod-publish-plugin", version.ref = 
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 nightconfig = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+ktoml = { module = "com.akuleshov7:ktoml-core", version.ref = "ktoml" }
 
 [plugins]
 stonecutter = { id = "dev.kikugie.stonecutter", version.ref = "stonecutter" }

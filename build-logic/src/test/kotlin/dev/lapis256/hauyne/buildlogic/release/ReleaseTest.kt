@@ -1,3 +1,6 @@
+package dev.lapis256.hauyne.buildlogic.release
+
+import dev.lapis256.hauyne.buildlogic.publishing.ValidateReleaseSettings
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows

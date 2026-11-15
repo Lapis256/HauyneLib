@@ -1,3 +1,4 @@
+import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {

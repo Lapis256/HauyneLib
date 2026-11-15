@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.release
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property

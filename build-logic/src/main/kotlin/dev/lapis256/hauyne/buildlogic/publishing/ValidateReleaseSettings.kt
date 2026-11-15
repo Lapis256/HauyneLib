@@ -1,3 +1,5 @@
+package dev.lapis256.hauyne.buildlogic.publishing
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property

@@ -1,3 +1,7 @@
+import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
+import dev.lapis256.hauyne.buildlogic.publishing.ValidateReleaseSettings
+import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
+import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
 plugins {
     id("me.modmuss50.mod-publish-plugin")
 }

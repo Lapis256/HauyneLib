@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    kotlin("plugin.serialization") version embeddedKotlinVersion
 }
 
 repositories {
@@ -12,7 +13,8 @@ dependencies {
     implementation(libs.ec4j)
     implementation(libs.kotlin.gradle)
     implementation(libs.modpublish.gradle)
-    implementation(libs.nightconfig)
+    implementation(libs.ktoml)
+    testImplementation(libs.nightconfig)
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
