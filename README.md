@@ -12,14 +12,9 @@ Gradle マルチプロジェクトの設定ライブラリと、NeoForge / Forge
 
 ## JVM ライブラリを使う
 
-ローカルでビルドした成果物を使う例です。HauyneLib 側で `./gradlew prepareJvmPublications` を実行してから、利用側の Gradle に次の設定を追加します。
+公開 Maven リポジトリを利用側の `repositories` に登録し、次の依存関係を追加します。
 
 ```kotlin
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 dependencies {
     implementation("dev.lapis256:hauyne-config-nightconfig:0.1.0")
 }

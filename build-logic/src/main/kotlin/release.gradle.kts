@@ -22,9 +22,3 @@ tasks.register<RecordReleaseArtifacts>("recordReleaseArtifacts") {
     localRepository = file(localMaven)
     publicationFiles.convention(emptyMap())
 }
-
-val publishedJvmModules = listOf(":hauyne-config:core", ":hauyne-config:ksp", ":hauyne-config:nightconfig")
-
-tasks.register("prepareJvmPublications") {
-    dependsOn(publishedJvmModules.map { "$it:publishToMavenLocal" })
-}

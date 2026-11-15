@@ -77,7 +77,6 @@ hauyne-lib/neoforge/versions/21.1/gradle.properties
 | タスク | 用途 |
 | --- | --- |
 | `check` | 全モジュールのテストと整形チェック。別ビルドの `build-logic` は `:build-logic:test` で指定 |
-| `prepareJvmPublications` | 公開する JVM ライブラリを Maven local に配置 |
 | `recordReleaseArtifacts` | 公開対象を生成し、Maven local との照合、Mod 配布の dry-run、成果物の収集を実行 |
 
 リリース用の成果物は `.release/assets/` に収集します。Forge は再難読化後の配布 JAR を使います。
