@@ -125,8 +125,8 @@ class ModMetadataTest {
             declarations.require("example_api") {
                 versionRange.set("[1,2)")
                 reason.set("First line\r\n[[mods]]\n# reason")
-                ordering.set(HauyneDependencyOrdering.AFTER)
-                side.set(HauyneDependencySide.CLIENT)
+                ordering.set(Ordering.AFTER)
+                side.set(Side.CLIENT)
             }
             declarations.optional("integration")
             if (loader == HauyneFmlLoader.NEOFORGE) {

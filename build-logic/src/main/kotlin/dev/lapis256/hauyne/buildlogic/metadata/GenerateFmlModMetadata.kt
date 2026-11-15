@@ -63,7 +63,7 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
             FmlDependency(
                 modId = it.modId,
                 versionRange = it.versionRange.get(),
-                mandatory = if (loader.get() == HauyneFmlLoader.FORGE) it.type == HauyneDependencyType.REQUIRED else null,
+                mandatory = if (loader.get() == HauyneFmlLoader.FORGE) it.type == DependencyKind.REQUIRED else null,
                 type = if (loader.get() == HauyneFmlLoader.NEOFORGE) it.type.name.lowercase() else null,
                 ordering = it.ordering.get().name,
                 side = it.side.get().name,

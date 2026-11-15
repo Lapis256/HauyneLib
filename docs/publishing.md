@@ -37,7 +37,7 @@ hauyneMetadata {
 
 Forge では `neoforge` を `forge` に置き換えます。Forge の依存 DSL には、必須の `require` と任意の `optional` だけがあります。NeoForge の依存 DSL では、併用禁止の `incompatible` と併用時に警告する `discouraged` も使えます。Forge のブロックでこれらを呼ぶと Kotlin のコンパイルエラーになります。依存の種類は宣言時に決まり、設定ブロック内では変更できません。`require` と `optional` は設定ブロックを省略できます。各設定プロパティには固定値と `Provider` のどちらも渡せます。
 
-`versionRange` は Maven 形式で、既定値は全バージョンを対象とする `(,)` です。`ordering` は `HauyneDependencyOrdering` の `NONE`（既定）・`BEFORE`・`AFTER`、`side` は `HauyneDependencySide` の `BOTH`（既定）・`CLIENT`・`SERVER` を指定します。`reason` は任意の説明で、NeoForge では依存メタデータ、Forge では TOML コメントに出力します。Minecraft とローダーの必須依存は自動生成します。これらの手動宣言、自己依存、同一 MOD ID の重複は構成時にエラーになります。
+`versionRange` は Maven 形式で、既定値は全バージョンを対象とする `(,)` です。`ordering` は `Ordering` の `NONE`（既定）・`BEFORE`・`AFTER`、`side` は `Side` の `BOTH`（既定）・`CLIENT`・`SERVER` を指定します。`reason` は任意の説明で、NeoForge では依存メタデータ、Forge では TOML コメントに出力します。Minecraft とローダーの必須依存は自動生成します。これらの手動宣言、自己依存、同一 MOD ID の重複は構成時にエラーになります。
 
 `curseForgeSlug`・`modrinthSlug` を指定すると、そのサービスへの関係設定も生成します。共通の slug プロパティはなく、同じ slug でも個別に指定します。省略したサービスには関係設定を出力しません。明示的な空文字列はエラーです。必須・任意・非互換の関係種別は依存宣言から決まります。必要な場合は `curseForgeRelation`・`modrinthRelation` に `PlatformDependency.DependencyType` の `REQUIRED`・`OPTIONAL`・`INCOMPATIBLE`・`EMBEDDED` を指定して上書きできます。`discouraged` を配布先にも設定する場合は関係種別を明示してください。関係種別の指定には、そのサービスの slug が必要です。Modrinth の配布版を固定する `modrinthVersionId` にも `modrinthSlug` が必要です。
 
