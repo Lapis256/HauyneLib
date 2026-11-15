@@ -66,7 +66,7 @@ MC 系列は基本的にメジャーとマイナーの2要素で表します。2
 
 Windows では `./gradlew` を `./gradlew.bat` に読み替えてください。
 
-対応対象と既定ターゲットは `settings.gradle.kts` の controller ごとに宣言します。config の共通層、アダプター、lib に同じターゲットが存在する必要はありません。設定ファイルも各モジュールに置きます。
+対応対象と既定ターゲットは `settings.gradle.kts` の controller ごとに宣言します。アダプターには同じ系列の共通層、lib には同じローダー・系列のアダプターと共通層が必要です。設定ファイルも各モジュールに置きます。
 
 ```text
 hauyne-config/minecraft/versions/21.1/gradle.properties
@@ -74,7 +74,7 @@ hauyne-config/neoforge/versions/21.1-neoforge/gradle.properties
 hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 ```
 
-ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターの `configMinecraftTarget` は共通層の依存先、lib の `configMinecraftTarget` と `configAdapterTarget` は同梱する依存先を明示します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `verifyRequired` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
+ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1-neoforge` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `verifyRequired` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
 
 | タスク | 用途 |
 | --- | --- |
@@ -106,7 +106,7 @@ Gradle の設定、標準タスク、ディレクトリ構成、ファイルの�
 
 Forge の配布ファイルには `reobfJar` の出力を使います。開発用 JAR は `build/devlibs`、配布用は `build/libs` です。Mixin と Access Transformer は使用していません。
 
-Stonecutter の切替は controller ごとに行います。依存先は明示されているため、他の controller の選択を揃える必要はありません。
+Stonecutter の切替は controller ごとに行います。依存先はプロジェクト名から決まるため、他の controller の選択を揃える必要はありません。
 
 ```sh
 ./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"

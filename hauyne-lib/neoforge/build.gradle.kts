@@ -1,7 +1,7 @@
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlLoader
 
 plugins {
-    id("hauyne.fml-metadata")
+    id("hauyne.mod")
     alias(libs.plugins.stonecutter)
     alias(libs.plugins.mdg)
     id("hauyne.mod-publish")
@@ -32,13 +32,6 @@ neoForge {
             sourceSet(sourceSets.main.get())
         }
     }
-}
-
-dependencies {
-    implementation(project(":hauyne-config:neoforge:${hauyneMinecraft.configAdapterTarget.get()}"))
-    "jarJar"(project(":hauyne-config:core"))
-    "jarJar"(project(":hauyne-config:minecraft:${hauyneMinecraft.configMinecraftTarget.get()}"))
-    "jarJar"(project(":hauyne-config:neoforge:${hauyneMinecraft.configAdapterTarget.get()}"))
 }
 
 publishMods {

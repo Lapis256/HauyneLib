@@ -1,5 +1,5 @@
 plugins {
-    id("hauyne.minecraft-library")
+    id("hauyne.minecraft-config-backend")
     alias(libs.plugins.stonecutter)
     alias(libs.plugins.legacyforge)
 }
@@ -8,10 +8,6 @@ legacyForge {
     version = hauyneMinecraft.versionProperty("forgeVersion").get()
 
     addModdingDependenciesTo(sourceSets.test.get())
-}
-
-dependencies {
-    api(project(":hauyne-config:minecraft:${hauyneMinecraft.configMinecraftTarget.get()}"))
 }
 
 configurations.matching {
