@@ -1,4 +1,4 @@
-package dev.lapis256.hauyne.lib.forge;
+package dev.lapis256.hauyne.lib;
 
 import net.minecraftforge.fml.common.Mod;
 

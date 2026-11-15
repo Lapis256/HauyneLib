@@ -1,4 +1,4 @@
-package dev.lapis256.hauyne.lib.neoforge;
+package dev.lapis256.hauyne.lib;
 
 import net.neoforged.fml.common.Mod;
 

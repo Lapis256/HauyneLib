@@ -14,7 +14,7 @@ Mod メタデータでは `loader = HauyneModLoader.NEOFORGE` または `FORGE` 
 
 モジュールのルートは `hauyne-config/` と `hauyne-lib/`、Gradle パスは `:hauyne-config:*` と `:hauyne-lib:*` です。Minecraft 共通層は `:hauyne-config:minecraft` のままです。`hauyne-lib:common` は作成していません。将来追加する場合のパッケージは `dev.lapis256.hauyne.lib` とします。
 
-公開 API は `dev.lapis256.hauyne.config`、実装は `dev.lapis256.hauyne.config.<module>` に置きます。Mod 実装は `dev.lapis256.hauyne.lib.neoforge` と `dev.lapis256.hauyne.lib.forge` に分けています。KSP のサービス登録先と生成ソースも、この構成に合わせています。
+公開 API は `dev.lapis256.hauyne.config`、実装は `dev.lapis256.hauyne.config.<module>` に置きます。Mod 実装は Forge・NeoForge ともに `dev.lapis256.hauyne.lib` に置きます。KSP のサービス登録先と生成ソースも、この構成に合わせています。
 
 依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの Java・NeoForm・NeoForge・Forge の値は `versions/<MC 系列>/gradle.properties` に置き、同じゲーム版の全モジュールで共有します。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
 

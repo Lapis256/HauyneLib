@@ -12,7 +12,7 @@ val mc = stonecutter.current.version
 hauyneModMetadata {
     modId = providers.gradleProperty("modId")
     modName = providers.gradleProperty("modName")
-    modPackage = "dev.lapis256.hauyne.lib.forge"
+    modPackage = "dev.lapis256.hauyne.lib"
     license = providers.gradleProperty("license")
     this.loader = HauyneModLoader.FORGE
     minecraftVersionRange = "[$mc]"
