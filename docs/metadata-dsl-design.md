@@ -1,10 +1,14 @@
 # メタデータ DSL の設計案
 
-依存 MOD の実行時メタデータと配布先の関係設定を、一つの宣言から生成する。以下は採用する設計であり、現時点の DSL には未実装である。
+依存 MOD の実行時メタデータと配布先の関係設定を、一つの宣言から生成する。以下は実装済みの DSL の仕様である。
 
 ## 設定例
 
 ```kotlin
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneDependencyOrdering.AFTER
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneDependencySide.BOTH
+import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlLoader
+
 hauyneMetadata {
     modId = "example"
     modName = "Example"
@@ -91,4 +95,4 @@ CurseForge Upload API の関係設定には slug と、完全一致用の任意�
 
 Forge と NeoForge の依存形式には差がある。未対応の宣言を別の意味で出力しない。[Forge の仕様](https://docs.minecraftforge.net/en/1.20.1/gettingstarted/modfiles/)・[NeoForge の仕様](https://docs.neoforged.net/docs/gettingstarted/modfiles/)
 
-調査日: 2026-11-16。配布プラグインの情報は upstream の公式ドキュメントと main ブランチで確認した。採用済みバージョンとの一致、CurseForge の依存先 ID 対応、実際のアップロードは未検証である。
+調査日: 2026-11-16。配布プラグインの情報は upstream の公式ドキュメントと main ブランチで確認し、採用版 2.2.1 のクラス定義とも照合した。実際のアップロードは未検証である。

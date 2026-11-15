@@ -1,16 +1,18 @@
 import dev.lapis256.hauyne.buildlogic.metadata.GenerateFmlModMetadata
 import dev.lapis256.hauyne.buildlogic.metadata.GenerateModConstants
-import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlMetadataExtension
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
+import dev.lapis256.hauyne.buildlogic.metadata.validateDependencies
 import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
 import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
+import me.modmuss50.mpp.platforms.curseforge.CurseforgeDependency
+import me.modmuss50.mpp.platforms.modrinth.ModrinthDependency
 
 plugins {
     id("minecraft-library")
     id("me.modmuss50.mod-publish-plugin")
 }
 
-val metadata = extensions.create<HauyneModMetadataExtension>("hauyneModMetadata")
+val metadata = extensions.create<HauyneModMetadataExtension>("hauyneMetadata")
 metadata.modId.convention(providers.gradleProperty("modId"))
 metadata.modName.convention(providers.gradleProperty("modName"))
 metadata.modPackage.convention(providers.gradleProperty("modPackage"))
@@ -26,7 +28,7 @@ kotlin.sourceSets.main {
     kotlin.srcDir(constants)
 }
 
-val fml = extensions.create<HauyneFmlMetadataExtension>("hauyneFmlMetadata")
+val fml = metadata.forgeLike
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
     modName = metadata.modName
@@ -36,10 +38,12 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
     minecraftVersionRange = fml.minecraftVersionRange
     loaderVersionRange = fml.loaderVersionRange
     javaFmlLoaderVersionRange = fml.javaFmlLoaderVersionRange
+    modDependencies = fml.dependencies.entries
 }
 
 afterEvaluate {
     val loader = fml.loader.get()
+    validateDependencies(fml.dependencies.entries.get(), metadata.modId.get(), loader)
     generateMetadata.configure {
         modVersion = project.version.toString()
         outputFile = layout.buildDirectory.file("generated/resources/modMetadata/${loader.metadataFileName}")
@@ -87,12 +91,33 @@ publishMods {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse("")
         client = true
         server = true
+        dependencies.addAll(
+            fml.dependencies.entries.map { declarations ->
+                declarations.filter { it.curseForgeSlug.isPresent }.map { dependency ->
+                    objects.newInstance(CurseforgeDependency::class.java).apply {
+                        slug.set(dependency.curseForgeSlug)
+                        type.set(dependency.relation(dependency.curseForgeRelation))
+                    }
+                }
+            },
+        )
     }
 
     modrinth {
         projectId = providers.gradleProperty("modrinthProjectId")
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
         environment = me.modmuss50.mpp.platforms.modrinth.ModrinthEnvironment.CLIENT_AND_SERVER
+        dependencies.addAll(
+            fml.dependencies.entries.map { declarations ->
+                declarations.filter { it.modrinthSlug.isPresent }.map { dependency ->
+                    objects.newInstance(ModrinthDependency::class.java).apply {
+                        slug.set(dependency.modrinthSlug)
+                        type.set(dependency.relation(dependency.modrinthRelation))
+                        version.set(dependency.modrinthVersionId)
+                    }
+                }
+            },
+        )
     }
 }
 

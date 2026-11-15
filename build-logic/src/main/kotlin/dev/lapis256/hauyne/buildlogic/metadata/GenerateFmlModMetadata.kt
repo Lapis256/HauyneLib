@@ -5,8 +5,10 @@ import com.akuleshov7.ktoml.TomlOutputConfig
 import kotlinx.serialization.encodeToString
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
@@ -38,6 +40,13 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
     @get:Input
     abstract val javaFmlLoaderVersionRange: Property<String>
 
+    @get:Nested
+    abstract val modDependencies: ListProperty<HauyneDependency>
+
+    init {
+        modDependencies.convention(emptyList())
+    }
+
     @get:OutputFile
     abstract val outputFile: RegularFileProperty
 
@@ -45,10 +54,22 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
     fun generate() {
         val id = modId.get()
         require(id.matches(Regex("[a-z][a-z0-9_]{1,63}"))) { "Invalid FML mod ID: $id" }
+        val declared = modDependencies.get()
+        validateDependencies(declared, id, loader.get())
         val dependencies = listOf(
             dependency("minecraft", minecraftVersionRange.get()),
             dependency(loader.get().modId, loaderVersionRange.get()),
-        )
+        ) + declared.map {
+            FmlDependency(
+                modId = it.modId.get(),
+                versionRange = it.versionRange.get(),
+                mandatory = if (loader.get() == HauyneFmlLoader.FORGE) it.type.get() == HauyneDependencyType.REQUIRED else null,
+                type = if (loader.get() == HauyneFmlLoader.NEOFORGE) it.type.get().name.lowercase() else null,
+                ordering = it.ordering.get().name,
+                side = it.side.get().name,
+                reason = if (loader.get() == HauyneFmlLoader.NEOFORGE) it.reason.orNull else null,
+            )
+        }
         val metadata = FmlModMetadata(
             loaderVersion = javaFmlLoaderVersionRange.get(),
             license = license.get(),
@@ -58,7 +79,14 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
         val file = outputFile.get().asFile
         file.parentFile.mkdirs()
         val toml = Toml(outputConfig = TomlOutputConfig.compliant())
-        file.writeText(toml.encodeToString(metadata), Charsets.UTF_8)
+        val comments = if (loader.get() == HauyneFmlLoader.FORGE) {
+            declared.filter { it.reason.isPresent }.joinToString("") { dependency ->
+                dependency.reason.get().lineSequence().joinToString("\n", postfix = "\n") { "# ${dependency.modId.get()}: $it" }
+            }
+        } else {
+            ""
+        }
+        file.writeText(comments + toml.encodeToString(metadata), Charsets.UTF_8)
     }
 
     private fun dependency(id: String, range: String): FmlDependency = if (loader.get() == HauyneFmlLoader.FORGE) {

@@ -22,4 +22,5 @@ internal data class FmlDependency(
     val type: String? = null,
     val ordering: String = "NONE",
     val side: String = "BOTH",
+    val reason: String? = null,
 )

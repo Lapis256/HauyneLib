@@ -8,11 +8,13 @@ plugins {
 
 val mc = stonecutter.current.version
 
-hauyneFmlMetadata {
-    loader = HauyneFmlLoader.FORGE
-    minecraftVersionRange = "[$mc]"
-    loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
-    javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
+hauyneMetadata {
+    forgeLike {
+        loader = HauyneFmlLoader.FORGE
+        minecraftVersionRange = "[$mc]"
+        loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
+        javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
+    }
 }
 
 legacyForge {
