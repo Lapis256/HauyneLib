@@ -10,7 +10,7 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 通常のライブラリには `library` を適用し、Kotlin・Java・テスト・JAR の共通設定を有効にします。Maven 公開が必要なモジュールには、加えて `maven-publishing` を適用します。Minecraft 用の `minecraft-library` は `library` と Maven 公開の設定をまとめて適用します。
 
-共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名を設定し、設定ファイルと Java Toolchain も設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。
+共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名を設定し、設定ファイルと Java Toolchain も設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneMinecraft` の Extension は引き続き使用できます。
 
 Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge と NeoForge の Mod には `mod` を適用し、`hauyneMetadata { forgeLike { ... } }` に `loader = HauyneFmlLoader.NEOFORGE` または `FORGE` と依存範囲を指定します。必須のローダー指定を省くと構成時に失敗します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
 

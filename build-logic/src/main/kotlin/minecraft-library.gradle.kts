@@ -1,5 +1,4 @@
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension
-import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
 
 plugins {
@@ -9,7 +8,10 @@ plugins {
 
 val minecraft = extensions.create<HauyneMinecraftExtension>("hauyneMinecraft")
 minecraft.versionPropertiesFile.convention(layout.projectDirectory.file("gradle.properties"))
-extensions.getByType<HauyneLibraryExtension>().componentPath.convention(parent!!.path)
+
+base {
+    archivesName = parent!!.path.trim(':').replace(':', '-')
+}
 
 val sc = extensions.getByType<StonecutterBuildExtension>()
 

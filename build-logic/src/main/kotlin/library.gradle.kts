@@ -1,4 +1,3 @@
-import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 
@@ -41,13 +40,9 @@ dokka {
         }
     }
 }
-val library = extensions.create<HauyneLibraryExtension>("hauyneLibrary")
-library.componentPath.convention(project.path)
 
 base {
-    archivesName = library.componentPath.map {
-        it.trim(':').replace(':', '-')
-    }
+    archivesName = project.path.trim(':').replace(':', '-')
 }
 
 java {
