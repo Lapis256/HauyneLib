@@ -1,5 +1,5 @@
 plugins {
-    id("hauyne.minecraft-library")
+    id("minecraft-library")
 }
 
 dependencies {

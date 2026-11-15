@@ -2,8 +2,8 @@ plugins {
     base
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.ksp) apply false
-    id("hauyne.formatting")
-    id("hauyne.release")
+    id("formatting")
+    id("release")
 }
 
 version = providers.gradleProperty("modVersion").get()

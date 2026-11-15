@@ -1,5 +1,5 @@
 plugins {
-    id("hauyne.library")
+    id("library")
     alias(libs.plugins.ksp)
 }
 

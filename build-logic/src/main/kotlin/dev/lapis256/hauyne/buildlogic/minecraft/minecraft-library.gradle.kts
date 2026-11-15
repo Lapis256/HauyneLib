@@ -3,8 +3,8 @@ import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
 
 plugins {
-    id("hauyne.library")
-    id("hauyne.maven-publish")
+    id("library")
+    id("maven-publishing")
 }
 
 val minecraft = extensions.create<HauyneMinecraftExtension>("hauyneMinecraft")

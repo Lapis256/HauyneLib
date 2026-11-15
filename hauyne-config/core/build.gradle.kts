@@ -1,6 +1,6 @@
 plugins {
-    id("hauyne.library")
-    id("hauyne.maven-publish")
+    id("library")
+    id("maven-publishing")
 }
 
 tasks.jar {

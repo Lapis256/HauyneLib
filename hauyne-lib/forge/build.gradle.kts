@@ -1,10 +1,9 @@
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlLoader
 
 plugins {
-    id("hauyne.mod")
+    id("mod")
     alias(libs.plugins.stonecutter)
     alias(libs.plugins.legacyforge)
-    id("hauyne.mod-publish")
 }
 
 val mc = stonecutter.current.version

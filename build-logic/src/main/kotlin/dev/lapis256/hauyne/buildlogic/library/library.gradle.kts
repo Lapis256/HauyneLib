@@ -3,6 +3,7 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {
     `java-library`
+    id("org.jetbrains.kotlin.jvm")
 }
 
 repositories {
@@ -48,4 +49,9 @@ dependencies {
     "testImplementation"(platform(catalog.findLibrary("junit-bom").get()))
     "testImplementation"("org.junit.jupiter:junit-jupiter")
     "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
+}
+
+// Java's sourcesJar includes Kotlin sources; avoid two tasks writing the same archive.
+tasks.matching { it.name == "kotlinSourcesJar" }.configureEach {
+    enabled = false
 }
