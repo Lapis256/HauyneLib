@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    api(project(":hauyne-config:minecraft:${project.name.substringBefore('-')}"))
+    api(project(":hauyne-config:minecraft:${project.name}"))
 }

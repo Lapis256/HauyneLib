@@ -2,4 +2,4 @@ plugins {
     alias(libs.plugins.stonecutter)
 }
 
-stonecutter active "20.1-forge"
+stonecutter active "20.1"

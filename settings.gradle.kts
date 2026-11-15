@@ -44,21 +44,21 @@ stonecutter {
         vcsVersion = "26.1"
     }
     create(":hauyne-config:neoforge") {
-        version("26.1-neoforge", "26.1.2")
-        version("21.1-neoforge", "1.21.1")
-        vcsVersion = "26.1-neoforge"
+        version("26.1", "26.1.2")
+        version("21.1", "1.21.1")
+        vcsVersion = "26.1"
     }
     create(":hauyne-lib:neoforge") {
-        version("26.1-neoforge", "26.1.2")
-        version("21.1-neoforge", "1.21.1")
-        vcsVersion = "26.1-neoforge"
+        version("26.1", "26.1.2")
+        version("21.1", "1.21.1")
+        vcsVersion = "26.1"
     }
     create(":hauyne-config:forge") {
-        version("20.1-forge", "1.20.1")
-        vcsVersion = "20.1-forge"
+        version("20.1", "1.20.1")
+        vcsVersion = "20.1"
     }
     create(":hauyne-lib:forge") {
-        version("20.1-forge", "1.20.1")
-        vcsVersion = "20.1-forge"
+        version("20.1", "1.20.1")
+        vcsVersion = "20.1"
     }
 }

@@ -8,7 +8,7 @@ Gradle マルチプロジェクトの設定ライブラリと、NeoForge / Forge
 | `21.1` | 1.21.1 | NeoForge | 対象 |
 | `20.1` | 1.20.1 | Forge | 対象 |
 
-各モジュールの対応対象は [settings.gradle.kts](settings.gradle.kts) の Stonecutter 定義にあります。設定は各モジュール内に置きます。例えば共通層は `hauyne-config/minecraft/versions/21.1/`、NeoForge 用 Mod は `hauyne-lib/neoforge/versions/21.1-neoforge/` です。
+各モジュールの対応対象は [settings.gradle.kts](settings.gradle.kts) の Stonecutter 定義にあります。設定は各モジュール内に置きます。例えば共通層は `hauyne-config/minecraft/versions/21.1/`、NeoForge 用 Mod は `hauyne-lib/neoforge/versions/21.1/` です。
 
 ## JVM ライブラリを使う
 
@@ -42,7 +42,7 @@ TomlBackend(Path.of("config.toml")).use { backend ->
 Java 25 で `./gradlew :build-logic:test check` を実行すると、ビルド処理のテスト、JVM と Minecraft 26.1.2、1.21.1、1.20.1 のテスト、整形チェックを実行できます。公開可能かの確認は、GitHub Actions の Release workflow を `dry_run=true` で実行してください。Windows では `./gradlew.bat` を使ってください。
 
 ```sh
-./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
+./gradlew ":hauyne-lib:neoforge:Set active project to 21.1"
 ./gradlew runActiveServer
 ./gradlew resetActiveProjects
 ./gradlew checkActiveProjects

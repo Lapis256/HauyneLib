@@ -2,4 +2,4 @@ plugins {
     alias(libs.plugins.stonecutter)
 }
 
-stonecutter active "26.1-neoforge"
+stonecutter active "26.1"

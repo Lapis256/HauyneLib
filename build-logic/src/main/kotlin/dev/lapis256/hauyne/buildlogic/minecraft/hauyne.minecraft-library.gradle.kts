@@ -26,7 +26,7 @@ java {
 }
 
 afterEvaluate {
-    version = "${project.name.substringBefore('-')}-${rootProject.version}"
+    version = "${project.name}-${rootProject.version}"
     val artifact = base.archivesName.get()
     // Gradle must distinguish equally named Stonecutter version nodes.
     group = "${rootProject.property("mavenGroup")}.${artifact.replace('-', '.')}"

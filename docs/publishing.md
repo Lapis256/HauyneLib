@@ -52,7 +52,7 @@ Mod 初期化クラス、仮実装、テスト、生成する定数クラスは 
 
 プロジェクト全体の基本バージョン `x.y.z` は、ルートの `gradle.properties` の `modVersion` だけで定義します。Gradle のルートプロジェクトはこの値をバージョンに設定し、各モジュールと成果物の収集処理はルートプロジェクトのバージョンを参照します。MC に依存しない独立ライブラリは `x.y.z`、MC に依存するライブラリと Mod 本体は `<MC 系列>-x.y.z` を自動で組み立てます。リリースタグは `vx.y.z` とし、Release workflow が同じ `modVersion` との一致を検証します。例えば `modVersion=0.1.0` のとき、独立ライブラリは `0.1.0`、リリースタグは `v0.1.0` です。
 
-MC 系列は基本的にメジャーとマイナーの2要素で表します。26 より前のバージョンでは先頭の `1.` を省きます。26 以降は各系列の最新パッチバージョンだけをサポートし、それ以前のパッチバージョンはサポートしません。例えば `26.1` の対象が `26.1.2` のとき、`26.1` と `26.1.1` はサポート対象外です。Gradle のターゲット名は共通層が `26.1`、ローダーに依存するモジュールが `26.1-neoforge` の形式です。成果物のバージョンには従来どおり MC 系列を使います。
+MC 系列は基本的にメジャーとマイナーの2要素で表します。26 より前のバージョンでは先頭の `1.` を省きます。26 以降は各系列の最新パッチバージョンだけをサポートし、それ以前のパッチバージョンはサポートしません。例えば `26.1` の対象が `26.1.2` のとき、`26.1` と `26.1.1` はサポート対象外です。Gradle のターゲット名は全モジュールで `20.1`・`21.1`・`26.1` の形式に揃えます。ローダーは親の controller のパスで区別します。成果物のバージョンには従来どおり MC 系列を使います。
 
 | Minecraft | MC 系列 | modVersion が `0.1.0` のとき |
 | --- | --- | --- |
@@ -70,11 +70,11 @@ Windows では `./gradlew` を `./gradlew.bat` に読み替えてください。
 
 ```text
 hauyne-config/minecraft/versions/21.1/gradle.properties
-hauyne-config/neoforge/versions/21.1-neoforge/gradle.properties
-hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
+hauyne-config/neoforge/versions/21.1/gradle.properties
+hauyne-lib/neoforge/versions/21.1/gradle.properties
 ```
 
-ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1-neoforge` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `check` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
+ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `check` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
 
 | タスク | 用途 |
 | --- | --- |
@@ -88,7 +88,7 @@ hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 ./gradlew help projects
 ./gradlew :build-logic:test check
 ./gradlew build test publishToMavenLocal
-./gradlew :hauyne-lib:forge:20.1-forge:check
+./gradlew :hauyne-lib:forge:20.1:check
 ```
 
 CI はテストと整形チェックを実行します。公開可能かの確認は Release workflow の dry-run で行い、CI ではローカル公開や配布 dry-run を実行しません。
@@ -96,9 +96,9 @@ CI はテストと整形チェックを実行します。公開可能かの確�
 Gradle の設定、標準タスク、ディレクトリ構成、ファイルの存在を細かく確認するセットアップ用テストは追加しません。ビルドやコンパイルで検出できる問題は、通常の Gradle タスクで検証します。独自のビルド処理や通常のビルドでは検出できない重要な仕様に限り、具体的な不具合を検出する最小限のテストを追加します。
 
 ```sh
-./gradlew :hauyne-config:minecraft:20.1:build :hauyne-config:forge:20.1-forge:build :hauyne-lib:forge:20.1-forge:build
-./gradlew :hauyne-config:minecraft:20.1:publishToMavenLocal :hauyne-config:forge:20.1-forge:publishToMavenLocal :hauyne-lib:forge:20.1-forge:publishToMavenLocal
-./gradlew :hauyne-lib:forge:20.1-forge:runServer
+./gradlew :hauyne-config:minecraft:20.1:build :hauyne-config:forge:20.1:build :hauyne-lib:forge:20.1:build
+./gradlew :hauyne-config:minecraft:20.1:publishToMavenLocal :hauyne-config:forge:20.1:publishToMavenLocal :hauyne-lib:forge:20.1:publishToMavenLocal
+./gradlew :hauyne-lib:forge:20.1:runServer
 ```
 
 Forge の配布ファイルには `reobfJar` の出力を使います。開発用 JAR は `build/devlibs`、配布用は `build/libs` です。Mixin と Access Transformer は使用していません。
@@ -106,13 +106,13 @@ Forge の配布ファイルには `reobfJar` の出力を使います。開発�
 Stonecutter の切替は controller ごとに行います。依存先はプロジェクト名から決まるため、他の controller の選択を揃える必要はありません。
 
 ```sh
-./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
-./gradlew :hauyne-lib:neoforge:21.1-neoforge:build
-./gradlew :hauyne-lib:neoforge:21.1-neoforge:runServer
-./gradlew :hauyne-lib:forge:20.1-forge:build
+./gradlew ":hauyne-lib:neoforge:Set active project to 21.1"
+./gradlew :hauyne-lib:neoforge:21.1:build
+./gradlew :hauyne-lib:neoforge:21.1:runServer
+./gradlew :hauyne-lib:forge:20.1:build
 ```
 
-既定アクティブプロジェクトは共通層が `26.1`、NeoForge が `26.1-neoforge`、Forge が `20.1-forge` です。各モジュール直下の `src/` は共有ソース、各モジュールの `versions/<ターゲット>/src/` はバージョン別ソースです。共有ソースと同じ相対パスにバージョン別ソースを置くと、そのバージョンの実装を上書きできます。バージョン別ソースは Git の管理対象です。Stonecutter の生成先は `build/generated/stonecutter/` で、通常の `build/` 除外に含まれます。
+既定アクティブプロジェクトは共通層が `26.1`、NeoForge が `26.1`、Forge が `20.1` です。各モジュール直下の `src/` は共有ソース、各モジュールの `versions/<ターゲット>/src/` はバージョン別ソースです。共有ソースと同じ相対パスにバージョン別ソースを置くと、そのバージョンの実装を上書きできます。バージョン別ソースは Git の管理対象です。Stonecutter の生成先は `build/generated/stonecutter/` で、通常の `build/` 除外に含まれます。
 
 バージョン別設定の読み込みも既存機能を確認しています。Stonecutter 0.10 の構造化プロパティは JSON・TOML・YAML 用で、今回指定された `gradle.properties` は対象外です。そのため、ここだけは Java 標準の `Properties` と Gradle の `providers.fileContents` を使っています。独自のバージョン比較やファイル解析器は実装していません。
 
@@ -140,8 +140,8 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 ```sh
 ./gradlew :hauyne-config:core:publish :hauyne-config:ksp:publish :hauyne-config:nightconfig:publish "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
-./gradlew :hauyne-config:minecraft:26.1:publish :hauyne-config:neoforge:26.1-neoforge:publish :hauyne-lib:neoforge:26.1-neoforge:publish "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
-./gradlew :hauyne-lib:neoforge:26.1-neoforge:publishMods -PmodPublishDryRun=false
+./gradlew :hauyne-config:minecraft:26.1:publish :hauyne-config:neoforge:26.1:publish :hauyne-lib:neoforge:26.1:publish "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
+./gradlew :hauyne-lib:neoforge:26.1:publishMods -PmodPublishDryRun=false
 ```
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
