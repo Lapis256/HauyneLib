@@ -50,6 +50,16 @@ no API key, $0).
 - Keep both concise while conveying the necessary scope; commit messages should normally consist of the subject line only.
 - Write all agent-facing documentation in English as an exception to the internal documentation rule.
 
+## Test design
+
+- Create tests to verify explicit specifications, important invariants, or regressions that must be prevented.
+- Before adding a test, identify the bug it should detect and what it covers beyond existing tests.
+- Avoid tests that duplicate checks already adequately covered by the build or CI, such as successful compilation.
+- Do not retest standard behavior guaranteed by Gradle or dependencies unless it is part of a project-specific contract.
+- Prefer verifying user-observable behavior and artifacts over internal implementation details, logs, or execution order.
+- Do not add tests solely to increase test counts or coverage.
+- Consider consolidating or deleting existing tests when the bugs they detect are unclear or their value does not justify their maintenance cost.
+
 ## Commit workflow
 
 On any branch other than the default branch, treat explicit or implicit requests to change files as including a request to commit the completed changes. After appropriate verification, create focused commits containing only the task's changes without waiting for a separate commit instruction.
