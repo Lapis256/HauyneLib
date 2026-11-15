@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.stonecutter.gradle)
     implementation(libs.ktoml)
     testImplementation(libs.nightconfig)
+    testImplementation(gradleTestKit())
     testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

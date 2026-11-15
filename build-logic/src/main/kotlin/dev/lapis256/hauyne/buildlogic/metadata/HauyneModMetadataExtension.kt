@@ -12,8 +12,8 @@ abstract class HauyneModMetadataExtension @Inject constructor(objects: ObjectFac
     abstract val license: Property<String>
     abstract val description: Property<String>
 
-    private val forgeMetadata = objects.newInstance(HauyneFmlMetadataExtension::class.java)
-    private val neoforgeMetadata = objects.newInstance(HauyneFmlMetadataExtension::class.java)
+    private val forgeMetadata = objects.newInstance(HauyneForgeMetadataExtension::class.java)
+    private val neoforgeMetadata = objects.newInstance(HauyneNeoforgeMetadataExtension::class.java)
     internal val selectedLoader: Property<HauyneFmlLoader> = objects.property(HauyneFmlLoader::class.java)
     internal val selectedMetadata = selectedLoader.map {
         when (it) {
@@ -22,11 +22,11 @@ abstract class HauyneModMetadataExtension @Inject constructor(objects: ObjectFac
         }
     }
 
-    fun forge(action: Action<HauyneFmlMetadataExtension>) = configure(HauyneFmlLoader.FORGE, forgeMetadata, action)
+    fun forge(action: Action<HauyneForgeMetadataExtension>) = configure(HauyneFmlLoader.FORGE, forgeMetadata, action)
 
-    fun neoforge(action: Action<HauyneFmlMetadataExtension>) = configure(HauyneFmlLoader.NEOFORGE, neoforgeMetadata, action)
+    fun neoforge(action: Action<HauyneNeoforgeMetadataExtension>) = configure(HauyneFmlLoader.NEOFORGE, neoforgeMetadata, action)
 
-    private fun configure(loader: HauyneFmlLoader, metadata: HauyneFmlMetadataExtension, action: Action<HauyneFmlMetadataExtension>) {
+    private fun <T : HauyneFmlMetadataExtension> configure(loader: HauyneFmlLoader, metadata: T, action: Action<T>) {
         require(!selectedLoader.isPresent || selectedLoader.get() == loader) {
             "Configure only one of hauyneMetadata.forge {} or hauyneMetadata.neoforge {} per project"
         }

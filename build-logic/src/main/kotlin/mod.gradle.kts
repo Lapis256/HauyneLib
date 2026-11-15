@@ -38,12 +38,12 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
     minecraftVersionRange = fml.flatMap { it.minecraftVersionRange }
     loaderVersionRange = fml.flatMap { it.loaderVersionRange }
     javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }
-    modDependencies = fml.flatMap { it.dependencies.entries }
+    modDependencies = fml.flatMap { it.dependencyEntries }
 }
 
 afterEvaluate {
     val loader = requireNotNull(metadata.selectedLoader.orNull) { "Configure hauyneMetadata.forge {} or hauyneMetadata.neoforge {}" }
-    validateDependencies(fml.get().dependencies.entries.get(), metadata.modId.get(), loader)
+    validateDependencies(fml.get().dependencyEntries.get(), metadata.modId.get(), loader)
     generateMetadata.configure {
         modVersion = project.version.toString()
         outputFile = layout.buildDirectory.file("generated/resources/modMetadata/${loader.metadataFileName}")
@@ -92,7 +92,7 @@ publishMods {
         client = true
         server = true
         dependencies.addAll(
-            fml.flatMap { it.dependencies.entries }.map { declarations ->
+            fml.flatMap { it.dependencyEntries }.map { declarations ->
                 declarations.filter { it.curseForgeSlug.isPresent }.map { dependency ->
                     objects.newInstance(CurseforgeDependency::class.java).apply {
                         slug.set(dependency.curseForgeSlug)
@@ -108,7 +108,7 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
         environment = me.modmuss50.mpp.platforms.modrinth.ModrinthEnvironment.CLIENT_AND_SERVER
         dependencies.addAll(
-            fml.flatMap { it.dependencies.entries }.map { declarations ->
+            fml.flatMap { it.dependencyEntries }.map { declarations ->
                 declarations.filter { it.modrinthSlug.isPresent }.map { dependency ->
                     objects.newInstance(ModrinthDependency::class.java).apply {
                         slug.set(dependency.modrinthSlug)

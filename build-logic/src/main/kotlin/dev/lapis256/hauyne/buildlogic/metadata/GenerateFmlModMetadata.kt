@@ -61,10 +61,10 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
             dependency(loader.get().modId, loaderVersionRange.get()),
         ) + declared.map {
             FmlDependency(
-                modId = it.modId.get(),
+                modId = it.modId,
                 versionRange = it.versionRange.get(),
-                mandatory = if (loader.get() == HauyneFmlLoader.FORGE) it.type.get() == HauyneDependencyType.REQUIRED else null,
-                type = if (loader.get() == HauyneFmlLoader.NEOFORGE) it.type.get().name.lowercase() else null,
+                mandatory = if (loader.get() == HauyneFmlLoader.FORGE) it.type == HauyneDependencyType.REQUIRED else null,
+                type = if (loader.get() == HauyneFmlLoader.NEOFORGE) it.type.name.lowercase() else null,
                 ordering = it.ordering.get().name,
                 side = it.side.get().name,
                 reason = if (loader.get() == HauyneFmlLoader.NEOFORGE) it.reason.orNull else null,
@@ -81,7 +81,7 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
         val toml = Toml(outputConfig = TomlOutputConfig.compliant())
         val comments = if (loader.get() == HauyneFmlLoader.FORGE) {
             declared.filter { it.reason.isPresent }.joinToString("") { dependency ->
-                dependency.reason.get().lineSequence().joinToString("\n", postfix = "\n") { "# ${dependency.modId.get()}: $it" }
+                dependency.reason.get().lineSequence().joinToString("\n", postfix = "\n") { "# ${dependency.modId}: $it" }
             }
         } else {
             ""

@@ -99,7 +99,7 @@ class ModMetadataTest {
             val task = task(loader)
             task.loader.set(metadata.selectedLoader)
             task.minecraftVersionRange.set(metadata.selectedMetadata.flatMap { it.minecraftVersionRange })
-            task.modDependencies.set(metadata.selectedMetadata.flatMap { it.dependencies.entries })
+            task.modDependencies.set(metadata.selectedMetadata.flatMap { it.dependencyEntries })
             task.generate()
             val dependencies = TomlParser().parse(task.outputFile.get().asFile.readText())
                 .get<List<Config>>("dependencies.hauynelib").associateBy { it.get<String>("modId") }
@@ -115,8 +115,8 @@ class ModMetadataTest {
         }
     }
 
-    private fun declarations(): HauyneDependencies = ProjectBuilder.builder().withProjectDir(root).build()
-        .objects.newInstance(HauyneDependencies::class.java)
+    private fun declarations(): HauyneNeoforgeDependencies = ProjectBuilder.builder().withProjectDir(root).build()
+        .objects.newInstance(HauyneNeoforgeDependencies::class.java)
 
     @Test
     fun declaredDependenciesPreserveLoaderSemanticsAndEscapeReasons() {
@@ -162,7 +162,7 @@ class ModMetadataTest {
 
     @Test
     fun invalidDeclarationsAreRejectedBeforeWritingMetadata() {
-        val invalid: List<(HauyneDependencies) -> Unit> = listOf(
+        val invalid: List<(HauyneNeoforgeDependencies) -> Unit> = listOf(
             {
                 it.require("duplicate")
                 it.optional("duplicate")
