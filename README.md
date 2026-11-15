@@ -8,7 +8,7 @@ Gradle マルチプロジェクトの設定ライブラリと、NeoForge / Forge
 | `21.1` | 1.21.1 | NeoForge | 対象 |
 | `20.1` | 1.20.1 | Forge | 起動検証が未完了のため対象外 |
 
-対応対象の宣言は [versions/targets.properties](versions/targets.properties) にあります。
+各モジュールの対応対象は [settings.gradle.kts](settings.gradle.kts) の Stonecutter 定義にあります。設定は各モジュール内に置きます。例えば共通層は `hauyne-config/minecraft/versions/21.1/`、NeoForge 用 Mod は `hauyne-lib/neoforge/versions/21.1-neoforge/` です。
 
 ## JVM ライブラリを使う
 
@@ -42,14 +42,14 @@ TomlBackend(Path.of("config.toml")).use { backend ->
 Java 25 で `./gradlew verifyRequired -PmodPublishDryRun=true` を実行すると、Minecraft 26.1.2 と 1.21.1 のビルド・テスト・ローカル Maven 公開・Mod 配布 dry-run を検証できます。Windows では `./gradlew.bat` を使ってください。
 
 ```sh
-./gradlew switchTo21.1
+./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
 ./gradlew runActiveServer
 ./gradlew resetActiveProjects
 ./gradlew checkActiveProjects
 ./gradlew buildAndCollect
 ```
 
-切替は Minecraft 共通層・アダプター・Mod をまとめて行います。収集した配布 JAR と sources JAR は `build/collected/` に出力します。
+切替は controller ごとに行います。依存先のターゲットは明示されているため、他の controller を揃える必要はありません。`runActiveServer` は既定で lib の NeoForge controller を使います。Forge の場合は `-PserverController=:hauyne-lib:forge` を指定します。収集した配布 JAR と sources JAR は `build/collected/` に出力します。
 
 構成、Forge 1.20.1 の追加検証、認証情報、公開先ごとの再実行手順は [ビルドと公開](docs/publishing.md) を参照してください。公開済みの成果物を確認し、失敗した公開先のタスクだけを再実行してください。
 

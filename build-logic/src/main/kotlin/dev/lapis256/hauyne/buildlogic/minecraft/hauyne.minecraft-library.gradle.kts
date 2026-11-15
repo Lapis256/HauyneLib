@@ -1,16 +1,14 @@
 import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
-import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
 plugins {
     id("hauyne.library")
     id("hauyne.maven-publish")
 }
 
 val minecraft = extensions.create<HauyneMinecraftExtension>("hauyneMinecraft")
-val targets = HauyneTargets(providers.fileContents(rootProject.layout.projectDirectory.file("versions/targets.properties")).asText.get())
-val target = targets.all.single { it.series == project.name }
-minecraft.minecraftVersion.convention(target.minecraft)
-minecraft.versionPropertiesFile.convention(rootProject.layout.projectDirectory.file("versions/${target.series}/gradle.properties"))
+minecraft.releaseEnabled.convention(true)
+minecraft.versionPropertiesFile.convention(layout.projectDirectory.file("gradle.properties"))
+minecraft.minecraftVersion.convention(minecraft.versionProperty("minecraftVersion"))
 extensions.getByType<HauyneLibraryExtension>().componentPath.convention(parent!!.path)
 
 java {
@@ -18,7 +16,7 @@ java {
 }
 
 afterEvaluate {
-    version = "${target.series}-${rootProject.version}"
+    version = "${project.name.substringBefore('-')}-${rootProject.version}"
     val artifact = base.archivesName.get()
     // Gradle must distinguish equally named Stonecutter version nodes.
     group = "${rootProject.property("mavenGroup")}.${artifact.replace('-', '.')}"

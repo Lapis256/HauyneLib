@@ -45,10 +45,10 @@ extensions.configure<NeoForgeExtension> {
 }
 
 dependencies {
-    implementation(project(":hauyne-config:neoforge:${stonecutter.current.project}"))
+    implementation(project(":hauyne-config:neoforge:${hauyneMinecraft.versionProperty("configAdapterTarget").get()}"))
     "jarJar"(project(":hauyne-config:core"))
-    "jarJar"(project(":hauyne-config:minecraft:${stonecutter.current.project}"))
-    "jarJar"(project(":hauyne-config:neoforge:${stonecutter.current.project}"))
+    "jarJar"(project(":hauyne-config:minecraft:${hauyneMinecraft.versionProperty("configMinecraftTarget").get()}"))
+    "jarJar"(project(":hauyne-config:neoforge:${hauyneMinecraft.versionProperty("configAdapterTarget").get()}"))
 }
 
 publishMods {

@@ -16,6 +16,8 @@ abstract class ValidateActiveProjects : DefaultTask() {
     fun validate() {
         val expected = expectedProjects.get()
         val mismatches = activeProjects.get().filter { (path, active) -> active != expected.getValue(path) }
-        check(mismatches.isEmpty()) { "Active projects differ from expected selection: $mismatches. Use switchTo<series> or resetActiveProjects." }
+        check(mismatches.isEmpty()) {
+            "Active projects differ from expected selection: $mismatches. Use the controller selection task or resetActiveProjects."
+        }
     }
 }

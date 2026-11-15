@@ -32,33 +32,31 @@ include(
     ":hauyne-lib:forge",
 )
 
-val targets = java.util.Properties().apply {
-    load(providers.fileContents(layout.settingsDirectory.file("versions/targets.properties")).asText.get().reader())
-}
-val defaultTarget = requireNotNull(targets.getProperty("default"))
-val targetVersions = targets.stringPropertyNames().filter { it != "default" }.sortedDescending().associateWith {
-    val fields = targets.getProperty(it).split(',')
-    require(fields.size == 3 && fields[1] in listOf("forge", "neoforge")) { "Invalid target: $it" }
-    fields[2].toBooleanStrict()
-    fields
-}
-require(defaultTarget in targetVersions) { "Unknown default target: $defaultTarget" }
-
 stonecutter {
     kotlinController = true
     centralScript = "build.gradle.kts"
     create(":hauyne-config:minecraft") {
-        targetVersions.forEach { (series, fields) -> version(series, fields[0]) }
-        vcsVersion = defaultTarget
+        version("26.1", "26.1.2")
+        version("21.1", "1.21.1")
+        version("20.1", "1.20.1")
+        vcsVersion = "26.1"
     }
-
-    for (loader in listOf("neoforge", "forge")) {
-        val supported = targetVersions.filterValues { it[1] == loader }
-        for (path in listOf(":hauyne-config:$loader", ":hauyne-lib:$loader")) {
-            create(path) {
-                supported.forEach { (series, fields) -> version(series, fields[0]) }
-                vcsVersion = defaultTarget.takeIf { it in supported } ?: supported.keys.first()
-            }
-        }
+    create(":hauyne-config:neoforge") {
+        version("26.1-neoforge", "26.1.2")
+        version("21.1-neoforge", "1.21.1")
+        vcsVersion = "26.1-neoforge"
+    }
+    create(":hauyne-lib:neoforge") {
+        version("26.1-neoforge", "26.1.2")
+        version("21.1-neoforge", "1.21.1")
+        vcsVersion = "26.1-neoforge"
+    }
+    create(":hauyne-config:forge") {
+        version("20.1-forge", "1.20.1")
+        vcsVersion = "20.1-forge"
+    }
+    create(":hauyne-lib:forge") {
+        version("20.1-forge", "1.20.1")
+        vcsVersion = "20.1-forge"
     }
 }

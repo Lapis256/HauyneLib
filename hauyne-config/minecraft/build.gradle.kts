@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.legacyforge) apply false
 }
 
+hauyneMinecraft.releaseEnabled = stonecutter.current.project != "20.1"
+
 val mc = stonecutter.current.version
 
 if (stonecutter.eval(mc, "<1.21")) {

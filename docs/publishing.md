@@ -22,18 +22,16 @@ Mod 共通の ID・表示名・パッケージ・ライセンス・説明は `ha
 
 公開 API は `dev.lapis256.hauyne.config`、実装は `dev.lapis256.hauyne.config.<module>` に置きます。Mod 実装は Forge・NeoForge ともに `dev.lapis256.hauyne.lib` に置きます。KSP のサービス登録先と生成ソースも、この構成に合わせています。
 
-依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの Java・NeoForm・NeoForge・Forge の値は `versions/<MC 系列>/gradle.properties` に置き、同じゲーム版の全モジュールで共有します。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
+依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの設定は各モジュールの `versions/<ターゲット>/gradle.properties` に置きます。lib と config は別々に対応対象と設定値を持ちます。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
 
 Java 17 の制約は共通 JVM ライブラリに適用します。Minecraft 側の Toolchain は共通プラグインが対応するバージョンファイルの `javaVersion` から設定します。Kotlin の共通設定で Minecraft 側を Java 17 に固定することはありません。
 
-例えば `versions/26.1/gradle.properties` は次の内容です。各モジュールの Stonecutter 生成ディレクトリへ同じ値を複製する必要はありません。
+例えば `hauyne-config/minecraft/versions/26.1/gradle.properties` は次の内容です。
 
 ```properties
+minecraftVersion=26.1.2
 javaVersion=25
 neoFormVersion=26.1.2-1
-neoForgeVersion=26.1.2.126
-loaderVersionRange=[26.1.2.126,)
-javaFmlLoaderVersionRange=[1,)
 ```
 
 | 対象 | Java / JVM target |
@@ -54,7 +52,7 @@ Java の Mod 初期化クラスを使い、Core・対応する Minecraft 共通�
 
 プロジェクト全体の基本バージョン `x.y.z` は、ルートの `gradle.properties` の `modVersion` だけで定義します。Gradle のルートプロジェクトはこの値をバージョンに設定し、各モジュールと成果物の収集処理はルートプロジェクトのバージョンを参照します。MC に依存しない独立ライブラリは `x.y.z`、MC に依存するライブラリと Mod 本体は `<MC 系列>-x.y.z` を自動で組み立てます。リリースタグは `vx.y.z` とし、Release workflow が同じ `modVersion` との一致を検証します。例えば `modVersion=0.1.0` のとき、独立ライブラリは `0.1.0`、リリースタグは `v0.1.0` です。
 
-MC 系列は基本的にメジャーとマイナーの2要素で表し、Gradle のプロジェクト名と `versions/` のディレクトリ名にも使います。26 より前のバージョンでは先頭の `1.` を省きます。26 以降は各系列の最新パッチバージョンだけをサポートし、それ以前のパッチバージョンはサポートしません。例えば `26.1` の対象が `26.1.2` のとき、`26.1` と `26.1.1` はサポート対象外です。対象の完全なゲームバージョンは `versions/targets.properties` で指定します。
+MC 系列は基本的にメジャーとマイナーの2要素で表します。26 より前のバージョンでは先頭の `1.` を省きます。26 以降は各系列の最新パッチバージョンだけをサポートし、それ以前のパッチバージョンはサポートしません。例えば `26.1` の対象が `26.1.2` のとき、`26.1` と `26.1.1` はサポート対象外です。Gradle のターゲット名は共通層が `26.1`、ローダーに依存するモジュールが `26.1-neoforge` の形式です。成果物のバージョンには従来どおり MC 系列を使います。
 
 | Minecraft | MC 系列 | modVersion が `0.1.0` のとき |
 | --- | --- | --- |
@@ -68,27 +66,24 @@ MC 系列は基本的にメジャーとマイナーの2要素で表し、Gradle 
 
 Windows では `./gradlew` を `./gradlew.bat` に読み替えてください。
 
-対応対象は `versions/targets.properties` に集約しています。各行は `<系列>=<Minecraft バージョン>,<ローダー>,<本番公開可否>` です。`default` は Minecraft 共通層の既定系列で、ローダー別 controller ではその系列に対応していれば同じ系列を使います。対応していない場合は、そのローダーの系列を名前の降順に並べた先頭を使います。
+対応対象と既定ターゲットは `settings.gradle.kts` の controller ごとに宣言します。config の共通層、アダプター、lib に同じターゲットが存在する必要はありません。設定ファイルも各モジュールに置きます。
 
-```properties
-default=26.1
-26.1=26.1.2,neoforge,true
-21.1=1.21.1,neoforge,true
-20.1=1.20.1,forge,false
+```text
+hauyne-config/minecraft/versions/21.1/gradle.properties
+hauyne-config/neoforge/versions/21.1-neoforge/gradle.properties
+hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 ```
 
-系列を追加するときは、この宣言と `versions/<系列>/gradle.properties` を追加します。Stonecutter の対象、系列別の検証・公開タスク、Release の公開対象は宣言から決まります。新しいローダーを追加する場合は、そのローダー用モジュールの実装も必要です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release の対象からは除外します。
+ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターの `configMinecraftTarget` は共通層の依存先、lib の `configMinecraftTarget` と `configAdapterTarget` は同梱する依存先を明示します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。本番公開の可否は各モジュールの `hauyneMinecraft.releaseEnabled` で設定します。既定は `true` です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release には含めません。
 
 | タスク | 用途 |
 | --- | --- |
 | `verifyJvm` | 共通 JVM ライブラリと JVM/KSP 利用例のビルド・テスト |
 | `prepareJvmPublications` | 公開する JVM ライブラリを Maven local に配置 |
-| `verify26.1`・`verify21.1`・`verify20.1` | 指定系列の3モジュールのビルド・テスト・ローカル公開・Mod 配布検証。`-PmodPublishDryRun=true` を付けて実行 |
-| `switchTo21.1` など | 指定系列の Minecraft 共通層・アダプター・Mod を一括切替 |
+| `verify_hauyne-lib_forge_20.1-forge` など | プロジェクトパスの `:` を `_` にした名前で対象を指定。ビルド・テスト・ローカル公開と、Mod があれば配布検証を実行 |
 | `resetActiveProjects` | 全 controller を VCS の既定系列へ戻す |
 | `checkActiveProjects` | 既定系列への戻し忘れを検出。CI でも実行 |
-| `checkActiveSelection` | 選択中の系列に関係する3つの controller が同じ系列か確認 |
-| `runActiveServer` | Minecraft 共通層で選択中の系列のサーバーを起動。controller の選択が揃っていなければ起動前に失敗 |
+| `runActiveServer` | lib の NeoForge controller で選択中のサーバーを起動。`-PserverController=:hauyne-lib:forge` で Forge に変更 |
 | `buildAndCollect` | 全系列と JVM ライブラリをビルドし、現在のバージョンの本体・sources JAR を `build/collected/` に収集 |
 
 収集先は JVM が `jvm/`、Mod が `<ローダー>/<系列>/` です。Forge は再難読化後の配布 JAR を収集します。古いバージョンの JAR は収集しません。`Sync` タスクのため、収集先に手動で追加したファイルは次回の収集時に削除されます。
@@ -98,7 +93,7 @@ default=26.1
 ./gradlew ciCheck -PmodPublishDryRun=true
 ./gradlew build test publishToMavenLocal
 ./gradlew verifyRequired -PmodPublishDryRun=true
-./gradlew verify20.1 -PmodPublishDryRun=true
+./gradlew verify_hauyne-lib_forge_20.1-forge -PmodPublishDryRun=true
 ./gradlew buildAndCollect
 ```
 
@@ -107,26 +102,25 @@ default=26.1
 Gradle の設定、標準タスク、ディレクトリ構成、ファイルの存在を細かく確認するセットアップ用テストは追加しません。ビルドやコンパイルで検出できる問題は、通常の Gradle タスクで検証します。独自のビルド処理や通常のビルドでは検出できない重要な仕様に限り、具体的な不具合を検出する最小限のテストを追加します。
 
 ```sh
-./gradlew :hauyne-config:minecraft:20.1:build :hauyne-config:forge:20.1:build :hauyne-lib:forge:20.1:build
-./gradlew :hauyne-config:minecraft:20.1:publishToMavenLocal :hauyne-config:forge:20.1:publishToMavenLocal :hauyne-lib:forge:20.1:publishToMavenLocal
-./gradlew :hauyne-lib:forge:20.1:runServer
+./gradlew :hauyne-config:minecraft:20.1:build :hauyne-config:forge:20.1-forge:build :hauyne-lib:forge:20.1-forge:build
+./gradlew :hauyne-config:minecraft:20.1:publishToMavenLocal :hauyne-config:forge:20.1-forge:publishToMavenLocal :hauyne-lib:forge:20.1-forge:publishToMavenLocal
+./gradlew :hauyne-lib:forge:20.1-forge:runServer
 ```
 
 Forge の配布ファイルには `reobfJar` の出力を使います。開発用 JAR は `build/devlibs`、配布用は `build/libs` です。Mixin と Access Transformer は使用していません。
 
-Stonecutter の切替は関連する controller をまとめて行います。Forge を調べるときは Minecraft 共通層も切り替えてください。
+Stonecutter の切替は controller ごとに行います。依存先は明示されているため、他の controller の選択を揃える必要はありません。
 
 ```sh
-./gradlew switchTo21.1
-./gradlew :hauyne-lib:neoforge:21.1:build
+./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
+./gradlew :hauyne-lib:neoforge:21.1-neoforge:build
 ./gradlew runActiveServer
-./gradlew switchTo20.1
-./gradlew :hauyne-lib:forge:20.1:build
+./gradlew :hauyne-lib:forge:20.1-forge:build
 ./gradlew resetActiveProjects
 ./gradlew checkActiveProjects
 ```
 
-既定アクティブプロジェクトは `26.1`、Forge の controller は `20.1` です。各モジュール直下の `src/` は共有ソース、各モジュールの `versions/<MC 系列>/src/` はバージョン別ソースです。共有ソースと同じ相対パスにバージョン別ソースを置くと、そのバージョンの実装を上書きできます。バージョン別ソースは Git の管理対象です。Stonecutter の生成先は `build/generated/stonecutter/` で、通常の `build/` 除外に含まれます。
+既定アクティブプロジェクトは共通層が `26.1`、NeoForge が `26.1-neoforge`、Forge が `20.1-forge` です。各モジュール直下の `src/` は共有ソース、各モジュールの `versions/<ターゲット>/src/` はバージョン別ソースです。共有ソースと同じ相対パスにバージョン別ソースを置くと、そのバージョンの実装を上書きできます。バージョン別ソースは Git の管理対象です。Stonecutter の生成先は `build/generated/stonecutter/` で、通常の `build/` 除外に含まれます。
 
 バージョン別設定の読み込みも既存機能を確認しています。Stonecutter 0.10 の構造化プロパティは JSON・TOML・YAML 用で、今回指定された `gradle.properties` は対象外です。そのため、ここだけは Java 標準の `Properties` と Gradle の `providers.fileContents` を使っています。独自のバージョン比較やファイル解析器は実装していません。
 
@@ -154,8 +148,8 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 ```sh
 ./gradlew :hauyne-config:core:publish :hauyne-config:ksp:publish :hauyne-config:nightconfig:publish "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
-./gradlew :hauyne-config:minecraft:26.1:publish :hauyne-config:neoforge:26.1:publish :hauyne-lib:neoforge:26.1:publish "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
-./gradlew :hauyne-lib:neoforge:26.1:publishMods -PmodPublishDryRun=false
+./gradlew :hauyne-config:minecraft:26.1:publish :hauyne-config:neoforge:26.1-neoforge:publish :hauyne-lib:neoforge:26.1-neoforge:publish "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
+./gradlew :hauyne-lib:neoforge:26.1-neoforge:publishMods -PmodPublishDryRun=false
 ```
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。

@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.legacyforge)
 }
 
+hauyneMinecraft.releaseEnabled = false
+
 val mc = stonecutter.current.version
 
 extensions.configure<LegacyForgeExtension> {
@@ -17,7 +19,7 @@ extensions.configure<LegacyForgeExtension> {
 }
 
 dependencies {
-    api(project(":hauyne-config:minecraft:${stonecutter.current.project}"))
+    api(project(":hauyne-config:minecraft:${hauyneMinecraft.versionProperty("configMinecraftTarget").get()}"))
 }
 
 configurations.matching {

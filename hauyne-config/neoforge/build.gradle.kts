@@ -17,5 +17,5 @@ extensions.configure<NeoForgeExtension> {
 }
 
 dependencies {
-    api(project(":hauyne-config:minecraft:${stonecutter.current.project}"))
+    api(project(":hauyne-config:minecraft:${hauyneMinecraft.versionProperty("configMinecraftTarget").get()}"))
 }

@@ -8,6 +8,7 @@ import java.util.Properties
 import javax.inject.Inject
 
 abstract class HauyneMinecraftExtension @Inject constructor(providers: ProviderFactory) {
+    abstract val releaseEnabled: Property<Boolean>
     abstract val minecraftVersion: Property<String>
     abstract val versionPropertiesFile: RegularFileProperty
     private val values = providers.fileContents(versionPropertiesFile).asText.map {

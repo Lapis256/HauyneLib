@@ -1,8 +1,6 @@
-import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
 import dev.lapis256.hauyne.buildlogic.publishing.ValidateReleaseSettings
 import dev.lapis256.hauyne.buildlogic.release.PrepareRelease
 import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
-extensions.add("hauyneTargets", HauyneTargets(providers.fileContents(layout.projectDirectory.file("versions/targets.properties")).asText.get()))
 
 tasks.register("verifyRequired") {
     group = "verification"

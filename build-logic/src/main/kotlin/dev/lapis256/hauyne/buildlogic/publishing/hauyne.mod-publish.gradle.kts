@@ -1,4 +1,4 @@
-import dev.lapis256.hauyne.buildlogic.minecraft.HauyneTargets
+import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
 import dev.lapis256.hauyne.buildlogic.publishing.ValidateReleaseSettings
 import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
 import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
@@ -31,18 +31,20 @@ publishMods {
     }
 }
 
-if (rootProject.extensions.getByType<HauyneTargets>().isReleaseProject(project.path)) {
-    rootProject.tasks.named("verifyRequired") {
-        dependsOn(tasks.named("publishMods"))
-    }
+afterEvaluate {
+    if (extensions.findByType<HauyneMinecraftExtension>()?.releaseEnabled?.get() != false) {
+        rootProject.tasks.named("verifyRequired") {
+            dependsOn(tasks.named("publishMods"))
+        }
 
-    rootProject.tasks.named("publishRelease") {
-        dependsOn(tasks.named("publishMods"))
-    }
+        rootProject.tasks.named("publishRelease") {
+            dependsOn(tasks.named("publishMods"))
+        }
 
-    val modFile = publishMods.file
-    rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
-        modFiles.from(modFile)
+        val modFile = publishMods.file
+        rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
+            modFiles.from(modFile)
+        }
     }
 }
 
