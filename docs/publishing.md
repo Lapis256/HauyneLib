@@ -12,7 +12,7 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `hauyne.minecraft-library` が controller のパスから成果物名を設定し、系列に対応する Minecraft バージョン・設定ファイル・Java Toolchain の既定値も設定します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。
 
-Mod 共通の ID・表示名・パッケージ・ライセンス・説明は `hauyneModMetadata` で設定します。Forge と NeoForge のモジュールには `hauyne.fml-metadata` を適用し、`hauyneFmlMetadata` に `loader = HauyneFmlLoader.NEOFORGE` または `FORGE` と依存範囲を指定します。必須のローダー指定を省くと構成時に失敗します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
+Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。共通プラグインが `hauyneModMetadata` の既定値として読み込みます。Forge と NeoForge のモジュールには `hauyne.fml-metadata` を適用し、`hauyneFmlMetadata` に `loader = HauyneFmlLoader.NEOFORGE` または `FORGE` と依存範囲を指定します。必須のローダー指定を省くと構成時に失敗します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
 
 `generateModMetadata` が Mod の公開バージョンと設定値から TOML を生成し、`processResources` が JAR の `META-INF/` に取り込みます。Forge は `mods.toml`、NeoForge は `neoforge.mods.toml` を生成します。テンプレートファイルは不要です。メタデータは Kotlin Serialization の `@Serializable` クラスで定義し、[ktoml](https://github.com/orchestr7/ktoml) で TOML にシリアライズします。出力項目は [Forge](https://docs.minecraftforge.net/en/latest/gettingstarted/modfiles/) と [NeoForge](https://docs.neoforged.net/docs/gettingstarted/modfiles/) の仕様に従います。
 

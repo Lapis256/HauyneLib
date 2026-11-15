@@ -10,13 +10,6 @@ plugins {
 
 val mc = stonecutter.current.version
 
-hauyneModMetadata {
-    modId = providers.gradleProperty("modId")
-    modName = providers.gradleProperty("modName")
-    modPackage = "dev.lapis256.hauyne.lib"
-    license = providers.gradleProperty("license")
-}
-
 hauyneFmlMetadata {
     loader = HauyneFmlLoader.NEOFORGE
     minecraftVersionRange = "[$mc]"
