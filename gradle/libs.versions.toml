@@ -17,6 +17,7 @@ spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", ver
 ec4j = { module = "org.ec4j.core:ec4j-core", version.ref = "ec4j" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 modpublish-gradle = { module = "me.modmuss50:mod-publish-plugin", version.ref = "modpublish" }
+stonecutter-gradle = { module = "dev.kikugie.stonecutter:dev.kikugie.stonecutter.gradle.plugin", version.ref = "stonecutter" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 nightconfig = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }

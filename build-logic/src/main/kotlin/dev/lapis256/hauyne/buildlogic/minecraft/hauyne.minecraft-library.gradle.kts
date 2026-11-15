@@ -1,5 +1,7 @@
+import dev.kikugie.stonecutter.build.StonecutterBuildExtension
 import dev.lapis256.hauyne.buildlogic.library.HauyneLibraryExtension
 import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
+
 plugins {
     id("hauyne.library")
     id("hauyne.maven-publish")
@@ -10,8 +12,17 @@ minecraft.versionPropertiesFile.convention(layout.projectDirectory.file("gradle.
 minecraft.minecraftVersion.convention(minecraft.versionProperty("minecraftVersion"))
 extensions.getByType<HauyneLibraryExtension>().componentPath.convention(parent!!.path)
 
+val sc = extensions.getByType<StonecutterBuildExtension>()
+
 java {
-    toolchain.languageVersion = minecraft.versionProperty("javaVersion").map { JavaLanguageVersion.of(it.toInt()) }
+    val javaVersion = when {
+        sc.current.parsed >= "26.1" -> 25
+        sc.current.parsed >= "1.20.5" -> 21
+        sc.current.parsed >= "1.18" -> 17
+        sc.current.parsed >= "1.17" -> 16
+        else -> 8
+    }
+    toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
 }
 
 afterEvaluate {

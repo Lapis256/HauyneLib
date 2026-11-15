@@ -38,7 +38,9 @@ stonecutter {
     create(":hauyne-config:minecraft") {
         version("26.1", "26.1.2")
         version("21.1", "1.21.1")
-        version("20.1", "1.20.1")
+        version("20.1", "1.20.1").apply {
+            buildscript = "build.legacy.gradle.kts"
+        }
         vcsVersion = "26.1"
     }
     create(":hauyne-config:neoforge") {

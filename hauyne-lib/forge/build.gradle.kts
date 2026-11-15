@@ -1,5 +1,4 @@
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlLoader
-import net.neoforged.moddevgradle.legacyforge.dsl.LegacyForgeExtension
 
 plugins {
     id("hauyne.fml-metadata")
@@ -17,10 +16,8 @@ hauyneFmlMetadata {
     javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
 }
 
-extensions.configure<LegacyForgeExtension> {
-    enable {
-        forgeVersion = hauyneMinecraft.versionProperty("forgeVersion").get()
-    }
+legacyForge {
+    version = hauyneMinecraft.versionProperty("forgeVersion").get()
 
     addModdingDependenciesTo(sourceSets.test.get())
     runs {
@@ -38,10 +35,10 @@ extensions.configure<LegacyForgeExtension> {
 }
 
 dependencies {
-    implementation(project(":hauyne-config:forge:${hauyneMinecraft.versionProperty("configAdapterTarget").get()}"))
+    implementation(project(":hauyne-config:forge:${hauyneMinecraft.configAdapterTarget.get()}"))
     "jarJar"(project(":hauyne-config:core"))
-    "jarJar"(project(":hauyne-config:minecraft:${hauyneMinecraft.versionProperty("configMinecraftTarget").get()}"))
-    "jarJar"(project(":hauyne-config:forge:${hauyneMinecraft.versionProperty("configAdapterTarget").get()}"))
+    "jarJar"(project(":hauyne-config:minecraft:${hauyneMinecraft.configMinecraftTarget.get()}"))
+    "jarJar"(project(":hauyne-config:forge:${hauyneMinecraft.configAdapterTarget.get()}"))
 }
 
 publishMods {

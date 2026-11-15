@@ -1,23 +1,17 @@
-import net.neoforged.moddevgradle.legacyforge.dsl.LegacyForgeExtension
-
 plugins {
     id("hauyne.minecraft-library")
     alias(libs.plugins.stonecutter)
     alias(libs.plugins.legacyforge)
 }
 
-val mc = stonecutter.current.version
-
-extensions.configure<LegacyForgeExtension> {
-    enable {
-        forgeVersion = hauyneMinecraft.versionProperty("forgeVersion").get()
-    }
+legacyForge {
+    version = hauyneMinecraft.versionProperty("forgeVersion").get()
 
     addModdingDependenciesTo(sourceSets.test.get())
 }
 
 dependencies {
-    api(project(":hauyne-config:minecraft:${hauyneMinecraft.versionProperty("configMinecraftTarget").get()}"))
+    api(project(":hauyne-config:minecraft:${hauyneMinecraft.configMinecraftTarget.get()}"))
 }
 
 configurations.matching {

@@ -4,5 +4,5 @@ plugins {
 }
 
 tasks.jar {
-    manifest.attributes("Automatic-Module-Name" to "hauyne.config.core", "FMLModType" to "GAMELIBRARY")
+    manifest.attributes("Automatic-Module-Name" to "hauyne.config.core")
 }
