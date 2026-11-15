@@ -197,22 +197,12 @@ class ModMetadataTest {
     }
 
     @Test
-    fun publicationRelationsFollowDeclarationsAndAllowExplicitOverrides() {
+    fun discouragedPublicationRequiresAnExplicitRelation() {
         val declarations = declarations()
-        declarations.require("required_mod") { curseForgeSlug.set("required-mod") }
-        declarations.optional("optional_mod") { modrinthSlug.set("optional-mod") }
-        declarations.incompatible("incompatible_mod")
         declarations.discouraged("discouraged_mod") {
             modrinthSlug.set("discouraged-mod")
-            modrinthRelation.set(DependencyType.INCOMPATIBLE)
         }
         val entries = declarations.entries.get()
-        validateDependencies(entries, "hauynelib", HauyneFmlLoader.NEOFORGE)
-        assertEquals(
-            listOf(DependencyType.REQUIRED, DependencyType.OPTIONAL, DependencyType.INCOMPATIBLE, DependencyType.INCOMPATIBLE),
-            entries.map { it.relation(it.modrinthRelation) },
-        )
-        entries.last().modrinthRelation.unset()
         assertThrows(IllegalArgumentException::class.java) {
             validateDependencies(entries, "hauynelib", HauyneFmlLoader.NEOFORGE)
         }

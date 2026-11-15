@@ -22,6 +22,7 @@ class MetadataDslCompilationTest {
             root.resolve("build.gradle.kts").writeText(
                 """
                 import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
+                import dev.lapis256.hauyne.buildlogic.metadata.HauyneDependencyType
 
                 buildscript { dependencies { classpath(files($classpath)) } }
 
@@ -45,14 +46,16 @@ class MetadataDslCompilationTest {
                 dependencies {
                     incompatible("broken_mod")
                     discouraged("slow_mod")
-                    require("api") { type.set(type) }
                 }
             }
             """.trimIndent(),
         )
         val output = runner.buildAndFail().output
-        for (name in listOf("incompatible", "discouraged", "set")) {
+        for (name in listOf("incompatible", "discouraged")) {
             assertTrue(output.lineSequence().any { it.contains("Unresolved reference") && it.contains(name) }, output)
         }
+        script("metadata.forge { dependencies { require(\"api\") { type = HauyneDependencyType.INCOMPATIBLE } } }")
+        val reassignmentOutput = runner.buildAndFail().output
+        assertTrue(reassignmentOutput.contains("cannot be reassigned"), reassignmentOutput)
     }
 }

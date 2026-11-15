@@ -1,0 +1,120 @@
+package dev.lapis256.hauyne.buildlogic.metadata
+
+import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.io.TempDir
+import java.io.File
+
+class MetadataPublicationTest {
+    @TempDir
+    lateinit var root: File
+
+    @Test
+    fun modPluginConnectsDeclarationsToEachPublicationPlatform() {
+        for (path in listOf("core", "minecraft/test", "forge/test", "neoforge/test")) {
+            root.resolve("hauyne-config/$path").mkdirs()
+        }
+        root.resolve("settings.gradle.kts").writeText(
+            """
+            plugins { id("dev.kikugie.stonecutter") }
+            rootProject.name = "metadata-publication"
+            dependencyResolutionManagement {
+                versionCatalogs {
+                    create("libs") { from(files("${File("../gradle/libs.versions.toml").absoluteFile.invariantSeparatorsPath}")) }
+                }
+            }
+            include(":hauyne-config:core", ":hauyne-config:minecraft:test", ":hauyne-config:forge:test", ":hauyne-config:neoforge:test")
+            stonecutter {
+                kotlinController = true
+                centralScript = "build.gradle.kts"
+                create(":hauyne-lib:forge") { version("test", "1.20.1"); vcsVersion = "test" }
+                create(":hauyne-lib:neoforge") { version("test", "1.21.1"); vcsVersion = "test" }
+            }
+            """.trimIndent(),
+        )
+        root.resolve("gradle.properties").writeText(
+            """
+            mavenGroup=dev.example
+            modId=example
+            modPackage=dev.example
+            modName=Example
+            modDescription=Example
+            license=MIT
+            projectUrl=https://example.com
+            r2Bucket=example
+            releaseChannel=ALPHA
+            """.trimIndent(),
+        )
+        root.resolve("build.gradle.kts").writeText(
+            """
+            plugins { id("org.jetbrains.dokka"); id("release") }
+            version = "1.0"
+            subprojects { configurations.create("bcv-rt-jvm-cp") }
+            """.trimIndent(),
+        )
+        for (loader in listOf("forge", "neoforge")) {
+            val neoforgeDependencies = if (loader == "neoforge") {
+                """
+                incompatible("broken_mod") { curseForgeSlug = "curse-broken" }
+                discouraged("slow_mod") {
+                    modrinthSlug = "modrinth-slow"
+                    modrinthRelation = DependencyType.INCOMPATIBLE
+                }
+                """.trimIndent()
+            } else {
+                ""
+            }
+            val controller = root.resolve("hauyne-lib/$loader").apply { mkdirs() }
+            controller.resolve("stonecutter.gradle.kts").writeText("plugins { id(\"dev.kikugie.stonecutter\") }\nstonecutter active \"test\"\n")
+            controller.resolve("build.gradle.kts").writeText(
+                """
+                import me.modmuss50.mpp.PlatformDependency.DependencyType
+                plugins { id("mod") }
+                java { toolchain.languageVersion = JavaLanguageVersion.of(JavaVersion.current().majorVersion.toInt()) }
+                hauyneMetadata {
+                    $loader {
+                        minecraftVersionRange = "(,)"
+                        loaderVersionRange = "(,)"
+                        javaFmlLoaderVersionRange = "(,)"
+                        dependencies {
+                            require("shared_api") {
+                                curseForgeSlug = "curse-api"
+                                modrinthSlug = "modrinth-api"
+                                modrinthVersionId = "version-id"
+                            }
+                            optional("curse_only") { curseForgeSlug = "curse-only" }
+                            require("modrinth_only") {
+                                modrinthSlug = "modrinth-only"
+                                modrinthRelation = DependencyType.EMBEDDED
+                            }
+                            optional("override_mod") {
+                                curseForgeSlug = "curse-override"
+                                curseForgeRelation = DependencyType.INCOMPATIBLE
+                            }
+                            require("local_only")
+                            $neoforgeDependencies
+                        }
+                    }
+                }
+                publishMods {
+                    curseforge {
+                        check(dependencies.get().associate { it.slug.get() to it.type.get() } == mapOf(
+                            "curse-api" to DependencyType.REQUIRED,
+                            "curse-only" to DependencyType.OPTIONAL,
+                            "curse-override" to DependencyType.INCOMPATIBLE,
+                        ) + if ("$loader" == "neoforge") mapOf("curse-broken" to DependencyType.INCOMPATIBLE) else emptyMap())
+                    }
+                    modrinth {
+                        check(dependencies.get().associate { it.slug.get() to (it.type.get() to it.version.orNull) } == mapOf(
+                            "modrinth-api" to (DependencyType.REQUIRED to "version-id"),
+                            "modrinth-only" to (DependencyType.EMBEDDED to null),
+                        ) + if ("$loader" == "neoforge") mapOf("modrinth-slow" to (DependencyType.INCOMPATIBLE to null)) else emptyMap())
+                    }
+                }
+                """.trimIndent(),
+            )
+        }
+        GradleRunner.create().withProjectDir(root).withPluginClasspath()
+            .withArguments("help", "--offline", "--console=plain").build()
+    }
+}
