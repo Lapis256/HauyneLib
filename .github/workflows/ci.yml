@@ -25,7 +25,7 @@ jobs:
 
       - uses: ./.github/actions/setup-common-env
       - name: Run tests and formatting checks
-        run: ./gradlew :build-logic:test ciCheck
+        run: ./gradlew :build-logic:test check
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:

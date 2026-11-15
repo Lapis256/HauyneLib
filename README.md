@@ -39,7 +39,7 @@ TomlBackend(Path.of("config.toml")).use { backend ->
 
 ## 開発する
 
-Java 25 で `./gradlew :build-logic:test ciCheck` を実行すると、ビルド処理のテスト、JVM と Minecraft 26.1.2、1.21.1、1.20.1 のテスト、整形チェックを実行できます。公開可能かの確認は、GitHub Actions の Release workflow を `dry_run=true` で実行してください。Windows では `./gradlew.bat` を使ってください。
+Java 25 で `./gradlew :build-logic:test check` を実行すると、ビルド処理のテスト、JVM と Minecraft 26.1.2、1.21.1、1.20.1 のテスト、整形チェックを実行できます。公開可能かの確認は、GitHub Actions の Release workflow を `dry_run=true` で実行してください。Windows では `./gradlew.bat` を使ってください。
 
 ```sh
 ./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"

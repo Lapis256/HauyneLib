@@ -1,12 +1,5 @@
-import dev.kikugie.stonecutter.controller.StonecutterControllerExtension
 import dev.lapis256.hauyne.buildlogic.release.PrepareRelease
 import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
-
-tasks.register("ciCheck") {
-    group = "verification"
-    description = "Run CI checks for all supported targets"
-    dependsOn("spotlessCheck", "verifyJvm")
-}
 
 tasks.register("publishRelease") {
     group = "publishing"
@@ -30,25 +23,11 @@ tasks.register<RecordReleaseArtifacts>("recordReleaseArtifacts") {
     publicationFiles.convention(emptyMap())
 }
 
-val jvmModules = listOf(":hauyne-config:core", ":hauyne-config:ksp", ":hauyne-config:memory", ":hauyne-config:nightconfig", ":examples:jvm")
 val publishedJvmModules = listOf(":hauyne-config:core", ":hauyne-config:ksp", ":hauyne-config:nightconfig")
 
-val verifyJvm = tasks.register("verifyJvm") {
-    dependsOn(jvmModules.map { "$it:check" })
-}
 val prepareJvmPublications = tasks.register("prepareJvmPublications") {
     dependsOn(publishedJvmModules.map { "$it:publishToMavenLocal" })
 }
 tasks.register("publishJvm") {
     dependsOn(publishedJvmModules.map { "$it:publish" })
-}
-gradle.projectsEvaluated {
-    for (controller in allprojects.filter { it.extensions.findByType<StonecutterControllerExtension>() != null }) {
-        for (target in controller.subprojects) {
-            val verify = tasks.register("verify${target.path.replace(':', '_')}") {
-                dependsOn("${target.path}:check")
-            }
-            tasks.named("ciCheck") { dependsOn(verify) }
-        }
-    }
 }

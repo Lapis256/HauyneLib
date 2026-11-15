@@ -74,22 +74,21 @@ hauyne-config/neoforge/versions/21.1-neoforge/gradle.properties
 hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 ```
 
-ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1-neoforge` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `ciCheck` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
+ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `hauyne.minecraft-config-backend`、lib には `hauyne.mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1-neoforge` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `check` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
 
 | タスク | 用途 |
 | --- | --- |
-| `verifyJvm` | 共通 JVM ライブラリと JVM/KSP 利用例の `check` |
+| `check` | 全モジュールのテストと整形チェック。別ビルドの `build-logic` は `:build-logic:test` で指定 |
 | `prepareJvmPublications` | 公開する JVM ライブラリを Maven local に配置 |
-| `verify_hauyne-lib_forge_20.1-forge` など | プロジェクトパスの `:` を `_` にした名前で対象を指定し、`check` を実行 |
 | `recordReleaseArtifacts` | 公開対象を生成し、Maven local との照合、Mod 配布の dry-run、成果物の収集を実行 |
 
 リリース用の成果物は `.release/assets/` に収集します。Forge は再難読化後の配布 JAR を使います。
 
 ```sh
 ./gradlew help projects
-./gradlew :build-logic:test ciCheck
+./gradlew :build-logic:test check
 ./gradlew build test publishToMavenLocal
-./gradlew verify_hauyne-lib_forge_20.1-forge
+./gradlew :hauyne-lib:forge:20.1-forge:check
 ```
 
 CI はテストと整形チェックを実行します。公開可能かの確認は Release workflow の dry-run で行い、CI ではローカル公開や配布 dry-run を実行しません。
@@ -147,7 +146,7 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
 
-CI は1つのジョブで `./gradlew :build-logic:test ciCheck` を実行し、ビルド処理のテスト、JVM と全 Minecraft 系列の `check`、整形チェックを行います。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はテストを実行せず、バージョンとチェンジログの生成、成果物の生成・照合、配布 dry-run を行います。本番では続けて、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
+CI は1つのジョブで `./gradlew :build-logic:test check` を実行し、ビルド処理のテスト、JVM と全 Minecraft 系列の `check`、整形チェックを行います。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はテストを実行せず、バージョンとチェンジログの生成、成果物の生成・照合、配布 dry-run を行います。本番では続けて、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
 
 ### GitHub Actions からのリリース
 
