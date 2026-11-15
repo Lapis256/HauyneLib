@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - uses: ./.github/actions/setup-common-env
       - name: Build, test, publish locally and simulate distribution
-        run: ./gradlew checkActiveProjects ciCheck -PmodPublishDryRun=true
+        run: ./gradlew ciCheck -PmodPublishDryRun=true
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:

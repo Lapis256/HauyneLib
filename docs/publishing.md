@@ -81,9 +81,6 @@ hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 | `verifyJvm` | 共通 JVM ライブラリと JVM/KSP 利用例のビルド・テスト |
 | `prepareJvmPublications` | 公開する JVM ライブラリを Maven local に配置 |
 | `verify_hauyne-lib_forge_20.1-forge` など | プロジェクトパスの `:` を `_` にした名前で対象を指定。ビルド・テスト・ローカル公開と、Mod があれば配布検証を実行 |
-| `resetActiveProjects` | 全 controller を VCS の既定系列へ戻す |
-| `checkActiveProjects` | 既定系列への戻し忘れを検出。CI でも実行 |
-| `runActiveServer` | lib の NeoForge controller で選択中のサーバーを起動。`-PserverController=:hauyne-lib:forge` で Forge に変更 |
 | `buildAndCollect` | 全系列と JVM ライブラリをビルドし、現在のバージョンの本体・sources JAR を `build/collected/` に収集 |
 
 収集先は JVM が `jvm/`、Mod が `<ローダー>/<系列>/` です。Forge は再難読化後の配布 JAR を収集します。古いバージョンの JAR は収集しません。`Sync` タスクのため、収集先に手動で追加したファイルは次回の収集時に削除されます。
@@ -114,10 +111,8 @@ Stonecutter の切替は controller ごとに行います。依存先は明示�
 ```sh
 ./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
 ./gradlew :hauyne-lib:neoforge:21.1-neoforge:build
-./gradlew runActiveServer
+./gradlew :hauyne-lib:neoforge:21.1-neoforge:runServer
 ./gradlew :hauyne-lib:forge:20.1-forge:build
-./gradlew resetActiveProjects
-./gradlew checkActiveProjects
 ```
 
 既定アクティブプロジェクトは共通層が `26.1`、NeoForge が `26.1-neoforge`、Forge が `20.1-forge` です。各モジュール直下の `src/` は共有ソース、各モジュールの `versions/<ターゲット>/src/` はバージョン別ソースです。共有ソースと同じ相対パスにバージョン別ソースを置くと、そのバージョンの実装を上書きできます。バージョン別ソースは Git の管理対象です。Stonecutter の生成先は `build/generated/stonecutter/` で、通常の `build/` 除外に含まれます。
@@ -154,7 +149,7 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
 
-CI は1つのジョブで `./gradlew checkActiveProjects ciCheck -PmodPublishDryRun=true` を実行し、JVM と全 Minecraft 系列を検証します。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
+CI は1つのジョブで `./gradlew ciCheck -PmodPublishDryRun=true` を実行し、JVM と全 Minecraft 系列を検証します。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
 
 ### GitHub Actions からのリリース
 
