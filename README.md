@@ -4,6 +4,8 @@ HauyneLib は、NeoForge / Forge 向けのライブラリ Mod です。コンフ
 
 現在セットアップ中です。公開バージョンと配布ファイルは [Releases](https://github.com/Lapis256/HauyneLib/releases) を参照してください。
 
+公開 Maven リポジトリ: <https://maven.lapis256.dev>
+
 ## サポート対象
 
 | Minecraft | ローダー |
