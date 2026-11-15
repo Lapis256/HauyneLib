@@ -41,6 +41,7 @@ class ReleaseTest {
             task.bump.set(mode)
             task.prepare()
             assertEquals("v$version\n", root.resolve(".release/tag").readText())
+            assertEquals("modVersion=$version\n", root.resolve("gradle.properties").readText())
         }
     }
 
@@ -54,6 +55,7 @@ class ReleaseTest {
             git("commit", "--allow-empty", "-qm", message)
             task.prepare()
             assertEquals("v$version\n", root.resolve(".release/tag").readText())
+            assertEquals("modVersion=$version\n", root.resolve("gradle.properties").readText())
             val notes = root.resolve(".release/notes.md").readText()
             val full = root.resolve("CHANGELOG.md").readText()
             assertTrue(message.substringAfter(": ") in notes.lowercase())
@@ -79,6 +81,21 @@ class ReleaseTest {
         }
         artifact.delete()
         assertThrows(java.io.FileNotFoundException::class.java) { ReleaseArtifacts.verify(root, manifest) }
+    }
+
+    @Test
+    fun rejectsMismatchedMavenPublication() {
+        root.resolve("artifact.jar").writeText("verified")
+        val repository = root.resolve("maven").apply { mkdirs() }
+        repository.resolve("artifact.jar").writeText("different")
+        val task = ProjectBuilder.builder().withProjectDir(root).build().tasks
+            .register("record", RecordReleaseArtifacts::class.java).get().apply {
+                rootDirectory.set(root)
+                localRepository.set(repository)
+                publicationFiles.put("artifact.jar", "artifact.jar")
+            }
+        val error = assertThrows(IllegalArgumentException::class.java) { task.record() }
+        assertTrue(error.message!!.contains("Local Maven publication differs"))
     }
 
     @Test
