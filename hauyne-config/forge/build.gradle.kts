@@ -6,8 +6,6 @@ plugins {
     alias(libs.plugins.legacyforge)
 }
 
-hauyneMinecraft.releaseEnabled = false
-
 val mc = stonecutter.current.version
 
 extensions.configure<LegacyForgeExtension> {

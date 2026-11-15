@@ -6,7 +6,7 @@ Gradle マルチプロジェクトの設定ライブラリと、NeoForge / Forge
 | --- | --- | --- | --- |
 | `26.1` | 26.1.2 | NeoForge | 対象 |
 | `21.1` | 1.21.1 | NeoForge | 対象 |
-| `20.1` | 1.20.1 | Forge | 起動検証が未完了のため対象外 |
+| `20.1` | 1.20.1 | Forge | 対象 |
 
 各モジュールの対応対象は [settings.gradle.kts](settings.gradle.kts) の Stonecutter 定義にあります。設定は各モジュール内に置きます。例えば共通層は `hauyne-config/minecraft/versions/21.1/`、NeoForge 用 Mod は `hauyne-lib/neoforge/versions/21.1-neoforge/` です。
 
@@ -39,7 +39,7 @@ TomlBackend(Path.of("config.toml")).use { backend ->
 
 ## 開発する
 
-Java 25 で `./gradlew verifyRequired -PmodPublishDryRun=true` を実行すると、Minecraft 26.1.2 と 1.21.1 のビルド・テスト・ローカル Maven 公開・Mod 配布 dry-run を検証できます。Windows では `./gradlew.bat` を使ってください。
+Java 25 で `./gradlew verifyRequired -PmodPublishDryRun=true` を実行すると、Minecraft 26.1.2、1.21.1、1.20.1 のビルド・テスト・ローカル Maven 公開・Mod 配布 dry-run を検証できます。Windows では `./gradlew.bat` を使ってください。
 
 ```sh
 ./gradlew ":hauyne-lib:neoforge:Set active project to 21.1-neoforge"
@@ -53,4 +53,4 @@ Java 25 で `./gradlew verifyRequired -PmodPublishDryRun=true` を実行する�
 
 構成、Forge 1.20.1 の追加検証、認証情報、公開先ごとの再実行手順は [ビルドと公開](docs/publishing.md) を参照してください。公開済みの成果物を確認し、失敗した公開先のタスクだけを再実行してください。
 
-Forge はゲーム起動完了まで未検証のため本番リリースには含めません。通常の Mod 公開タスクは dry-run が既定です。
+通常の Mod 公開タスクは dry-run が既定です。

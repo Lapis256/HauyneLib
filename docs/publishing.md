@@ -74,7 +74,7 @@ hauyne-config/neoforge/versions/21.1-neoforge/gradle.properties
 hauyne-lib/neoforge/versions/21.1-neoforge/gradle.properties
 ```
 
-ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターの `configMinecraftTarget` は共通層の依存先、lib の `configMinecraftTarget` と `configAdapterTarget` は同梱する依存先を明示します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。本番公開の可否は各モジュールの `hauyneMinecraft.releaseEnabled` で設定します。既定は `true` です。`false` の対象も CI で検証しますが、`verifyRequired` と本番 Release には含めません。
+ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターの `configMinecraftTarget` は共通層の依存先、lib の `configMinecraftTarget` と `configAdapterTarget` は同梱する依存先を明示します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `verifyRequired` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
 
 | タスク | 用途 |
 | --- | --- |
@@ -154,7 +154,7 @@ GitHub の `release` Environment に承認ルールを設定してください�
 
 1.21.1 も同じ手順で、プロジェクトパスの Minecraft バージョンを置き換えます。配布サービス向けのバージョンも `<MC 系列>-x.y.z` を使います。公開チャンネルは `releaseChannel` の `ALPHA`・`BETA`・`STABLE` で指定します。
 
-CI は1つのジョブで `./gradlew checkActiveProjects ciCheck -PmodPublishDryRun=true` を実行し、JVM と全 Minecraft 系列を検証します。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。Forge はゲーム起動の検証が完了するまで本番公開に含めません。
+CI は1つのジョブで `./gradlew checkActiveProjects ciCheck -PmodPublishDryRun=true` を実行し、JVM と全 Minecraft 系列を検証します。プロジェクト間の並列実行は、既存の `org.gradle.parallel=true` 設定で Gradle に任せます。Release workflow はバージョンとチェンジログを生成し、本番公開対象の検証後に、コミットとタグの push、構成証明の登録、GitHub Draft Release への添付、Maven・CurseForge・Modrinth への公開、Draft の公開の順に処理します。
 
 ### GitHub Actions からのリリース
 

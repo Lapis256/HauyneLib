@@ -8,8 +8,6 @@ plugins {
     id("hauyne.mod-publish")
 }
 
-hauyneMinecraft.releaseEnabled = false
-
 val mc = stonecutter.current.version
 
 hauyneModMetadata {

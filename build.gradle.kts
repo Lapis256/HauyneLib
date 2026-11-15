@@ -1,5 +1,4 @@
 import dev.kikugie.stonecutter.controller.StonecutterControllerExtension
-import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
 import dev.lapis256.hauyne.buildlogic.minecraft.ValidateActiveProjects
 
 plugins {
@@ -59,17 +58,14 @@ gradle.projectsEvaluated {
     }
     for ((controller, _) in controllers) {
         for (target in controller.subprojects) {
-            val minecraft = target.extensions.getByType<HauyneMinecraftExtension>()
             val verify = tasks.register("verify${target.path.replace(':', '_')}") {
                 dependsOn("${target.path}:build", "${target.path}:publishToMavenLocal")
                 if (target.tasks.findByName("publishMods") != null) dependsOn("${target.path}:publishMods")
             }
             tasks.named("ciCheck") { dependsOn(verify) }
-            if (minecraft.releaseEnabled.get()) {
-                verifyRequired.configure { dependsOn(verify) }
-                if (target.tasks.findByName("validateModRelease") != null) {
-                    validateReleaseTargets.configure { dependsOn("${target.path}:validateModRelease") }
-                }
+            verifyRequired.configure { dependsOn(verify) }
+            if (target.tasks.findByName("validateModRelease") != null) {
+                validateReleaseTargets.configure { dependsOn("${target.path}:validateModRelease") }
             }
             if (target.tasks.findByName("publishMods") != null) {
                 collect.configure {

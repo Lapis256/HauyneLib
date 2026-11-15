@@ -6,7 +6,6 @@ plugins {
 }
 
 val minecraft = extensions.create<HauyneMinecraftExtension>("hauyneMinecraft")
-minecraft.releaseEnabled.convention(true)
 minecraft.versionPropertiesFile.convention(layout.projectDirectory.file("gradle.properties"))
 minecraft.minecraftVersion.convention(minecraft.versionProperty("minecraftVersion"))
 extensions.getByType<HauyneLibraryExtension>().componentPath.convention(parent!!.path)
