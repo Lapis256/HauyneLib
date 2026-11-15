@@ -1,9 +1,0 @@
-modLoader="javafml"
-loaderVersion="${loaderVersion}"
-license="${license}"
-[[mods]]
-modId="${modId}"
-version="${version}"
-displayName="${modName}"
-description="HauyneLib configuration library"
-${dependencies}

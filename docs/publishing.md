@@ -8,9 +8,13 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 通常のライブラリには `hauyne.library` を適用し、Kotlin を有効にします。Java 専用の場合だけ、代わりに `hauyne.java-library` を明示します。Maven 公開が必要なモジュールには、選んだライブラリプラグインに加えて `hauyne.maven-publish` を適用します。Minecraft 用の `hauyne.minecraft-library` は Kotlin と Maven 公開の設定をまとめて適用します。
 
-共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `hauyne.minecraft-library` が controller のパスから成果物名を設定し、系列に対応する Minecraft バージョン・設定ファイル・Java Toolchain の既定値も設定します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。`hauyneModMetadata` にはローダー・パッケージ・依存範囲などを明示し、必須のローダー指定を省くと構成時に失敗します。
+共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `hauyne.minecraft-library` が controller のパスから成果物名を設定し、系列に対応する Minecraft バージョン・設定ファイル・Java Toolchain の既定値も設定します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。
 
-Mod メタデータでは `loader = HauyneModLoader.NEOFORGE` または `FORGE` を明示します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。これらの値は移行前の生成結果を維持して設定ファイルへ移しています。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
+Mod 共通の ID・表示名・パッケージ・ライセンス・説明は `hauyneModMetadata` で設定します。Forge と NeoForge のモジュールには `hauyne.fml-metadata` を適用し、`hauyneFmlMetadata` に `loader = HauyneFmlLoader.NEOFORGE` または `FORGE` と依存範囲を指定します。必須のローダー指定を省くと構成時に失敗します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
+
+`generateModMetadata` が Mod の公開バージョンと設定値から TOML を生成し、`processResources` が JAR の `META-INF/` に取り込みます。Forge は `mods.toml`、NeoForge は `neoforge.mods.toml` を生成します。テンプレートファイルは不要です。引用符や改行を含む値は NightConfig で書き出します。出力項目は [Forge](https://docs.minecraftforge.net/en/latest/gettingstarted/modfiles/) と [NeoForge](https://docs.neoforged.net/docs/gettingstarted/modfiles/) の仕様に従います。
+
+共通設定の `hauyne.mod-metadata` には FML の依存指定や TOML の出力処理を含めていません。将来 Fabric を追加する場合は、この共通設定を使い、別の生成タスクで [`fabric.mod.json`](https://docs.fabricmc.net/develop/loader/fabric-mod-json) を出力する構成にできます。Fabric のエントリーポイントや依存範囲は Fabric 用の設定として追加します。現時点では Fabric のビルド・起動には対応していません。
 
 モジュールのルートは `hauyne-config/` と `hauyne-lib/`、Gradle パスは `:hauyne-config:*` と `:hauyne-lib:*` です。Minecraft 共通層は `:hauyne-config:minecraft` のままです。`hauyne-lib:common` は作成していません。将来追加する場合のパッケージは `dev.lapis256.hauyne.lib` とします。
 

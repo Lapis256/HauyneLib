@@ -1,7 +1,7 @@
 import net.neoforged.moddevgradle.dsl.NeoForgeExtension
 
 plugins {
-    id("hauyne.mod-metadata")
+    id("hauyne.fml-metadata")
     alias(libs.plugins.stonecutter)
     alias(libs.plugins.mdg)
     id("hauyne.mod-publish")
@@ -14,7 +14,10 @@ hauyneModMetadata {
     modName = providers.gradleProperty("modName")
     modPackage = "dev.lapis256.hauyne.lib"
     license = providers.gradleProperty("license")
-    this.loader = HauyneModLoader.NEOFORGE
+}
+
+hauyneFmlMetadata {
+    loader = HauyneFmlLoader.NEOFORGE
     minecraftVersionRange = "[$mc]"
     loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
     javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
