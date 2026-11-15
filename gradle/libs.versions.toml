@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.2.21"
-ksp = "2.2.21-2.0.4"
+kotlin = "2.4.21"
+ksp = "2.3.14"
 mdg = "2.0.148"
 stonecutter = "0.10"
 junit = "6.0.1"

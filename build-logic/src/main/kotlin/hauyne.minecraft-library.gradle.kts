@@ -1,4 +1,5 @@
 plugins {
+    id("hauyne.kotlin-library")
     id("hauyne.maven-publish")
 }
 
