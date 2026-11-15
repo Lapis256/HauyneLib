@@ -9,13 +9,13 @@ val mc = stonecutter.current.version
 hauyneMetadata {
     neoforge {
         minecraftVersionRange = "[$mc]"
-        loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
-        javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
+        loaderVersionRange = stonecutter.properties.getLazy("loaderVersionRange")
+        javaFmlLoaderVersionRange = stonecutter.properties.getLazy("javaFmlLoaderVersionRange")
     }
 }
 
 neoForge {
-    version = hauyneMinecraft.versionProperty("neoForgeVersion").get()
+    version = stonecutter.properties["neoForgeVersion"]
 
     addModdingDependenciesTo(sourceSets.test.get())
     runs {

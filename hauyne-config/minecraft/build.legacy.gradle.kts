@@ -5,7 +5,7 @@ plugins {
 }
 
 legacyForge {
-    mcpVersion = hauyneMinecraft.versionProperty("mcpVersion").get()
+    mcpVersion = stonecutter.properties["mcpVersion"]
 
     addModdingDependenciesTo(sourceSets.test.get())
 }

@@ -5,7 +5,7 @@ plugins {
 }
 
 neoForge {
-    version = hauyneMinecraft.versionProperty("neoForgeVersion").get()
+    version = stonecutter.properties["neoForgeVersion"]
 
     addModdingDependenciesTo(sourceSets.test.get())
 }

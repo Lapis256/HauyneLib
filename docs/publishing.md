@@ -10,9 +10,9 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 通常のライブラリには `library` を適用し、Kotlin・Java・テスト・JAR の共通設定を有効にします。Maven 公開が必要なモジュールには、加えて `maven-publishing` を適用します。Minecraft 用の `minecraft-library` は `library` と Maven 公開の設定をまとめて適用します。
 
-共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名を設定し、設定ファイルと Java Toolchain も設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneMinecraft` の Extension は引き続き使用できます。
+共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名と Java Toolchain を設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。
 
-Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge の Mod には `hauyneMetadata { forge { ... } }`、NeoForge の Mod には `hauyneMetadata { neoforge { ... } }` で依存範囲を指定します。ブロック名からローダーと出力ファイル名が決まるため、`loader` の指定は不要です。1プロジェクトではどちらか一方を設定します。両方の指定や両方の省略は構成時にエラーになります。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
+Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge の Mod には `hauyneMetadata { forge { ... } }`、NeoForge の Mod には `hauyneMetadata { neoforge { ... } }` で依存範囲を指定します。ブロック名からローダーと出力ファイル名が決まるため、`loader` の指定は不要です。1プロジェクトではどちらか一方を設定します。両方の指定や両方の省略は構成時にエラーになります。`loaderVersionRange` と `javaFmlLoaderVersionRange` は `stonecutter.properties.getLazy(...)` で渡します。バージョンと対応範囲は別の設定値として管理します。MDG 固有のバージョンは `stonecutter.properties[...]` から読み、既存の MDG Extension に渡します。
 
 追加の Mod 依存は、各ローダーブロックの `dependencies { ... }` に記述します。
 
@@ -20,8 +20,8 @@ Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、�
 hauyneMetadata {
     neoforge {
         minecraftVersionRange = "[1.21.1]"
-        loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
-        javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
+        loaderVersionRange = stonecutter.properties.getLazy("loaderVersionRange")
+        javaFmlLoaderVersionRange = stonecutter.properties.getLazy("javaFmlLoaderVersionRange")
         dependencies {
             require("example_api") {
                 versionRange = "[1.0,2.0)"
@@ -35,7 +35,7 @@ hauyneMetadata {
 }
 ```
 
-Forge では `neoforge` を `forge` に置き換えます。`require` は必須、`optional` は任意、`incompatible` は併用禁止、`discouraged` は併用時の警告です。Forge では非互換・非推奨の宣言を構成時に拒否します。`require` と `optional` は設定ブロックを省略できます。各プロパティには固定値と `Provider` のどちらも渡せます。
+Forge では `neoforge` を `forge` に置き換えます。Forge の依存 DSL には、必須の `require` と任意の `optional` だけがあります。NeoForge の依存 DSL では、併用禁止の `incompatible` と併用時に警告する `discouraged` も使えます。Forge のブロックでこれらを呼ぶと Kotlin のコンパイルエラーになります。依存の種類は宣言時に決まり、設定ブロック内では変更できません。`require` と `optional` は設定ブロックを省略できます。各設定プロパティには固定値と `Provider` のどちらも渡せます。
 
 `versionRange` は Maven 形式で、既定値は全バージョンを対象とする `(,)` です。`ordering` は `HauyneDependencyOrdering` の `NONE`（既定）・`BEFORE`・`AFTER`、`side` は `HauyneDependencySide` の `BOTH`（既定）・`CLIENT`・`SERVER` を指定します。`reason` は任意の説明で、NeoForge では依存メタデータ、Forge では TOML コメントに出力します。Minecraft とローダーの必須依存は自動生成します。これらの手動宣言、自己依存、同一 MOD ID の重複は構成時にエラーになります。
 
@@ -51,14 +51,15 @@ Forge では `neoforge` を `forge` に置き換えます。`require` は必須�
 
 公開 API は `dev.lapis256.hauyne.config`、実装は `dev.lapis256.hauyne.config.<module>` に置きます。Mod 実装は Forge・NeoForge ともに `dev.lapis256.hauyne.lib` に置きます。KSP のサービス登録先と生成ソースも、この構成に合わせています。
 
-依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの設定は各モジュールの `versions/<ターゲット>/gradle.properties` に置きます。lib と config は別々に対応対象と設定値を持ちます。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
+依存バージョンは `gradle/libs.versions.toml`、リリース情報はルートの `gradle.properties` で管理します。`modVersion` は Release workflow が更新します。Minecraft ごとの設定はルートの `stonecutter.properties.toml` に集約し、lib と config で共有します。`20.1`・`21.1`・`26.1` ごとのテーブルは `stonecutter.current.project` の自動タグで選ばれます。対応対象は controller ごとに宣言します。Stonecutter と Toolchain resolver の設定プラグインは初期化順の都合で `settings.gradle.kts` に固定しています。
 
 Java 17 の制約は共通 JVM ライブラリに適用します。Minecraft 側の Toolchain は共通プラグインが Stonecutter の Minecraft バージョンから設定します。Kotlin の共通設定で Minecraft 側を Java 17 に固定することはありません。
 
-例えば `hauyne-config/minecraft/versions/26.1/gradle.properties` は次の内容です。
+例えば `stonecutter.properties.toml` の `26.1` テーブルには次のように設定します。
 
-```properties
-neoFormVersion=26.1.2-1
+```toml
+["26.1"]
+neoFormVersion = "26.1.2-1"
 ```
 
 | 対象 | Java / JVM target |
@@ -93,15 +94,9 @@ MC 系列は基本的にメジャーとマイナーの2要素で表します。2
 
 Windows では `./gradlew` を `./gradlew.bat` に読み替えてください。
 
-対応対象と既定ターゲットは `settings.gradle.kts` の controller ごとに宣言します。アダプターには同じ系列の共通層、lib には同じローダー・系列のアダプターと共通層が必要です。設定ファイルも各モジュールに置きます。
+対応対象と既定ターゲットは `settings.gradle.kts` の controller ごとに宣言します。アダプターには同じ系列の共通層、lib には同じローダー・系列のアダプターと共通層が必要です。設定値はルートの `stonecutter.properties.toml` の対応するテーブルに置きます。
 
-```text
-hauyne-config/minecraft/versions/21.1/gradle.properties
-hauyne-config/neoforge/versions/21.1/gradle.properties
-hauyne-lib/neoforge/versions/21.1/gradle.properties
-```
-
-ターゲットを追加するときは、その controller の宣言と設定ファイルを追加します。アダプターには `minecraft-config-backend`、lib には `mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `check` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
+ターゲットを追加するときは、その controller の宣言と `stonecutter.properties.toml` のテーブルを追加します。アダプターには `minecraft-config-backend`、lib には `mod` を適用します。プラグインがプロジェクト名から依存先を自動設定します。たとえば `21.1` は共通層の `21.1` を参照し、lib は同名の NeoForge アダプターを参照します。lib には Core・共通層・アダプターを Jar-in-Jar として同梱します。対応するプロジェクトがなければ設定時に失敗します。lib に別のローダーを追加しても、config のバニラモードや対応対象は変えません。登録済みの全ターゲットを `check` で検証し、公開プラグインを適用した全モジュールを本番 Release に含めます。
 
 | タスク | 用途 |
 | --- | --- |

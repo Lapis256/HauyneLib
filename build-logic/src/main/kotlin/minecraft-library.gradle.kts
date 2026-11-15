@@ -1,13 +1,9 @@
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension
-import dev.lapis256.hauyne.buildlogic.minecraft.HauyneMinecraftExtension
 
 plugins {
     id("library")
     id("maven-publishing")
 }
-
-val minecraft = extensions.create<HauyneMinecraftExtension>("hauyneMinecraft")
-minecraft.versionPropertiesFile.convention(layout.projectDirectory.file("gradle.properties"))
 
 base {
     archivesName = parent!!.path.trim(':').replace(':', '-')

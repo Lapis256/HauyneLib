@@ -5,7 +5,7 @@ plugins {
 }
 
 neoForge {
-    neoFormVersion = hauyneMinecraft.versionProperty("neoFormVersion").get()
+    neoFormVersion = stonecutter.properties["neoFormVersion"]
 
     addModdingDependenciesTo(sourceSets.test.get())
 }
