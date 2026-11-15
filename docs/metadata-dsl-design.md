@@ -24,7 +24,8 @@ hauyneMetadata {
                 reason = "Required for configuration integration"
                 ordering = AFTER
                 side = BOTH
-                slug = "example-api"
+                curseForgeSlug = "example-api"
+                modrinthSlug = "example-api"
             }
             optional("example_integration")
         }
@@ -70,11 +71,10 @@ CurseForge Upload API の関係設定には slug と、完全一致用の任意�
 
 依存先は両サービスとも slug をプロパティで指定する。
 
-- `slug = "example-api"` は CurseForge・Modrinth 両方の依存先 slug の既定値になる。
-- サービスごとに異なる場合は `curseForgeSlug`・`modrinthSlug` を指定する。個別指定を共通の `slug` より優先する。片方だけに関係を出す場合は、共通の `slug` を指定せず、そのサービスのプロパティだけを設定する。
+- `curseForgeSlug`・`modrinthSlug` でサービスごとに指定する。同じ slug でもそれぞれに設定する。両サービスにまとめて設定する共通プロパティは設けない。
 - 依存先の `projectId` と配布先の設定ブロックは設けない。Modrinth の配布版を固定する場合は `modrinthVersionId` を使う。
 - `require("...")` などの引数は常にゲーム内の MOD ID。配布先 ID から推定しない。
-- 共通値も個別値もないサービスには関係設定を出力しない。明示的な空文字列はエラーにする。
+- slug を指定していないサービスには関係設定を出力しない。明示的な空文字列はエラーにする。
 - `require`・`optional`・`incompatible` の関係は自動変換する。必要な場合だけ `curseForgeRelation`・`modrinthRelation` で `REQUIRED`・`OPTIONAL`・`INCOMPATIBLE`・`EMBEDDED` を指定できる。対応する slug のない関係指定はエラーにする。
 - `discouraged` に配布先を指定する場合は、そのサービスの関係種別を必須にする。警告を併用禁止へ勝手に変換しない。
 - `versionRange` と `side` と `ordering` は配布先の関係設定へ変換しない。`modrinthVersionId` はゲーム内のバージョン範囲とは別に扱い、Modrinth の slug とともに指定する。
