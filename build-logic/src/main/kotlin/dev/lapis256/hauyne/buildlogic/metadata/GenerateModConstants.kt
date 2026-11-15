@@ -19,14 +19,14 @@ abstract class GenerateModConstants : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val file = outputDirectory.file("${modPackage.get().replace('.', '/')}/HauyneConstants.java").get().asFile
+        val file = outputDirectory.file("${modPackage.get().replace('.', '/')}/HauyneConstants.kt").get().asFile
         file.parentFile.mkdirs()
         file.writeText(
             """
-            package ${modPackage.get()};
+            package ${modPackage.get()}
 
-            public final class HauyneConstants {
-                public static final String MOD_ID = "${modId.get()}";
+            object HauyneConstants {
+                const val MOD_ID = "${modId.get()}"
             }
 
             """.trimIndent(),

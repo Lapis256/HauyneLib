@@ -42,6 +42,7 @@ no API key, $0).
 
 ## Writing conventions
 
+- Use Kotlin for implementation, tests, examples, and generated source code. Use Java only when the user explicitly requests it.
 - Use English as the primary language for public-facing essentials, such as the README and public API documentation.
 - Write KDoc in both English and Japanese, with English first.
 - Write code comments and internal development documentation in Japanese, prioritizing the Japanese-speaking maintainer's readability.

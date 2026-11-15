@@ -16,8 +16,12 @@ spotless {
     encoding("UTF-8")
     lineEndings = com.diffplug.spotless.LineEnding.UNIX
     java {
-        target("**/src/**/*.java")
-        targetExclude("**/build/**", "**/.gradle/**")
+        target(
+            fileTree(rootDir) {
+                include("**/src/**/*.java")
+                exclude("**/build/**", "**/.gradle/**")
+            },
+        )
         val editorConfig = ResourcePropertiesService.builder().build().queryProperties(
             Resource.Resources.ofPath(file("src/main/java/Formatting.java").toPath(), Charsets.UTF_8),
         ).properties
@@ -34,14 +38,22 @@ spotless {
     }
 
     kotlin {
-        target("**/src/**/*.kt")
-        targetExclude("**/build/**", "**/.gradle/**")
+        target(
+            fileTree(rootDir) {
+                include("**/src/**/*.kt")
+                exclude("**/build/**", "**/.gradle/**")
+            },
+        )
         ktlint(catalog.findVersion("ktlint").get().requiredVersion).setEditorConfigPath(rootProject.file(".editorconfig"))
     }
 
     kotlinGradle {
-        target("**/*.gradle.kts")
-        targetExclude("**/build/**", "**/.gradle/**")
+        target(
+            fileTree(rootDir) {
+                include("**/*.gradle.kts")
+                exclude("**/build/**", "**/.gradle/**")
+            },
+        )
         ktlint(catalog.findVersion("ktlint").get().requiredVersion).setEditorConfigPath(rootProject.file(".editorconfig"))
     }
 }

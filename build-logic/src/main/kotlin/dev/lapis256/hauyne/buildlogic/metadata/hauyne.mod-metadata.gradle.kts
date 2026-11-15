@@ -9,9 +9,9 @@ metadata.description.convention("HauyneLib configuration library")
 val constants = tasks.register<GenerateModConstants>("generateModConstants") {
     modId = metadata.modId
     modPackage = metadata.modPackage
-    outputDirectory = layout.buildDirectory.dir("generated/sources/modConstants")
+    outputDirectory = layout.buildDirectory.dir("generated/sources/modConstants/kotlin")
 }
 
-sourceSets.main {
-    java.srcDir(constants)
+kotlin.sourceSets.main {
+    kotlin.srcDir(constants)
 }

@@ -44,7 +44,7 @@ neoFormVersion=26.1.2-1
 
 Minecraft の共通層は NeoForm Vanilla、1.20.1 のみ LegacyForge MCP Vanilla です。アダプターはローダーごとに分けています。現在の Minecraft バージョンは `stonecutter.current.version`、MC 系列を使うパスは `stonecutter.current.project`、バージョンの比較は `stonecutter.eval(...)` で扱います。プロジェクト名を Minecraft バージョンとみなす処理は使いません。
 
-Java の Mod 初期化クラスを使い、Core・対応する Minecraft 共通層・アダプターを Jar-in-Jar に含めます。Kotlin ランタイムと KSP は同梱しません。開発用に必要な Kotlin クラスパスと、本番 Mod への同梱は別の設定です。本番の Kotlin ランタイム供給方法は未設定で、KotlinForForge などの必須依存も未登録です。ライブラリをロードする本番環境の動作確認は完了していません。
+Mod 初期化クラス、仮実装、テスト、生成する定数クラスは Kotlin で記述します。Java は利用者が明示的に指定した場合に使います。Core・対応する Minecraft 共通層・アダプターを Jar-in-Jar に含めます。Kotlin ランタイムと KSP は同梱しません。開発用に必要な Kotlin クラスパスと、本番 Mod への同梱は別の設定です。本番の Kotlin ランタイム供給方法は未設定で、KotlinForForge などの必須依存も未登録です。ライブラリをロードする本番環境の動作確認は完了していません。
 
 内部の Gradle group は同名のバージョンプロジェクト間の衝突を避けるため分けています。公開座標の groupId はすべて `dev.lapis256` です。artifactId はプロジェクトパスをハイフンでつないで生成し、Stonecutter のバージョンノードでは controller のパスを使います。例は `hauyne-config-core`、`hauyne-config-minecraft`、`hauyne-lib-neoforge` です。`hauyne-config:memory` は公開しません。
 
