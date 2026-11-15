@@ -6,7 +6,7 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 `buildSrc` は使いません。共通ビルド処理はすべて `build-logic` の Convention Plugin にまとめています。ルートの `allprojects`・`subprojects` による横断設定や、`gradle/*.gradle.kts` の外部スクリプト適用はありません。MDG のモード、依存先、Jar-in-Jar、配布ファイルは各モジュールの `build.gradle.kts` に記述しています。
 
-`build-logic/src/main/kotlin/dev/lapis256/hauyne/buildlogic/` は機能別に分けています。`library` はライブラリの共通設定、`minecraft` はゲーム系列・Toolchain・Mod の設定と配布、`metadata` は Mod 情報の型と生成タスク、`publishing` は Maven 公開、`release` はバージョン更新と成果物の記録、`formatting` は整形設定です。テストも対応する機能の package に置きます。プラグインスクリプトには package 宣言を付けず、ファイル名をプラグイン ID に使います。独自の Maven 公開プラグインは、Gradle 標準の `maven-publish` と区別するため `maven-publishing` とします。
+通常の Kotlin クラスは `build-logic/src/main/kotlin/dev/lapis256/hauyne/buildlogic/` 内の機能別 package に置き、テストも対応する package に置きます。プラグインスクリプトは `build-logic/src/main/kotlin/` 直下に置き、package 宣言を付けず、ファイル名をプラグイン ID に使います。独自の Maven 公開プラグインは、Gradle 標準の `maven-publish` と区別するため `maven-publishing` とします。
 
 通常のライブラリには `library` を適用し、Kotlin・Java・テスト・JAR の共通設定を有効にします。Maven 公開が必要なモジュールには、加えて `maven-publishing` を適用します。Minecraft 用の `minecraft-library` は `library` と Maven 公開の設定をまとめて適用します。
 
