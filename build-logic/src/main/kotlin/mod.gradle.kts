@@ -28,22 +28,22 @@ kotlin.sourceSets.main {
     kotlin.srcDir(constants)
 }
 
-val fml = metadata.forgeLike
+val fml = metadata.selectedMetadata
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
     modName = metadata.modName
     license = metadata.license
     modDescription = metadata.description
-    loader = fml.loader
-    minecraftVersionRange = fml.minecraftVersionRange
-    loaderVersionRange = fml.loaderVersionRange
-    javaFmlLoaderVersionRange = fml.javaFmlLoaderVersionRange
-    modDependencies = fml.dependencies.entries
+    loader = metadata.selectedLoader
+    minecraftVersionRange = fml.flatMap { it.minecraftVersionRange }
+    loaderVersionRange = fml.flatMap { it.loaderVersionRange }
+    javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }
+    modDependencies = fml.flatMap { it.dependencies.entries }
 }
 
 afterEvaluate {
-    val loader = fml.loader.get()
-    validateDependencies(fml.dependencies.entries.get(), metadata.modId.get(), loader)
+    val loader = requireNotNull(metadata.selectedLoader.orNull) { "Configure hauyneMetadata.forge {} or hauyneMetadata.neoforge {}" }
+    validateDependencies(fml.get().dependencies.entries.get(), metadata.modId.get(), loader)
     generateMetadata.configure {
         modVersion = project.version.toString()
         outputFile = layout.buildDirectory.file("generated/resources/modMetadata/${loader.metadataFileName}")
@@ -92,7 +92,7 @@ publishMods {
         client = true
         server = true
         dependencies.addAll(
-            fml.dependencies.entries.map { declarations ->
+            fml.flatMap { it.dependencies.entries }.map { declarations ->
                 declarations.filter { it.curseForgeSlug.isPresent }.map { dependency ->
                     objects.newInstance(CurseforgeDependency::class.java).apply {
                         slug.set(dependency.curseForgeSlug)
@@ -108,7 +108,7 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
         environment = me.modmuss50.mpp.platforms.modrinth.ModrinthEnvironment.CLIENT_AND_SERVER
         dependencies.addAll(
-            fml.dependencies.entries.map { declarations ->
+            fml.flatMap { it.dependencies.entries }.map { declarations ->
                 declarations.filter { it.modrinthSlug.isPresent }.map { dependency ->
                     objects.newInstance(ModrinthDependency::class.java).apply {
                         slug.set(dependency.modrinthSlug)

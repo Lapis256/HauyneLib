@@ -11,7 +11,6 @@ enum class HauyneFmlLoader(val modId: String, val metadataFileName: String) {
 }
 
 abstract class HauyneFmlMetadataExtension @Inject constructor(objects: ObjectFactory) {
-    abstract val loader: Property<HauyneFmlLoader>
     abstract val minecraftVersionRange: Property<String>
     abstract val loaderVersionRange: Property<String>
     abstract val javaFmlLoaderVersionRange: Property<String>

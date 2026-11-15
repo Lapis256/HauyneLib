@@ -78,6 +78,43 @@ class ModMetadataTest {
         assertThrows(IllegalArgumentException::class.java) { task.generate() }
     }
 
+    @Test
+    fun loaderBlocksSelectTheirOwnMetadataAndCannotBeMixed() {
+        for (loader in HauyneFmlLoader.entries) {
+            val metadata = ProjectBuilder.builder().withProjectDir(root).build().objects
+                .newInstance(HauyneModMetadataExtension::class.java)
+            assertFalse(metadata.selectedLoader.isPresent)
+            when (loader) {
+                HauyneFmlLoader.FORGE -> metadata.forge {
+                    minecraftVersionRange.set("[1.20.1]")
+                    dependencies { require("forge_api") }
+                }
+
+                HauyneFmlLoader.NEOFORGE -> metadata.neoforge {
+                    minecraftVersionRange.set("[1.21.1]")
+                    dependencies { require("neoforge_api") }
+                }
+            }
+            assertEquals(loader, metadata.selectedLoader.get())
+            val task = task(loader)
+            task.loader.set(metadata.selectedLoader)
+            task.minecraftVersionRange.set(metadata.selectedMetadata.flatMap { it.minecraftVersionRange })
+            task.modDependencies.set(metadata.selectedMetadata.flatMap { it.dependencies.entries })
+            task.generate()
+            val dependencies = TomlParser().parse(task.outputFile.get().asFile.readText())
+                .get<List<Config>>("dependencies.hauynelib").associateBy { it.get<String>("modId") }
+            assertTrue(dependencies.containsKey("${loader.modId}_api"))
+            val expectedRange = if (loader == HauyneFmlLoader.FORGE) "[1.20.1]" else "[1.21.1]"
+            assertEquals(expectedRange, dependencies.getValue("minecraft").get<String>("versionRange"))
+            assertThrows(IllegalArgumentException::class.java) {
+                when (loader) {
+                    HauyneFmlLoader.FORGE -> metadata.neoforge {}
+                    HauyneFmlLoader.NEOFORGE -> metadata.forge {}
+                }
+            }
+        }
+    }
+
     private fun declarations(): HauyneDependencies = ProjectBuilder.builder().withProjectDir(root).build()
         .objects.newInstance(HauyneDependencies::class.java)
 

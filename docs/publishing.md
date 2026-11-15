@@ -12,9 +12,36 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名を設定し、設定ファイルと Java Toolchain も設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneMinecraft` の Extension は引き続き使用できます。
 
-Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge と NeoForge の Mod には `mod` を適用し、`hauyneMetadata { forgeLike { ... } }` に `loader = HauyneFmlLoader.NEOFORGE` または `FORGE` と依存範囲を指定します。必須のローダー指定を省くと構成時に失敗します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
+Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge の Mod には `hauyneMetadata { forge { ... } }`、NeoForge の Mod には `hauyneMetadata { neoforge { ... } }` で依存範囲を指定します。ブロック名からローダーと出力ファイル名が決まるため、`loader` の指定は不要です。1プロジェクトではどちらか一方を設定します。両方の指定や両方の省略は構成時にエラーになります。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
 
-任意の Mod 依存は `forgeLike { dependencies { ... } }` に記述します。`require("mod_id")`・`optional("mod_id")`・`incompatible("mod_id")`・`discouraged("mod_id")` の各ブロックで、`versionRange`・`reason`・`ordering`・`side` を設定できます。Forge では非互換・非推奨の宣言を構成時に拒否します。`curseForgeSlug`・`modrinthSlug` を指定すると、そのサービスへの依存関係も設定します。slug を省いたサービスには関係設定を出力しません。コンパイル依存と Jar-in-Jar は別途設定してください。項目と検証規則は [メタデータ DSL の仕様](metadata-dsl-design.md) を参照してください。
+追加の Mod 依存は、各ローダーブロックの `dependencies { ... }` に記述します。
+
+```kotlin
+hauyneMetadata {
+    neoforge {
+        minecraftVersionRange = "[1.21.1]"
+        loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
+        javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
+        dependencies {
+            require("example_api") {
+                versionRange = "[1.0,2.0)"
+                reason = "Required for configuration integration"
+                curseForgeSlug = "example-api"
+                modrinthSlug = "example-api"
+            }
+            optional("example_integration")
+        }
+    }
+}
+```
+
+Forge では `neoforge` を `forge` に置き換えます。`require` は必須、`optional` は任意、`incompatible` は併用禁止、`discouraged` は併用時の警告です。Forge では非互換・非推奨の宣言を構成時に拒否します。`require` と `optional` は設定ブロックを省略できます。各プロパティには固定値と `Provider` のどちらも渡せます。
+
+`versionRange` は Maven 形式で、既定値は全バージョンを対象とする `(,)` です。`ordering` は `HauyneDependencyOrdering` の `NONE`（既定）・`BEFORE`・`AFTER`、`side` は `HauyneDependencySide` の `BOTH`（既定）・`CLIENT`・`SERVER` を指定します。`reason` は任意の説明で、NeoForge では依存メタデータ、Forge では TOML コメントに出力します。Minecraft とローダーの必須依存は自動生成します。これらの手動宣言、自己依存、同一 MOD ID の重複は構成時にエラーになります。
+
+`curseForgeSlug`・`modrinthSlug` を指定すると、そのサービスへの関係設定も生成します。共通の slug プロパティはなく、同じ slug でも個別に指定します。省略したサービスには関係設定を出力しません。明示的な空文字列はエラーです。必須・任意・非互換の関係種別は依存宣言から決まります。必要な場合は `curseForgeRelation`・`modrinthRelation` に `PlatformDependency.DependencyType` の `REQUIRED`・`OPTIONAL`・`INCOMPATIBLE`・`EMBEDDED` を指定して上書きできます。`discouraged` を配布先にも設定する場合は関係種別を明示してください。関係種別の指定には、そのサービスの slug が必要です。Modrinth の配布版を固定する `modrinthVersionId` にも `modrinthSlug` が必要です。
+
+`versionRange`・`ordering`・`side` は配布先の関係設定へ変換しません。`modrinthVersionId` はゲーム内のバージョン範囲とは別の指定です。コンパイル依存と Jar-in-Jar は別途設定してください。`EMBEDDED` も配布先の表示だけを設定します。通常の構成とメタデータ生成ではネットワーク照会を行いません。slug の実在確認は配布時のサービス側検証に任せます。自プロジェクトの公開先 ID や認証情報は既存の `publishMods` で設定します。
 
 `generateModMetadata` が Mod の公開バージョンと設定値から TOML を生成し、`processResources` が JAR の `META-INF/` に取り込みます。Forge は `mods.toml`、NeoForge は `neoforge.mods.toml` を生成します。テンプレートファイルは不要です。メタデータは Kotlin Serialization の `@Serializable` クラスで定義し、[ktoml](https://github.com/orchestr7/ktoml) で TOML にシリアライズします。出力項目は [Forge](https://docs.minecraftforge.net/en/latest/gettingstarted/modfiles/) と [NeoForge](https://docs.neoforged.net/docs/gettingstarted/modfiles/) の仕様に従います。
 

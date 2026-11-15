@@ -1,5 +1,3 @@
-import dev.lapis256.hauyne.buildlogic.metadata.HauyneFmlLoader
-
 plugins {
     id("mod")
     alias(libs.plugins.stonecutter)
@@ -9,8 +7,7 @@ plugins {
 val mc = stonecutter.current.version
 
 hauyneMetadata {
-    forgeLike {
-        loader = HauyneFmlLoader.FORGE
+    forge {
         minecraftVersionRange = "[$mc]"
         loaderVersionRange = hauyneMinecraft.versionProperty("loaderVersionRange")
         javaFmlLoaderVersionRange = hauyneMinecraft.versionProperty("javaFmlLoaderVersionRange")
