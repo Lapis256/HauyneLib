@@ -15,7 +15,7 @@ enum class Side { BOTH, CLIENT, SERVER }
 
 abstract class HauyneDependency @Inject constructor(@get:Input val modId: String, @get:Input val type: DependencyKind) {
 
-    @get:Input abstract val versionRange: Property<String>
+    @get:Input abstract val versionRange: Property<VersionRange>
 
     @get:Input abstract val ordering: Property<Ordering>
 
@@ -40,7 +40,7 @@ abstract class HauyneDependency @Inject constructor(@get:Input val modId: String
     abstract val modrinthVersionId: Property<String>
 
     init {
-        versionRange.convention("(,)")
+        versionRange.convention(AnyVersion)
         ordering.convention(Ordering.NONE)
         side.convention(Side.BOTH)
     }
@@ -56,7 +56,6 @@ abstract class HauyneDependency @Inject constructor(@get:Input val modId: String
         val id = modId
         require(id.matches(Regex("[a-z][a-z0-9_]{1,63}"))) { "Invalid FML dependency mod ID: $id" }
         require(id !in setOf(owner, "minecraft", loader.modId)) { "Reserved or self dependency: $id" }
-        require(versionRange.get().isNotBlank()) { "Empty version range: $id" }
         require(loader != HauyneFmlLoader.FORGE || type in setOf(DependencyKind.REQUIRED, DependencyKind.OPTIONAL)) {
             "Forge does not support $type dependencies: $id"
         }

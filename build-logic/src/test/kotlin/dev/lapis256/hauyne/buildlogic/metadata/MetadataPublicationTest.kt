@@ -1,6 +1,9 @@
 package dev.lapis256.hauyne.buildlogic.metadata
 
+import com.electronwill.nightconfig.core.Config
+import com.electronwill.nightconfig.toml.TomlParser
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
@@ -10,7 +13,7 @@ class MetadataPublicationTest {
     lateinit var root: File
 
     @Test
-    fun modPluginConnectsDeclarationsToEachPublicationPlatform() {
+    fun modPluginConnectsDeclarationsToMetadataAndPublicationPlatforms() {
         for (path in listOf("core", "minecraft/test", "forge/test", "neoforge/test")) {
             root.resolve("hauyne-config/$path").mkdirs()
         }
@@ -69,15 +72,20 @@ class MetadataPublicationTest {
             controller.resolve("build.gradle.kts").writeText(
                 """
                 import me.modmuss50.mpp.PlatformDependency.DependencyType
+                import dev.lapis256.hauyne.buildlogic.metadata.AnyVersion
+                import dev.lapis256.hauyne.buildlogic.metadata.eq
+                import dev.lapis256.hauyne.buildlogic.metadata.gte
+                import dev.lapis256.hauyne.buildlogic.metadata.rangeUntil
                 plugins { id("mod") }
                 java { toolchain.languageVersion = JavaLanguageVersion.of(JavaVersion.current().majorVersion.toInt()) }
                 hauyneMetadata {
                     $loader {
-                        minecraftVersionRange = "(,)"
-                        loaderVersionRange = "(,)"
-                        javaFmlLoaderVersionRange = "(,)"
+                        minecraftVersionRange = AnyVersion
+                        loaderVersionRange = "1".gte()
+                        javaFmlLoaderVersionRange = "4".eq()
                         dependencies {
                             require("shared_api") {
+                                versionRange = "1"..<"2"
                                 curseForgeSlug = "curse-api"
                                 modrinthSlug = "modrinth-api"
                                 modrinthVersionId = "version-id"
@@ -114,7 +122,25 @@ class MetadataPublicationTest {
                 """.trimIndent(),
             )
         }
-        GradleRunner.create().withProjectDir(root).withPluginClasspath()
-            .withArguments("help", "--offline", "--console=plain").build()
+        val runner = GradleRunner.create().withProjectDir(root).withPluginClasspath()
+            .withArguments(
+                ":hauyne-lib:forge:test:generateModMetadata",
+                ":hauyne-lib:neoforge:test:generateModMetadata",
+                "--configuration-cache",
+                "--offline",
+                "--console=plain",
+            )
+        runner.build()
+        runner.build()
+        for (loader in HauyneFmlLoader.entries) {
+            val file = root.resolve("hauyne-lib/${loader.modId}/versions/test/build/generated/resources/modMetadata/${loader.metadataFileName}")
+            val metadata = TomlParser().parse(file.readText())
+            assertEquals("[4]", metadata.get<String>("loaderVersion"))
+            val dependencies = metadata.get<List<Config>>("dependencies.example").associateBy { it.get<String>("modId") }
+            assertEquals("(,)", dependencies.getValue("minecraft").get<String>("versionRange"))
+            assertEquals("[1,)", dependencies.getValue(loader.modId).get<String>("versionRange"))
+            assertEquals("[1,2)", dependencies.getValue("shared_api").get<String>("versionRange"))
+            assertEquals("(,)", dependencies.getValue("local_only").get<String>("versionRange"))
+        }
     }
 }

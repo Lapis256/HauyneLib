@@ -86,19 +86,19 @@ class ModMetadataTest {
             assertFalse(metadata.selectedLoader.isPresent)
             when (loader) {
                 HauyneFmlLoader.FORGE -> metadata.forge {
-                    minecraftVersionRange.set("[1.20.1]")
+                    minecraftVersionRange.set("1.20.1".eq())
                     dependencies { require("forge_api") }
                 }
 
                 HauyneFmlLoader.NEOFORGE -> metadata.neoforge {
-                    minecraftVersionRange.set("[1.21.1]")
+                    minecraftVersionRange.set("1.21.1".eq())
                     dependencies { require("neoforge_api") }
                 }
             }
             assertEquals(loader, metadata.selectedLoader.get())
             val task = task(loader)
             task.loader.set(metadata.selectedLoader)
-            task.minecraftVersionRange.set(metadata.selectedMetadata.flatMap { it.minecraftVersionRange })
+            task.minecraftVersionRange.set(metadata.selectedMetadata.flatMap { it.minecraftVersionRange }.map { it.versionRange })
             task.modDependencies.set(metadata.selectedMetadata.flatMap { it.dependencyEntries })
             task.generate()
             val dependencies = TomlParser().parse(task.outputFile.get().asFile.readText())
@@ -123,7 +123,7 @@ class ModMetadataTest {
         for (loader in HauyneFmlLoader.entries) {
             val declarations = declarations()
             declarations.require("example_api") {
-                versionRange.set("[1,2)")
+                versionRange.set("1"..<"2")
                 reason.set("First line\r\n[[mods]]\n# reason")
                 ordering.set(Ordering.AFTER)
                 side.set(Side.CLIENT)
@@ -173,7 +173,6 @@ class ModMetadataTest {
             { it.require("INVALID") },
             { it.incompatible("broken_mod") },
             { it.discouraged("slow_mod") },
-            { it.require("example_api") { versionRange.set("") } },
             { it.require("example_api") { curseForgeSlug.set(" ") } },
             { it.require("example_api") { modrinthSlug.set("") } },
             { it.require("example_api") { curseForgeRelation.set(DependencyType.OPTIONAL) } },

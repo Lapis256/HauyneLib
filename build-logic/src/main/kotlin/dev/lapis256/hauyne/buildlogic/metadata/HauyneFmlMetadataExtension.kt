@@ -12,9 +12,9 @@ enum class HauyneFmlLoader(val modId: String, val metadataFileName: String) {
 }
 
 abstract class HauyneFmlMetadataExtension {
-    abstract val minecraftVersionRange: Property<String>
-    abstract val loaderVersionRange: Property<String>
-    abstract val javaFmlLoaderVersionRange: Property<String>
+    abstract val minecraftVersionRange: Property<VersionRange>
+    abstract val loaderVersionRange: Property<VersionRange>
+    abstract val javaFmlLoaderVersionRange: Property<VersionRange>
 
     internal abstract val dependencyEntries: ListProperty<HauyneDependency>
 }

@@ -35,9 +35,9 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
     license = metadata.license
     modDescription = metadata.description
     loader = metadata.selectedLoader
-    minecraftVersionRange = fml.flatMap { it.minecraftVersionRange }
-    loaderVersionRange = fml.flatMap { it.loaderVersionRange }
-    javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }
+    minecraftVersionRange = fml.flatMap { it.minecraftVersionRange }.map { it.versionRange }
+    loaderVersionRange = fml.flatMap { it.loaderVersionRange }.map { it.versionRange }
+    javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }.map { it.versionRange }
     modDependencies = fml.flatMap { it.dependencyEntries }
 }
 

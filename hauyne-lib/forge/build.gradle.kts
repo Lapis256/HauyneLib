@@ -1,3 +1,6 @@
+import dev.lapis256.hauyne.buildlogic.metadata.eq
+import dev.lapis256.hauyne.buildlogic.metadata.gte
+
 plugins {
     id("mod")
     alias(libs.plugins.stonecutter)
@@ -8,9 +11,9 @@ val mc = stonecutter.current.version
 
 hauyneMetadata {
     forge {
-        minecraftVersionRange = "[$mc]"
-        loaderVersionRange = stonecutter.properties.getLazy("loaderVersionRange")
-        javaFmlLoaderVersionRange = stonecutter.properties.getLazy("javaFmlLoaderVersionRange")
+        minecraftVersionRange = mc.eq()
+        loaderVersionRange = stonecutter.properties.getLazy("minimumLoaderVersion").gte()
+        javaFmlLoaderVersionRange = stonecutter.properties.getLazy("minimumJavaFmlLoaderVersion").gte()
     }
 }
 

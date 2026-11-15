@@ -12,19 +12,23 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `minecraft-library` が controller のパスから成果物名と Java Toolchain を設定します。対象の Minecraft バージョンは Stonecutter の定義を参照します。各モジュールで同じ初期設定を繰り返す必要はありません。
 
-Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge の Mod には `hauyneMetadata { forge { ... } }`、NeoForge の Mod には `hauyneMetadata { neoforge { ... } }` で依存範囲を指定します。ブロック名からローダーと出力ファイル名が決まるため、`loader` の指定は不要です。1プロジェクトではどちらか一方を設定します。両方の指定や両方の省略は構成時にエラーになります。`loaderVersionRange` と `javaFmlLoaderVersionRange` は `stonecutter.properties.getLazy(...)` で渡します。バージョンと対応範囲は別の設定値として管理します。MDG 固有のバージョンは `stonecutter.properties[...]` から読み、既存の MDG Extension に渡します。
+Mod 共通の ID・表示名・パッケージ・ライセンス・説明は、ルートの `gradle.properties` の `modId`・`modName`・`modPackage`・`license`・`modDescription` に設定します。`mod` プラグインが `hauyneMetadata` の既定値として読み込みます。Forge の Mod には `hauyneMetadata { forge { ... } }`、NeoForge の Mod には `hauyneMetadata { neoforge { ... } }` で依存範囲を指定します。ブロック名からローダーと出力ファイル名が決まるため、`loader` の指定は不要です。1プロジェクトではどちらか一方を設定します。両方の指定や両方の省略は構成時にエラーになります。`loaderVersionRange` と `javaFmlLoaderVersionRange` は、Stonecutter の `minimumLoaderVersion`・`minimumJavaFmlLoaderVersion` を `getLazy(...).gte()` で範囲に変換して渡します。ビルド対象のバージョンと互換性の下限は別の設定値として管理します。MDG 固有のバージョンは `stonecutter.properties[...]` から読み、既存の MDG Extension に渡します。
 
 追加の Mod 依存は、各ローダーブロックの `dependencies { ... }` に記述します。
 
 ```kotlin
+import dev.lapis256.hauyne.buildlogic.metadata.eq
+import dev.lapis256.hauyne.buildlogic.metadata.gte
+import dev.lapis256.hauyne.buildlogic.metadata.rangeUntil
+
 hauyneMetadata {
     neoforge {
-        minecraftVersionRange = "[1.21.1]"
-        loaderVersionRange = stonecutter.properties.getLazy("loaderVersionRange")
-        javaFmlLoaderVersionRange = stonecutter.properties.getLazy("javaFmlLoaderVersionRange")
+        minecraftVersionRange = "1.21.1".eq()
+        loaderVersionRange = stonecutter.properties.getLazy("minimumLoaderVersion").gte()
+        javaFmlLoaderVersionRange = stonecutter.properties.getLazy("minimumJavaFmlLoaderVersion").gte()
         dependencies {
             require("example_api") {
-                versionRange = "[1.0,2.0)"
+                versionRange = "1.0"..<"2.0"
                 reason = "Required for configuration integration"
                 curseForgeSlug = "example-api"
                 modrinthSlug = "example-api"
@@ -37,7 +41,21 @@ hauyneMetadata {
 
 Forge では `neoforge` を `forge` に置き換えます。Forge の依存 DSL には、必須の `require` と任意の `optional` だけがあります。NeoForge の依存 DSL では、併用禁止の `incompatible` と併用時に警告する `discouraged` も使えます。Forge のブロックでこれらを呼ぶと Kotlin のコンパイルエラーになります。依存の種類は宣言時に決まり、設定ブロック内では変更できません。`require` と `optional` は設定ブロックを省略できます。各設定プロパティには固定値と `Provider` のどちらも渡せます。
 
-`versionRange` は Maven 形式で、既定値は全バージョンを対象とする `(,)` です。`ordering` は `Ordering` の `NONE`（既定）・`BEFORE`・`AFTER`、`side` は `Side` の `BOTH`（既定）・`CLIENT`・`SERVER` を指定します。`reason` は任意の説明で、NeoForge では依存メタデータ、Forge では TOML コメントに出力します。Minecraft とローダーの必須依存は自動生成します。これらの手動宣言、自己依存、同一 MOD ID の重複は構成時にエラーになります。
+範囲の各プロパティは `VersionRange` または `Provider<VersionRange>` を受け取り、生成時に Maven 形式の文字列へ変換します。依存の `versionRange` の既定値は、全バージョンを対象とする `AnyVersion`（`(,)`）です。
+
+| 式 | 出力 |
+| --- | --- |
+| `"1".eq()` | `[1]` |
+| `"1".gt()` / `"1".gte()` | `(1,)` / `[1,)` |
+| `"1".lt()` / `"1".lte()` | `(,1)` / `(,1]` |
+| `"1".neq()` | `(,1),(1,)` |
+| `"1".."2"` / `"1"..<"2"` | `[1,2]` / `[1,2)` |
+| `"1" rangeToExclusive "2"` / `"1" rangeToMax "2"` | `(1,2)` / `(1,2]` |
+| `Or(LessThan("1"), GreaterThan("2"))` | `(,1),(2,)` |
+
+範囲のクラスと拡張関数は `dev.lapis256.hauyne.buildlogic.metadata` から import します。`Equal`・`GreaterThan`・`GreaterThanOrEqual`・`LessThan`・`LessThanOrEqual`・`NotEqual`、および `RangeExclusive`・`RangeInclusive`・`RangeInclusiveMin`・`RangeInclusiveMax` を直接構築することもできます。`Provider<String>` 向けの演算は `map`・`zip` で遅延評価し、両端の `Provider`、または左端の `Provider` と右端の文字列から範囲を作れます。空のバージョン、空白や範囲の区切り記号を含むバージョン、空の `Or()` は拒否します。バージョンの大小や範囲の重なりは比較せず、指定した順で出力します。
+
+`ordering` は `Ordering` の `NONE`（既定）・`BEFORE`・`AFTER`、`side` は `Side` の `BOTH`（既定）・`CLIENT`・`SERVER` を指定します。`reason` は任意の説明で、NeoForge では依存メタデータ、Forge では TOML コメントに出力します。Minecraft とローダーの必須依存は自動生成します。これらの手動宣言、自己依存、同一 MOD ID の重複は構成時にエラーになります。
 
 `curseForgeSlug`・`modrinthSlug` を指定すると、そのサービスへの関係設定も生成します。共通の slug プロパティはなく、同じ slug でも個別に指定します。省略したサービスには関係設定を出力しません。明示的な空文字列はエラーです。必須・任意・非互換の関係種別は依存宣言から決まります。必要な場合は `curseForgeRelation`・`modrinthRelation` に `PlatformDependency.DependencyType` の `REQUIRED`・`OPTIONAL`・`INCOMPATIBLE`・`EMBEDDED` を指定して上書きできます。`discouraged` を配布先にも設定する場合は関係種別を明示してください。関係種別の指定には、そのサービスの slug が必要です。Modrinth の配布版を固定する `modrinthVersionId` にも `modrinthSlug` が必要です。
 
