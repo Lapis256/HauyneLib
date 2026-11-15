@@ -1,5 +1,6 @@
 [versions]
 kotlin = "2.4.21"
+binaryCompatibilityValidator = "0.18.2"
 ksp = "2.3.14"
 mdg = "2.0.148"
 stonecutter = "0.10"
@@ -13,6 +14,7 @@ eclipse = "4.41"
 ec4j = "1.2.0"
 
 [libraries]
+asm-tree = { module = "org.ow2.asm:asm-tree", version = "9.8" }
 spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 ec4j = { module = "org.ec4j.core:ec4j-core", version.ref = "ec4j" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -24,6 +26,7 @@ nightconfig = { module = "com.electronwill.night-config:toml", version.ref = "ni
 ktoml = { module = "com.akuleshov7:ktoml-core", version.ref = "ktoml" }
 
 [plugins]
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
 stonecutter = { id = "dev.kikugie.stonecutter", version.ref = "stonecutter" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

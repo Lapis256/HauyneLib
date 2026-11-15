@@ -1,0 +1,7 @@
+public final class dev/lapis256/hauyne/config/neoforge/NeoforgeBackend : dev/lapis256/hauyne/config/Backend {
+	public final field spec Lnet/neoforged/neoforge/common/ModConfigSpec;
+	public fun <init> (Ljava/util/Map;)V
+	public fun read (Ljava/lang/String;)Ljava/lang/String;
+	public fun write (Ljava/lang/String;Ljava/lang/String;)V
+}
+

@@ -1,0 +1,6 @@
+public final class dev/lapis256/hauyne/config/memory/MemoryBackend : dev/lapis256/hauyne/config/Backend {
+	public fun <init> ()V
+	public fun read (Ljava/lang/String;)Ljava/lang/String;
+	public fun write (Ljava/lang/String;Ljava/lang/String;)V
+}
+

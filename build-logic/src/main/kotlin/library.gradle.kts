@@ -46,6 +46,8 @@ tasks.withType<Test>().configureEach {
 val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 dependencies {
+    // BCV 付属の ASM 9.6 では Java 25 のクラスを読み取れない。
+    "bcv-rt-jvm-cp"(catalog.findLibrary("asm-tree").get())
     "testImplementation"(platform(catalog.findLibrary("junit-bom").get()))
     "testImplementation"("org.junit.jupiter:junit-jupiter")
     "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")

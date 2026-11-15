@@ -1,0 +1,9 @@
+public final class dev/lapis256/hauyne/lib/HauyneConstants {
+	public static final field INSTANCE Ldev/lapis256/hauyne/lib/HauyneConstants;
+	public static final field MOD_ID Ljava/lang/String;
+}
+
+public final class dev/lapis256/hauyne/lib/HauyneLib {
+	public fun <init> ()V
+}
+

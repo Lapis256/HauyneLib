@@ -1,0 +1,10 @@
+public final class dev/lapis256/hauyne/config/minecraft/MinecraftConfig {
+	public static final field Companion Ldev/lapis256/hauyne/config/minecraft/MinecraftConfig$Companion;
+	public fun <init> ()V
+	public static final fun describe (Lnet/minecraft/core/BlockPos;)Ljava/lang/String;
+}
+
+public final class dev/lapis256/hauyne/config/minecraft/MinecraftConfig$Companion {
+	public final fun describe (Lnet/minecraft/core/BlockPos;)Ljava/lang/String;
+}
+
