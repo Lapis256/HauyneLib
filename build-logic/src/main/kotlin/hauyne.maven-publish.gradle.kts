@@ -1,5 +1,4 @@
 plugins {
-    id("hauyne.library")
     `maven-publish`
 }
 

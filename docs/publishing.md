@@ -6,6 +6,8 @@ Gradle 9.7.1 と Java 25 で実行します。Stonecutter 0.10 は Gradle 9.7 �
 
 `buildSrc` は使いません。共通ビルド処理はすべて `build-logic` の Convention Plugin にまとめています。ルートの `allprojects`・`subprojects` による横断設定や、`gradle/*.gradle.kts` の外部スクリプト適用はありません。MDG のモード、依存先、Jar-in-Jar、配布ファイルは各モジュールの `build.gradle.kts` に記述しています。
 
+通常のライブラリには `hauyne.library` を適用し、Kotlin を有効にします。Java 専用の場合だけ、代わりに `hauyne.java-library` を明示します。Maven 公開が必要なモジュールには、選んだライブラリプラグインに加えて `hauyne.maven-publish` を適用します。Minecraft 用の `hauyne.minecraft-library` は Kotlin と Maven 公開の設定をまとめて適用します。
+
 共通処理へ渡す値は型付き Extension で設定します。Minecraft モジュールでは `hauyne.minecraft-library` が controller のパスから成果物名を設定し、系列に対応する Minecraft バージョン・設定ファイル・Java Toolchain の既定値も設定します。各モジュールで同じ初期設定を繰り返す必要はありません。`hauyneLibrary` と `hauyneMinecraft` の Extension は引き続き使用できます。`hauyneModMetadata` にはローダー・パッケージ・依存範囲などを明示し、必須のローダー指定を省くと構成時に失敗します。
 
 Mod メタデータでは `loader = HauyneModLoader.NEOFORGE` または `FORGE` を明示します。`loaderVersionRange` と `javaFmlLoaderVersionRange` はバージョン別設定から渡します。これらの値は移行前の生成結果を維持して設定ファイルへ移しています。MDG 固有のバージョンは `hauyneMinecraft.versionProperty(...)` から読み、既存の MDG Extension に渡します。
