@@ -21,6 +21,8 @@ class ModMetadataTest {
             modId.set("hauynelib")
             modName.set("HauyneLib")
             modAuthor.set("Lapis256")
+            issueTrackerUrl.set("https://github.com/Lapis256/HauyneLib/issues")
+            displayUrl.set("https://github.com/Lapis256/HauyneLib")
             modVersion.set("26.1-0.1.0")
             license.set("MIT")
             modDescription.set("Configuration library")
@@ -40,10 +42,12 @@ class ModMetadataTest {
             assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4,)", metadata.get<String>("loaderVersion"))
             assertEquals("MIT", metadata.get<String>("license"))
+            assertEquals("https://github.com/Lapis256/HauyneLib/issues", metadata.get<String>("issueTrackerURL"))
             val mod = metadata.get<List<Config>>("mods").single()
             assertEquals("hauynelib", mod.get<String>("modId"))
             assertEquals("26.1-0.1.0", mod.get<String>("version"))
             assertEquals("Lapis256", mod.get<String>("authors"))
+            assertEquals("https://github.com/Lapis256/HauyneLib", mod.get<String>("displayURL"))
             val dependencies = metadata.get<List<Config>>("dependencies.hauynelib").associateBy { it.get<String>("modId") }
             assertEquals(setOf("minecraft", loader.modId), dependencies.keys)
             assertEquals("[26.1.2]", dependencies.getValue("minecraft").get<String>("versionRange"))
@@ -67,12 +71,16 @@ class ModMetadataTest {
         task.modName.set(text)
         task.modDescription.set(text)
         task.modAuthor.set(text)
+        task.issueTrackerUrl.set(text)
+        task.displayUrl.set(text)
         task.generate()
         val metadata = TomlParser().parse(task.outputFile.get().asFile.readText())
         val mod = metadata.get<List<Config>>("mods").single()
         assertEquals(text, mod.get<String>("displayName"))
         assertEquals(text, mod.get<String>("description"))
         assertEquals(text, mod.get<String>("authors"))
+        assertEquals(text, metadata.get<String>("issueTrackerURL"))
+        assertEquals(text, mod.get<String>("displayURL"))
     }
 
     @Test

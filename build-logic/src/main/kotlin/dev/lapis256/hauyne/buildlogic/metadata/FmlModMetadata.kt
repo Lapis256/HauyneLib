@@ -6,13 +6,21 @@ import kotlinx.serialization.Serializable
 internal data class FmlModMetadata(
     val loaderVersion: String,
     val license: String,
+    val issueTrackerURL: String,
     val mods: List<FmlMod>,
     val dependencies: Map<String, List<FmlDependency>>,
     val modLoader: String = "javafml",
 )
 
 @Serializable
-internal data class FmlMod(val modId: String, val version: String, val displayName: String, val description: String, val authors: String)
+internal data class FmlMod(
+    val modId: String,
+    val version: String,
+    val displayName: String,
+    val description: String,
+    val authors: String,
+    val displayURL: String,
+)
 
 @Serializable
 internal data class FmlDependency(

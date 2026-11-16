@@ -16,6 +16,8 @@ val metadata = extensions.create<HauyneModMetadataExtension>("hauyneMetadata")
 metadata.modId.convention(providers.gradleProperty("modId"))
 metadata.modName.convention(providers.gradleProperty("modName"))
 metadata.modAuthor.convention(providers.gradleProperty("modAuthor"))
+metadata.displayUrl.convention(providers.gradleProperty("projectUrl"))
+metadata.issueTrackerUrl.convention(providers.gradleProperty("projectUrl").map { "${it.trimEnd('/')}/issues" })
 metadata.modPackage.convention(providers.gradleProperty("modPackage"))
 metadata.license.convention(providers.gradleProperty("license"))
 metadata.description.convention(providers.gradleProperty("modDescription"))
@@ -34,6 +36,8 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
     modId = metadata.modId
     modName = metadata.modName
     modAuthor = metadata.modAuthor
+    issueTrackerUrl = metadata.issueTrackerUrl
+    displayUrl = metadata.displayUrl
     license = metadata.license
     modDescription = metadata.description
     loader = metadata.selectedLoader

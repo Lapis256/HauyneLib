@@ -23,6 +23,12 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
     abstract val modAuthor: Property<String>
 
     @get:Input
+    abstract val issueTrackerUrl: Property<String>
+
+    @get:Input
+    abstract val displayUrl: Property<String>
+
+    @get:Input
     abstract val modVersion: Property<String>
 
     @get:Input
@@ -76,7 +82,8 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
         val metadata = FmlModMetadata(
             loaderVersion = javaFmlLoaderVersionRange.get(),
             license = license.get(),
-            mods = listOf(FmlMod(id, modVersion.get(), modName.get(), modDescription.get(), modAuthor.get())),
+            issueTrackerURL = issueTrackerUrl.get(),
+            mods = listOf(FmlMod(id, modVersion.get(), modName.get(), modDescription.get(), modAuthor.get(), displayUrl.get())),
             dependencies = mapOf(id to dependencies),
         )
         val file = outputFile.get().asFile
