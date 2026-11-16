@@ -35,5 +35,6 @@ tasks.withType<Jar>().configureEach {
             it.replace('-', '.')
         },
         "FMLModType" to "GAMELIBRARY",
+        "Built-On-Minecraft" to sc.current.version,
     )
 }

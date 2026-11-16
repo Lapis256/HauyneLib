@@ -1,5 +1,7 @@
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 plugins {
     `java-library`
@@ -68,6 +70,27 @@ tasks.withType<Test>().configureEach {
 }
 
 val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+afterEvaluate {
+    val artifactVersion = providers.provider { project.version.toString() }
+    val artifactName = base.archivesName.get()
+    val compilerMetadata = javaToolchains.compilerFor(java.toolchain).map { it.metadata }
+    val timestamp = OffsetDateTime.now()
+    tasks.withType<Jar>().configureEach {
+        manifest.attributes(
+            "Specification-Title" to providers.gradleProperty("modName"),
+            "Specification-Vendor" to providers.gradleProperty("modAuthor"),
+            "Specification-Version" to artifactVersion,
+            "Implementation-Title" to artifactName,
+            "Implementation-Version" to artifactVersion,
+            "Implementation-Vendor" to providers.gradleProperty("modAuthor"),
+            "Implementation-Timestamp" to timestamp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")),
+            "Timestamp" to timestamp.toInstant().toEpochMilli(),
+            "Built-On-Java" to compilerMetadata.map { "${it.jvmVersion} (${it.vendor})" },
+            "Built-On-Kotlin" to catalog.findVersion("kotlin").get().requiredVersion,
+        )
+    }
+}
 
 dependencies {
     // BCV 付属の ASM 9.6 では Java 25 のクラスを読み取れない。
