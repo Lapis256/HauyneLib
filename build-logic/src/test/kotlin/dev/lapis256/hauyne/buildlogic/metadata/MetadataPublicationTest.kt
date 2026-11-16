@@ -108,6 +108,7 @@ class MetadataPublicationTest {
                 publishMods {
                     curseforge {
                         check(dependencies.get().associate { it.slug.get() to it.type.get() } == mapOf(
+                            "kotlinlangforge" to DependencyType.REQUIRED,
                             "curse-api" to DependencyType.REQUIRED,
                             "curse-only" to DependencyType.OPTIONAL,
                             "curse-override" to DependencyType.INCOMPATIBLE,
@@ -115,6 +116,7 @@ class MetadataPublicationTest {
                     }
                     modrinth {
                         check(dependencies.get().associate { it.slug.get() to (it.type.get() to it.version.orNull) } == mapOf(
+                            "kotlin-lang-forge" to (DependencyType.REQUIRED to null),
                             "modrinth-api" to (DependencyType.REQUIRED to "version-id"),
                             "modrinth-only" to (DependencyType.EMBEDDED to null),
                         ) + if ("$loader" == "neoforge") mapOf("modrinth-slow" to (DependencyType.INCOMPATIBLE to null)) else emptyMap())
@@ -136,8 +138,14 @@ class MetadataPublicationTest {
         for (loader in HauyneFmlLoader.entries) {
             val file = root.resolve("hauyne-lib/${loader.modId}/versions/test/build/generated/resources/modMetadata/${loader.metadataFileName}")
             val metadata = TomlParser().parse(file.readText())
+            assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4]", metadata.get<String>("loaderVersion"))
             val dependencies = metadata.get<List<Config>>("dependencies.example").associateBy { it.get<String>("modId") }
+            assertEquals(
+                setOf("minecraft", loader.modId, "shared_api", "curse_only", "modrinth_only", "override_mod", "local_only") +
+                    if (loader == HauyneFmlLoader.NEOFORGE) setOf("broken_mod", "slow_mod") else emptySet(),
+                dependencies.keys,
+            )
             assertEquals(
                 if (loader == HauyneFmlLoader.FORGE) "[1.20.1]" else "(,)",
                 dependencies.getValue("minecraft").get<String>("versionRange"),

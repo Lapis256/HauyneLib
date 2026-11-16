@@ -103,6 +103,7 @@ publishMods {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse("")
         client = true
         server = true
+        requires("kotlinlangforge")
         dependencies.addAll(
             fml.flatMap { it.dependencyEntries }.map { declarations ->
                 declarations.filter { it.curseForgeSlug.isPresent }.map { dependency ->
@@ -119,6 +120,7 @@ publishMods {
         projectId = providers.gradleProperty("modrinthProjectId")
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
         environment = me.modmuss50.mpp.platforms.modrinth.ModrinthEnvironment.CLIENT_AND_SERVER
+        requires("kotlin-lang-forge")
         dependencies.addAll(
             fml.flatMap { it.dependencyEntries }.map { declarations ->
                 declarations.filter { it.modrinthSlug.isPresent }.map { dependency ->
