@@ -1,3 +1,3 @@
 # hauyne-lib/neoforge/build.gradle.kts
 
-- mc · variable · L10-L10 — val mc = stonecutter.current.version
+- mc · variable · L9-L9 — val mc = stonecutter.current.version

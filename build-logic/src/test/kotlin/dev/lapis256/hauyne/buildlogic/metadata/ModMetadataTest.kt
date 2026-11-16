@@ -2,6 +2,8 @@ package dev.lapis256.hauyne.buildlogic.metadata
 
 import com.electronwill.nightconfig.core.Config
 import com.electronwill.nightconfig.toml.TomlParser
+import io.github.anschnapp.mutflow.MutFlow
+import io.github.anschnapp.mutflow.junit.MutFlowTest
 import me.modmuss50.mpp.PlatformDependency.DependencyType
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
+@MutFlowTest
 class ModMetadataTest {
     @TempDir
     lateinit var root: File
@@ -37,7 +40,7 @@ class ModMetadataTest {
     fun requiredDependenciesUseEachLoadersSchema() {
         for (loader in HauyneFmlLoader.entries) {
             val task = task(loader)
-            task.generate()
+            MutFlow.underTest { task.generate() }
             val metadata = TomlParser().parse(task.outputFile.get().asFile.readText())
             assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4,)", metadata.get<String>("loaderVersion"))
@@ -73,7 +76,7 @@ class ModMetadataTest {
         task.modAuthor.set(text)
         task.issueTrackerUrl.set(text)
         task.displayUrl.set(text)
-        task.generate()
+        MutFlow.underTest { task.generate() }
         val metadata = TomlParser().parse(task.outputFile.get().asFile.readText())
         val mod = metadata.get<List<Config>>("mods").single()
         assertEquals(text, mod.get<String>("displayName"))
@@ -87,7 +90,7 @@ class ModMetadataTest {
     fun invalidModIdIsRejected() {
         val task = task(HauyneFmlLoader.FORGE)
         task.modId.set("invalid.mod")
-        assertThrows(IllegalArgumentException::class.java) { task.generate() }
+        assertThrows(IllegalArgumentException::class.java) { MutFlow.underTest { task.generate() } }
     }
 
     @Test
@@ -96,15 +99,17 @@ class ModMetadataTest {
             val metadata = ProjectBuilder.builder().withProjectDir(root).build().objects
                 .newInstance(HauyneModMetadataExtension::class.java)
             assertFalse(metadata.selectedLoader.isPresent)
-            when (loader) {
-                HauyneFmlLoader.FORGE -> metadata.forge {
-                    minecraftVersionRange.set("1.20.1".eq())
-                    dependencies { require("forge_api") }
-                }
+            MutFlow.underTest {
+                when (loader) {
+                    HauyneFmlLoader.FORGE -> metadata.forge {
+                        minecraftVersionRange.set("1.20.1".eq())
+                        dependencies { require("forge_api") }
+                    }
 
-                HauyneFmlLoader.NEOFORGE -> metadata.neoforge {
-                    minecraftVersionRange.set("1.21.1".eq())
-                    dependencies { require("neoforge_api") }
+                    HauyneFmlLoader.NEOFORGE -> metadata.neoforge {
+                        minecraftVersionRange.set("1.21.1".eq())
+                        dependencies { require("neoforge_api") }
+                    }
                 }
             }
             assertEquals(loader, metadata.selectedLoader.get())
@@ -112,16 +117,18 @@ class ModMetadataTest {
             task.loader.set(metadata.selectedLoader)
             task.minecraftVersionRange.set(metadata.selectedMetadata.flatMap { it.minecraftVersionRange }.map { it.versionRange })
             task.modDependencies.set(metadata.selectedMetadata.flatMap { it.dependencyEntries })
-            task.generate()
+            MutFlow.underTest { task.generate() }
             val dependencies = TomlParser().parse(task.outputFile.get().asFile.readText())
                 .get<List<Config>>("dependencies.hauynelib").associateBy { it.get<String>("modId") }
             assertTrue(dependencies.containsKey("${loader.modId}_api"))
             val expectedRange = if (loader == HauyneFmlLoader.FORGE) "[1.20.1]" else "[1.21.1]"
             assertEquals(expectedRange, dependencies.getValue("minecraft").get<String>("versionRange"))
             assertThrows(IllegalArgumentException::class.java) {
-                when (loader) {
-                    HauyneFmlLoader.FORGE -> metadata.neoforge {}
-                    HauyneFmlLoader.NEOFORGE -> metadata.forge {}
+                MutFlow.underTest {
+                    when (loader) {
+                        HauyneFmlLoader.FORGE -> metadata.neoforge {}
+                        HauyneFmlLoader.NEOFORGE -> metadata.forge {}
+                    }
                 }
             }
         }
@@ -147,7 +154,7 @@ class ModMetadataTest {
             }
             val task = task(loader)
             task.modDependencies.set(declarations.entries)
-            task.generate()
+            MutFlow.underTest { task.generate() }
             val text = task.outputFile.get().asFile.readText()
             val metadata = TomlParser().parse(text)
             assertEquals(1, metadata.get<List<Config>>("mods").size)
@@ -202,7 +209,7 @@ class ModMetadataTest {
             configure(declarations)
             val task = task(HauyneFmlLoader.FORGE)
             task.modDependencies.set(declarations.entries)
-            assertThrows(IllegalArgumentException::class.java) { task.generate() }
+            assertThrows(IllegalArgumentException::class.java) { MutFlow.underTest { task.generate() } }
             assertFalse(task.outputFile.get().asFile.exists())
         }
     }
@@ -215,7 +222,7 @@ class ModMetadataTest {
         }
         val entries = declarations.entries.get()
         assertThrows(IllegalArgumentException::class.java) {
-            validateDependencies(entries, "hauynelib", HauyneFmlLoader.NEOFORGE)
+            MutFlow.underTest { validateDependencies(entries, "hauynelib", HauyneFmlLoader.NEOFORGE) }
         }
     }
 }

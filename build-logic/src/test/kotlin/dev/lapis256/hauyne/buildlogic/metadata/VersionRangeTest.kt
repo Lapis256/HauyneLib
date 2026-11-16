@@ -1,27 +1,32 @@
 package dev.lapis256.hauyne.buildlogic.metadata
 
+import io.github.anschnapp.mutflow.MutFlow
+import io.github.anschnapp.mutflow.junit.MutFlowTest
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
+@MutFlowTest
 class VersionRangeTest {
     @Test
     fun operatorsPreserveInclusiveExclusiveAndUnionBoundaries() {
-        val cases = listOf(
-            "[1]" to "1".eq(),
-            "(1,)" to "1".gt(),
-            "[1,)" to "1".gte(),
-            "(,1)" to "1".lt(),
-            "(,1]" to "1".lte(),
-            "(,1),(1,)" to "1".neq(),
-            "[1,2]" to ("1".."2"),
-            "[1,2)" to ("1"..<"2"),
-            "(1,2)" to ("1" rangeToExclusive "2"),
-            "(1,2]" to ("1" rangeToMax "2"),
-            "(,1),[2,3]" to Or(LessThan("1"), RangeInclusive("2", "3")),
-            "(,)" to AnyVersion,
-        )
+        val cases = MutFlow.underTest {
+            listOf(
+                "[1]" to "1".eq(),
+                "(1,)" to "1".gt(),
+                "[1,)" to "1".gte(),
+                "(,1)" to "1".lt(),
+                "(,1]" to "1".lte(),
+                "(,1),(1,)" to "1".neq(),
+                "[1,2]" to ("1".."2"),
+                "[1,2)" to ("1"..<"2"),
+                "(1,2)" to ("1" rangeToExclusive "2"),
+                "(1,2]" to ("1" rangeToMax "2"),
+                "(,1),[2,3]" to Or(LessThan("1"), RangeInclusive("2", "3")),
+                "(,)" to AnyVersion,
+            )
+        }
         for ((expected, range) in cases) {
             assertEquals(expected, range.versionRange)
             assertEquals(expected, range.toString())
@@ -52,20 +57,20 @@ class VersionRangeTest {
         min.set("1")
         max.set("2")
         for ((expected, range) in cases) {
-            assertEquals(expected, range.get().versionRange)
+            assertEquals(expected, MutFlow.underTest { range.get().versionRange })
         }
         min.set("3")
         max.set("4")
-        assertEquals("[3]", cases.first().second.get().versionRange)
-        assertEquals("[3,4]", cases[6].second.get().versionRange)
+        assertEquals("[3]", MutFlow.underTest { cases.first().second.get().versionRange })
+        assertEquals("[3,4]", MutFlow.underTest { cases[6].second.get().versionRange })
     }
 
     @Test
     fun blankVersionsRangeSyntaxInEndpointsAndEmptyUnionsAreRejected() {
         for (version in listOf("", " ", "[1]", "1,2", "1\n2")) {
-            assertThrows(IllegalArgumentException::class.java) { Equal(version) }
-            assertThrows(IllegalArgumentException::class.java) { RangeInclusive("1", version) }
+            assertThrows(IllegalArgumentException::class.java) { MutFlow.underTest { Equal(version) } }
+            assertThrows(IllegalArgumentException::class.java) { MutFlow.underTest { RangeInclusive("1", version) } }
         }
-        assertThrows(IllegalArgumentException::class.java) { Or() }
+        assertThrows(IllegalArgumentException::class.java) { MutFlow.underTest { Or() } }
     }
 }

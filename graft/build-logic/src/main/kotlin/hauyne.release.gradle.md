@@ -1,4 +1,0 @@
-# build-logic/src/main/kotlin/hauyne.release.gradle.kts
-
-- validateRelease · variable · L12-L22 — val validateRelease = tasks.register<ValidateReleaseSettings>("validateRelease") { group = "publishing" description = "Validate all publication settings before uploading" required = providers.environmentVariable("CI").map(String::toBooleanStrict).orElse(false) for (key in listOf("R2_ACCESS_KEY", "R2_SECRET_KEY", "R2_ENDPOINT", "CURSEFORGE_TOKEN", "MODRINTH_TOKEN")) { configurationPresent.put(key, providers.environmentVariable(key).map { it.isNotBlank() }.orElse(false)) } for (key in listOf("curseforgeProjectId", "modrinthProjectId")) { configurationPresent.put(key, providers.gradleProperty(key).map { it.isNotBlank() }.orElse(false)) } }
-- localMaven · variable · L37-L37 — val localMaven = repositories.mavenLocal().url

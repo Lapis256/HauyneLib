@@ -1,5 +1,6 @@
 [versions]
 kotlin = "2.4.21"
+mutflow = "1.7.1"
 binaryCompatibilityValidator = "0.18.2"
 ksp = "2.3.14"
 mdg = "2.0.148"
@@ -30,6 +31,7 @@ nightconfig = { module = "com.electronwill.night-config:toml", version.ref = "ni
 ktoml = { module = "com.akuleshov7:ktoml-core", version.ref = "ktoml" }
 
 [plugins]
+mutflow = { id = "io.github.anschnapp.mutflow", version.ref = "mutflow" }
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 stonecutter = { id = "dev.kikugie.stonecutter", version.ref = "stonecutter" }
