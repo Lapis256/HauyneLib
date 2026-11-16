@@ -40,6 +40,7 @@ class MetadataPublicationTest {
             mavenGroup=dev.example
             modId=example
             modPackage=dev.example
+            modAuthor=Example
             modName=Example
             modDescription=Example
             license=MIT
@@ -80,7 +81,7 @@ class MetadataPublicationTest {
                 java { toolchain.languageVersion = JavaLanguageVersion.of(JavaVersion.current().majorVersion.toInt()) }
                 hauyneMetadata {
                     $loader {
-                        minecraftVersionRange = AnyVersion
+                        ${if (loader == "neoforge") "minecraftVersionRange = AnyVersion" else ""}
                         loaderVersionRange = "1".gte()
                         javaFmlLoaderVersionRange = "4".eq()
                         dependencies {
@@ -137,7 +138,10 @@ class MetadataPublicationTest {
             val metadata = TomlParser().parse(file.readText())
             assertEquals("[4]", metadata.get<String>("loaderVersion"))
             val dependencies = metadata.get<List<Config>>("dependencies.example").associateBy { it.get<String>("modId") }
-            assertEquals("(,)", dependencies.getValue("minecraft").get<String>("versionRange"))
+            assertEquals(
+                if (loader == HauyneFmlLoader.FORGE) "[1.20.1]" else "(,)",
+                dependencies.getValue("minecraft").get<String>("versionRange"),
+            )
             assertEquals("[1,)", dependencies.getValue(loader.modId).get<String>("versionRange"))
             assertEquals("[1,2)", dependencies.getValue("shared_api").get<String>("versionRange"))
             assertEquals("(,)", dependencies.getValue("local_only").get<String>("versionRange"))

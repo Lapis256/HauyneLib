@@ -1,4 +1,3 @@
-import dev.lapis256.hauyne.buildlogic.metadata.eq
 import dev.lapis256.hauyne.buildlogic.metadata.gte
 
 plugins {
@@ -11,7 +10,6 @@ val mc = stonecutter.current.version
 
 hauyneMetadata {
     neoforge {
-        minecraftVersionRange = mc.eq()
         loaderVersionRange = stonecutter.properties.getLazy("minimumLoaderVersion").gte()
         javaFmlLoaderVersionRange = stonecutter.properties.getLazy("minimumJavaFmlLoaderVersion").gte()
     }

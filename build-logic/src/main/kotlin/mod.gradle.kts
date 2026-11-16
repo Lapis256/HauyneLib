@@ -1,6 +1,8 @@
+import dev.kikugie.stonecutter.build.StonecutterBuildExtension
 import dev.lapis256.hauyne.buildlogic.metadata.GenerateFmlModMetadata
 import dev.lapis256.hauyne.buildlogic.metadata.GenerateModConstants
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
+import dev.lapis256.hauyne.buildlogic.metadata.eq
 import dev.lapis256.hauyne.buildlogic.metadata.validateDependencies
 import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
 import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
@@ -33,6 +35,7 @@ kotlin.sourceSets.main {
 }
 
 val fml = metadata.selectedMetadata
+val defaultMinecraftVersionRange = extensions.getByType<StonecutterBuildExtension>().current.version.eq()
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
     modName = metadata.modName
@@ -42,7 +45,9 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
     license = metadata.license
     modDescription = metadata.description
     loader = metadata.selectedLoader
-    minecraftVersionRange = fml.flatMap { it.minecraftVersionRange }.map { it.versionRange }
+    minecraftVersionRange = fml.flatMap { it.minecraftVersionRange }
+        .orElse(defaultMinecraftVersionRange)
+        .map { it.versionRange }
     loaderVersionRange = fml.flatMap { it.loaderVersionRange }.map { it.versionRange }
     javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }.map { it.versionRange }
     modDependencies = fml.flatMap { it.dependencyEntries }
