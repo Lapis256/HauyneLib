@@ -1,4 +1,4 @@
-package dev.lapis256.hauyne.buildlogic.release
+package dev.lapis256.hauyne.buildlogic.release.prepare
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
@@ -76,16 +76,16 @@ abstract class PrepareRelease : DefaultTask() {
     }
 
     private fun generateChangelogs(root: File, tag: String) {
-        root.resolve(".release").mkdirs()
+        root.resolve("build/release").mkdirs()
         gitCliff("--tag", tag, "--output", "CHANGELOG.md")
-        gitCliff("--tag", tag, "--unreleased", "--strip", "header", "--output", ".release/notes.md")
+        gitCliff("--tag", tag, "--unreleased", "--strip", "header", "--output", "build/release/notes.md")
     }
 
     private fun writeReleaseVersion(root: File, source: String, tag: String) {
         root.resolve("gradle.properties").writeText(
             source.replace(Regex("^modVersion=.*$", RegexOption.MULTILINE), "modVersion=${tag.drop(1)}"),
         )
-        root.resolve(".release/tag").writeText("$tag\n")
+        root.resolve("build/release/tag").writeText("$tag\n")
     }
 
     private fun gitCliff(vararg args: String): String = run("git-cliff", "--offline", "--use-branch-tags", "--config", "cliff.toml", *args)

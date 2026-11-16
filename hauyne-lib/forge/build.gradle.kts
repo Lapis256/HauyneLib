@@ -34,10 +34,6 @@ legacyForge {
 }
 
 publishMods {
-    file = tasks.named<net.neoforged.moddevgradle.legacyforge.tasks.RemapJar>("reobfJar").flatMap {
-        it.archiveFile
-    }
-
     modLoaders.add("forge")
     curseforge {
         minecraftVersions.add(mc)

@@ -34,10 +34,6 @@ neoForge {
 }
 
 publishMods {
-    file = tasks.named<Jar>("jar").flatMap {
-        it.archiveFile
-    }
-
     modLoaders.add("neoforge")
     curseforge {
         minecraftVersions.add(mc)

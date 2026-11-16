@@ -1,39 +1,17 @@
-import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
-import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
-import org.gradle.api.publish.maven.tasks.GenerateMavenPom
+import dev.lapis256.hauyne.buildlogic.release.r2.DownloadMavenMetadata
+import dev.lapis256.hauyne.buildlogic.release.staging.RecordReleaseArtifacts
 plugins {
     `maven-publish`
 }
 
-val releaseManifest = providers.gradleProperty("releaseManifest")
-
 publishing.publications.create<MavenPublication>("maven") {
-    if (!releaseManifest.isPresent) from(components["java"])
-}
-
-rootProject.tasks.named("recordReleaseArtifacts") {
-    dependsOn(tasks.named("publishToMavenLocal"))
-}
-
-rootProject.tasks.named("publishRelease") {
-    if (releaseManifest.isPresent) dependsOn(tasks.named("publish"))
+    from(components["java"])
 }
 
 gradle.projectsEvaluated {
     val publication = publishing.publications.getByName("maven") as MavenPublication
     val coordinate = "${publication.groupId.replace('.', '/')}/${publication.artifactId}/${publication.version}"
     val base = "${publication.artifactId}-${publication.version}"
-    if (releaseManifest.isPresent) {
-        val assets = rootProject.layout.projectDirectory.dir(".release/assets")
-        publication.artifact(assets.file("$base.jar"))
-        publication.artifact(assets.file("$base-sources.jar")) { classifier = "sources" }
-        publication.artifact(assets.file("$base.module")) { extension = "module" }
-        tasks.withType<GenerateMavenPom>().configureEach {
-            destination = assets.file("$base.pom").asFile
-            enabled = false
-        }
-        return@projectsEvaluated
-    }
     val files = publication.artifacts.associate {
         val classifier = it.classifier?.takeIf(String::isNotBlank)?.let { value -> "-$value" }.orEmpty()
         it.file.relativeTo(rootDir).invariantSeparatorsPath to "$coordinate/$base$classifier.${it.extension}"
@@ -43,7 +21,11 @@ gradle.projectsEvaluated {
         layout.buildDirectory.file("publications/maven/module.json").get().asFile.relativeTo(rootDir).invariantSeparatorsPath to
             "$coordinate/$base.module",
     )
-    rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
+    rootProject.tasks.named<DownloadMavenMetadata>("downloadMavenMetadata") {
+        coordinates.add("${publication.groupId.replace('.', '/')}/${publication.artifactId}")
+    }
+    rootProject.tasks.named<RecordReleaseArtifacts>("stageRelease") {
+        dependsOn(tasks.named("publishMavenPublicationToStagingRepository"))
         publicationFiles.putAll(files)
     }
 }
@@ -87,28 +69,16 @@ configure<PublishingExtension> {
 
     repositories {
         maven {
-            name = "R2"
-            url = uri("s3://" + rootProject.property("r2Bucket"))
-            credentials(AwsCredentials::class) {
-                accessKey = providers.environmentVariable("R2_ACCESS_KEY").orNull ?: ""
-                secretKey = providers.environmentVariable("R2_SECRET_KEY").orNull ?: ""
-            }
+            name = "Staging"
+            url = rootProject.layout.buildDirectory.dir("staging/maven").get().asFile.toURI()
         }
     }
 }
 
-tasks.withType<PublishToMavenRepository>().configureEach {
-    val releaseRoot = rootProject.layout.projectDirectory.asFile
+tasks.withType<PublishToMavenRepository>().matching { it.repository.name == "Staging" }.configureEach {
+    dependsOn(rootProject.tasks.named("downloadMavenMetadata"))
+    val manifest = rootProject.layout.buildDirectory.file("staging/SHA256SUMS")
     doFirst {
-        releaseManifest.orNull?.let {
-            ReleaseArtifacts.verify(
-                releaseRoot,
-                releaseRoot.resolve(it),
-                publication.artifacts.map { artifact -> artifact.file } +
-                    releaseRoot.resolve(".release/assets/${publication.artifactId}-${publication.version}.pom"),
-            )
-        }
-
-        require(!System.getProperty("org.gradle.s3.endpoint").isNullOrBlank()) { "org.gradle.s3.endpoint is required" }
+        require(!manifest.get().asFile.exists()) { "Cannot modify sealed staging" }
     }
 }

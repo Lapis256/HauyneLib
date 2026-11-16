@@ -1,13 +1,21 @@
-import dev.lapis256.hauyne.buildlogic.release.PrepareRelease
-import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
+import dev.lapis256.hauyne.buildlogic.release.prepare.PrepareRelease
+import dev.lapis256.hauyne.buildlogic.release.r2.DownloadMavenMetadata
+import dev.lapis256.hauyne.buildlogic.release.r2.R2Task
+import dev.lapis256.hauyne.buildlogic.release.r2.UploadStagedMavenToR2
+import dev.lapis256.hauyne.buildlogic.release.r2.VerifyPublishedMaven
+import dev.lapis256.hauyne.buildlogic.release.staging.RecordReleaseArtifacts
+import dev.lapis256.hauyne.buildlogic.release.staging.VerifyStagedRelease
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
 
-tasks.register("publishRelease") {
-    group = "publishing"
-    description = "Publish the verified release targets to Maven, CurseForge and Modrinth"
-    val manifest = providers.gradleProperty("releaseManifest")
-    doFirst {
-        require(manifest.isPresent) { "releaseManifest is required to publish saved release artifacts" }
-    }
+val staging = layout.buildDirectory.dir("staging")
+
+tasks.withType<R2Task>().configureEach {
+    stagingDirectory = staging
+    bucket = providers.gradleProperty("r2Bucket")
+    endpoint = providers.environmentVariable("R2_ENDPOINT")
+    accessKey = providers.environmentVariable("R2_ACCESS_KEY")
+    secretKey = providers.environmentVariable("R2_SECRET_KEY")
 }
 
 tasks.register<PrepareRelease>("prepareRelease") {
@@ -17,12 +25,54 @@ tasks.register<PrepareRelease>("prepareRelease") {
     bump = providers.gradleProperty("releaseBump").orElse("auto")
 }
 
-val localMaven = repositories.mavenLocal().url
-
-tasks.register<RecordReleaseArtifacts>("recordReleaseArtifacts") {
+tasks.register<DownloadMavenMetadata>("downloadMavenMetadata") {
     group = "publishing"
-    description = "Compare and record the exact locally verified publication files"
+    coordinates.convention(emptyList())
+}
+
+tasks.register<RecordReleaseArtifacts>("stageRelease") {
+    group = "publishing"
+    description = "Build, check and seal the Maven staging repository"
     rootDirectory = layout.projectDirectory
-    localRepository = file(localMaven)
+    stagingDirectory = staging
     publicationFiles.convention(emptyMap())
+    dependsOn(gradle.includedBuilds.filter { it.name == "build-logic" }.map { it.task(":test") })
+}
+
+tasks.register<VerifyStagedRelease>("verifyStagedRelease") {
+    group = "publishing"
+    stagingDirectory = staging
+}
+
+tasks.register<UploadStagedMavenToR2>("uploadStagedMavenToR2") {
+    group = "publishing"
+}
+
+tasks.register<VerifyPublishedMaven>("verifyPublishedMaven") {
+    group = "publishing"
+}
+
+tasks.register("verifyPublishedJars") {
+    group = "publishing"
+    dependsOn(tasks.named("verifyPublishedMaven"))
+}
+
+gradle.projectsEvaluated {
+    val publications = allprojects.flatMap { target ->
+        target.extensions.findByType(PublishingExtension::class.java)?.publications
+            ?.withType(MavenPublication::class.java)?.map { publication ->
+                require(!publication.version.endsWith("-SNAPSHOT")) { "SNAPSHOT releases are not supported" }
+                Triple(
+                    "${publication.groupId}:${publication.artifactId}",
+                    publication.version,
+                    target.tasks.named("publish${publication.name.replaceFirstChar(Char::uppercaseChar)}PublicationToStagingRepository"),
+                )
+            }.orEmpty()
+    }
+    publications.groupBy { it.first }.values.forEach { module ->
+        module.sortedBy { it.second }.zipWithNext().forEach { (previous, next) -> next.third.configure { mustRunAfter(previous.third) } }
+    }
+    tasks.named("stageRelease") {
+        dependsOn(allprojects.map { it.tasks.matching { task -> task.name == "check" } })
+    }
 }

@@ -4,8 +4,8 @@ import dev.lapis256.hauyne.buildlogic.metadata.GenerateModConstants
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
 import dev.lapis256.hauyne.buildlogic.metadata.eq
 import dev.lapis256.hauyne.buildlogic.metadata.validateDependencies
-import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
-import dev.lapis256.hauyne.buildlogic.release.ReleaseArtifacts
+import dev.lapis256.hauyne.buildlogic.release.mod.ModPublishing
+import me.modmuss50.mpp.PublishModTask
 import me.modmuss50.mpp.platforms.curseforge.CurseforgeDependency
 import me.modmuss50.mpp.platforms.modrinth.ModrinthDependency
 
@@ -35,7 +35,6 @@ kotlin.sourceSets.main {
 }
 
 val fml = metadata.selectedMetadata
-val releaseManifest = providers.gradleProperty("releaseManifest")
 val defaultMinecraftVersionRange = extensions.getByType<StonecutterBuildExtension>().current.version.eq()
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
@@ -55,9 +54,6 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
 }
 
 afterEvaluate {
-    if (releaseManifest.isPresent) {
-        publishMods.file = rootProject.layout.projectDirectory.file(".release/assets/${publishMods.file.get().asFile.name}")
-    }
     val loader = requireNotNull(metadata.selectedLoader.orNull) { "Configure hauyneMetadata.forge {} or hauyneMetadata.neoforge {}" }
     validateDependencies(fml.get().dependencyEntries.get(), metadata.modId.get(), loader)
     generateMetadata.configure {
@@ -97,9 +93,7 @@ publishMods {
         it.asFile.nameWithoutExtension
     }
 
-    changelog = providers.gradleProperty("releaseChangelog").flatMap {
-        providers.fileContents(rootProject.layout.projectDirectory.file(it)).asText
-    }.orElse("No changelog provided.")
+    changelog = providers.fileContents(rootProject.layout.buildDirectory.file("release/notes.md")).asText.orElse("No changelog provided.")
     type = me.modmuss50.mpp.ReleaseType.valueOf(rootProject.property("releaseChannel").toString())
     dryRun = providers.gradleProperty("modPublishDryRun").map(String::toBooleanStrict).orElse(true)
     curseforge {
@@ -139,28 +133,8 @@ publishMods {
     }
 }
 
-rootProject.tasks.named("recordReleaseArtifacts") {
-    dependsOn(tasks.named("publishMods"))
-}
-
-rootProject.tasks.named("publishRelease") {
-    if (releaseManifest.isPresent) dependsOn(tasks.named("publishMods"))
-}
-
-val modFile = publishMods.file
-rootProject.tasks.named<RecordReleaseArtifacts>("recordReleaseArtifacts") {
-    modFiles.from(modFile)
-}
-
-tasks.matching {
-    it.name.startsWith("publish") &&
-        (it.name.contains("Curseforge", true) || it.name.contains("Modrinth", true) || it.name == "publishMods")
-}.configureEach {
-    val releaseRoot = rootProject.layout.projectDirectory.asFile
-    val releaseFile = publishMods.file
-    doFirst {
-        releaseManifest.orNull?.let {
-            ReleaseArtifacts.verify(releaseRoot, releaseRoot.resolve(it), listOf(releaseFile.get().asFile))
-        }
-    }
+gradle.projectsEvaluated {
+    val publication = project.extensions.getByType<PublishingExtension>().publications.getByName("maven") as MavenPublication
+    publishMods.file.fileValue(ModPublishing.stagedJar(rootProject, publication))
+    tasks.withType<PublishModTask>().forEach { ModPublishing.configure(project, it) }
 }

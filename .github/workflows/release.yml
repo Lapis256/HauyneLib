@@ -1,17 +1,16 @@
 name: Release
-run-name: Release (${{ inputs.bump }})${{ inputs.dry_run && ' [dry-run]' || '' }}
+run-name: Prepare release (${{ inputs.bump }})${{ inputs.dry_run && ' [dry-run]' || '' }}
 
 on:
   workflow_dispatch:
     inputs:
       bump:
-        description: バージョン更新（auto は Conventional Commits から判定）
+        description: Version bump (auto uses Conventional Commits)
         type: choice
-        required: true
         default: auto
         options: [auto, major, minor, patch]
       dry_run:
-        description: 公開せず、チェンジログとリリースタスクを確認する
+        description: Check staging without publishing
         type: boolean
         default: false
 
@@ -23,119 +22,62 @@ permissions:
   contents: read
 
 jobs:
-  release:
+  prepare:
     runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.prepare.outputs.tag }}
     environment: release
     permissions:
       contents: write
-      id-token: write
-      attestations: write
+      actions: write
     steps:
-      - name: Check release branch
-        if: ${{ !inputs.dry_run }}
-        env:
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: test "$GITHUB_REF" = "refs/heads/$DEFAULT_BRANCH"
-
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           fetch-depth: 0
-          ref: ${{ github.sha }}
-
       - uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff # v4
         with:
           version: v2.14.2
           args: --version
-
       - uses: ./.github/actions/setup-common-env
-
-      - name: Prepare version and changelogs
-        id: prepare
+      - name: Prepare version and notes
         env:
           BUMP: ${{ inputs.bump }}
-        run: |
-          ./gradlew prepareRelease "-PreleaseBump=$BUMP"
-          echo "tag=$(cat .release/tag)" >> "$GITHUB_OUTPUT"
-          cat .release/notes.md >> "$GITHUB_STEP_SUMMARY"
-          printf '\n<details><summary>CHANGELOG.md 全体</summary>\n\n' >> "$GITHUB_STEP_SUMMARY"
-          cat CHANGELOG.md >> "$GITHUB_STEP_SUMMARY"
-          printf '\n</details>\n' >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Build artifacts and dry-run publication
-        run: |
-          ./gradlew recordReleaseArtifacts -PmodPublishDryRun=true -PreleaseChangelog=.release/notes.md
-          echo 'ビルド・Maven ローカル公開・CF/Modrinth dry-run・成果物一致チェックが完了しました。' >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Commit version and changelog, then tag
-        if: ${{ !inputs.dry_run }}
-        env:
-          TAG: ${{ steps.prepare.outputs.tag }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add gradle.properties CHANGELOG.md
-          git commit -m "chore(release): $TAG"
-          git tag -a "$TAG" -m "$TAG"
-          git push --atomic origin "HEAD:refs/heads/$DEFAULT_BRANCH" "refs/tags/$TAG"
-
-      - name: Attest all publication files
-        if: ${{ !inputs.dry_run }}
-        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
-        with:
-          subject-path: .release/assets/*
-
-      - name: Create draft and attach all assets
-        if: ${{ !inputs.dry_run }}
-        env:
-          TAG: ${{ steps.prepare.outputs.tag }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          sha256sum --check .release/SHA256SUMS
-          gh release create "$TAG" .release/assets/* --draft --verify-tag \
-            --title "$TAG" --notes-file .release/notes.md
-
-      - name: Publish the verified Maven and mod artifacts
-        if: ${{ !inputs.dry_run }}
+          if test "$DRY_RUN" != true; then test "$GITHUB_REF" = "refs/heads/$DEFAULT_BRANCH"; fi
+          ./gradlew prepareRelease "-PreleaseBump=$BUMP"
+          cat build/release/notes.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Check staging without external writes
+        if: inputs.dry_run
         env:
           R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
           R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
           R2_ENDPOINT: ${{ vars.R2_ENDPOINT }}
-          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         run: |
-          ./gradlew publishRelease \
-            -PmodPublishDryRun=false \
-            -PreleaseChangelog=.release/notes.md \
-            -PreleaseManifest=.release/SHA256SUMS \
-            --no-configuration-cache \
-            "-Dorg.gradle.s3.endpoint=$R2_ENDPOINT"
-
-      - name: Publish immutable GitHub release
+          ./gradlew stageRelease
+          ./gradlew publishMods -PmodPublishDryRun=true --no-configuration-cache
+      - name: Commit and tag
         if: ${{ !inputs.dry_run }}
         env:
-          TAG: ${{ steps.prepare.outputs.tag }}
-          GH_TOKEN: ${{ github.token }}
-        run: gh release edit "$TAG" --draft=false
-
-      - name: Save release preview and artifacts
-        if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          tag=$(cat build/release/tag)
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add gradle.properties CHANGELOG.md
+          git commit -m "chore(release): $tag"
+          git tag -a "$tag" -m "$tag"
+          git push --atomic origin "HEAD:refs/heads/$DEFAULT_BRANCH" "refs/tags/$tag"
+          git rev-parse HEAD > build/release/commit
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        id: prepared
         with:
-          name: release-${{ steps.prepare.outputs.tag || github.run_id }}
-          include-hidden-files: true
-          path: |
-            CHANGELOG.md
-            .release/
-            **/build/publishMods/
-
-  deploy_docs:
-    needs: release
-    if: ${{ !inputs.dry_run }}
-    permissions:
-      contents: write
-    uses: ./.github/workflows/deploy_docs.yml
-    with:
-      ref: ${{ needs.release.outputs.tag }}
+          name: release-preparation
+          path: build/release/
+      - name: Publish from the tag
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.prepared.outputs.artifact-id }}
+        run: |
+          gh workflow run publish-release.yml --ref "$(cat build/release/tag)" \
+            -f source_run_id="$GITHUB_RUN_ID" -f source_artifact_id="$ARTIFACT_ID"

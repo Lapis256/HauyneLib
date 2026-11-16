@@ -1,0 +1,151 @@
+name: Publish release
+run-name: Publish ${{ github.ref_name }}${{ inputs.resume && ' [resume]' || '' }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Run containing the preparation or saved release artifact
+        type: string
+        required: true
+      source_artifact_id:
+        description: Preparation artifact ID, or saved release artifact ID for resume
+        type: string
+        required: true
+      resume:
+        description: Publish the saved stage without rebuilding
+        type: boolean
+        default: false
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      actions: read
+      id-token: write
+      attestations: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+      R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+      R2_ENDPOINT: ${{ vars.R2_ENDPOINT }}
+      CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+      CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
+      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff # v4
+        with:
+          version: v2.14.2
+          args: --version
+      - uses: ./.github/actions/setup-common-env
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          artifact-ids: ${{ inputs.source_artifact_id }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+          path: ${{ inputs.resume && 'build' || 'build/release' }}
+      - name: Check release source
+        env:
+          RESUME: ${{ inputs.resume }}
+        run: |
+          test "$GITHUB_REF_TYPE" = tag
+          test "$(cat build/release/tag)" = "$TAG"
+          test "$(cat build/release/commit)" = "$(git rev-parse HEAD)"
+          test "modVersion=${TAG#v}" = "$(grep '^modVersion=' gradle.properties)"
+          if test "$RESUME" != true; then test "$GITHUB_RUN_ATTEMPT" = 1; fi
+      - name: Stage and check once
+        if: ${{ !inputs.resume }}
+        run: ./gradlew stageRelease
+      - name: Verify restored staging
+        if: inputs.resume
+        run: ./gradlew verifyStagedRelease --no-configuration-cache
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        id: attest
+        if: ${{ !inputs.resume }}
+        with:
+          subject-path: build/staging/maven/**/*.jar
+      - name: Save attestation bundle
+        if: ${{ !inputs.resume }}
+        env:
+          BUNDLE_PATH: ${{ steps.attest.outputs.bundle-path }}
+        run: cp "$BUNDLE_PATH" build/release/attestation.jsonl
+      - name: Verify attested JARs
+        run: |
+          while IFS= read -r -d '' jar; do
+            gh attestation verify "$jar" --repo "$GITHUB_REPOSITORY" \
+              --bundle build/release/attestation.jsonl \
+              --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/publish-release.yml" \
+              --source-ref "$GITHUB_REF" --source-digest "$(git rev-parse HEAD)"
+          done < <(find build/staging/maven -type f -name '*.jar' -print0)
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        id: stage
+        with:
+          name: release-stage
+          path: |
+            build/staging/
+            build/release/
+      - name: Publish Maven repository
+        run: ./gradlew uploadStagedMavenToR2 --no-configuration-cache
+      - name: Publish mods
+        run: ./gradlew publishMods -PmodPublishDryRun=false --no-configuration-cache
+      - name: Attach and verify GitHub JARs
+        run: |
+          if ! gh release view "$TAG" --json isDraft,assets > "$RUNNER_TEMP/release.json"; then
+            gh release create "$TAG" --draft --verify-tag --title "$TAG" --notes-file build/release/notes.md
+            gh release view "$TAG" --json isDraft,assets > "$RUNNER_TEMP/release.json"
+          fi
+          mkdir -p "$RUNNER_TEMP/release-jars"
+          while IFS= read -r -d '' jar; do
+            name=$(basename "$jar")
+            if ! jq -e --arg name "$name" 'any(.assets[]; .name == $name)' "$RUNNER_TEMP/release.json" > /dev/null; then
+              jq -e '.isDraft' "$RUNNER_TEMP/release.json"
+              gh release upload "$TAG" "$jar"
+            fi
+            gh release download "$TAG" --pattern "$name" --dir "$RUNNER_TEMP/release-jars"
+            cmp "$jar" "$RUNNER_TEMP/release-jars/$name"
+          done < <(find build/staging/maven -type f -name '*.jar' -print0)
+      - name: Verify published JARs
+        run: ./gradlew verifyPublishedJars --no-configuration-cache
+      - name: Publish GitHub release
+        run: |
+          if test "$(gh release view "$TAG" --json isDraft --jq '.isDraft')" = true; then
+            gh release edit "$TAG" --draft=false
+          fi
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        id: results
+        if: always()
+        with:
+          name: release-results
+          path: |
+            build/staging/
+            build/release/
+      - name: Record resume inputs
+        if: always()
+        env:
+          STAGE_ID: ${{ steps.stage.outputs.artifact-id }}
+          RESULTS_ID: ${{ steps.results.outputs.artifact-id }}
+        run: |
+          printf 'Resume on tag %s with source_run_id=%s and source_artifact_id=%s (stage fallback: %s).\n' \
+            "$TAG" "$GITHUB_RUN_ID" "$RESULTS_ID" "$STAGE_ID" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy_docs:
+    needs: publish
+    permissions:
+      contents: write
+    uses: ./.github/workflows/deploy_docs.yml
+    with:
+      ref: ${{ github.ref }}

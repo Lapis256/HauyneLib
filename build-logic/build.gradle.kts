@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.mdg.gradle)
     implementation(libs.stonecutter.gradle)
     implementation(libs.ktoml)
+    implementation(libs.aws.s3)
+    implementation(libs.aws.http)
     testImplementation(libs.nightconfig)
     testImplementation(gradleTestKit())
     testImplementation(platform(libs.junit.bom))
