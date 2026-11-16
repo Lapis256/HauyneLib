@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.ec4j)
     implementation(libs.kotlin.gradle)
     implementation(libs.modpublish.gradle)
+    implementation(libs.mdg.gradle)
     implementation(libs.stonecutter.gradle)
     implementation(libs.ktoml)
     testImplementation(libs.nightconfig)

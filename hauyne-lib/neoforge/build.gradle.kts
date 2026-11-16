@@ -24,7 +24,7 @@ neoForge {
     runs {
         create("server") {
             server()
-            programArgument("--nogui")
+            gameDirectory = layout.projectDirectory.dir("run-server")
         }
     }
 

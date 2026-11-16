@@ -9,6 +9,7 @@ import me.modmuss50.mpp.platforms.modrinth.ModrinthDependency
 
 plugins {
     id("minecraft-library")
+    id("dev-server")
     id("me.modmuss50.mod-publish-plugin")
 }
 

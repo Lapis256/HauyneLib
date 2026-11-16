@@ -1,11 +1,16 @@
 plugins {
     base
-    alias(libs.plugins.binaryCompatibilityValidator)
-    alias(libs.plugins.kotlin) apply false
-    alias(libs.plugins.ksp) apply false
+
     id("formatting")
     id("release")
+
+    alias(libs.plugins.binaryCompatibilityValidator)
     alias(libs.plugins.dokka)
+
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.legacyforge) apply false
+    alias(libs.plugins.mdg) apply false
 }
 
 version = providers.gradleProperty("modVersion").get()
