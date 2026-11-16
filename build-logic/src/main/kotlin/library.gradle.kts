@@ -100,7 +100,7 @@ dependencies {
     "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
 }
 
-// Java's sourcesJar includes Kotlin sources; avoid two tasks writing the same archive.
+// Java の sourcesJar が Kotlin ソースも含むため、同じアーカイブへの二重書き込みを避ける。
 tasks.matching { it.name == "kotlinSourcesJar" }.configureEach {
     enabled = false
 }

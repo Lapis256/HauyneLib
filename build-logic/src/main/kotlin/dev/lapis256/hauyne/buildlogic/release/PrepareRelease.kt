@@ -60,7 +60,7 @@ abstract class PrepareRelease : DefaultTask() {
     }
 
     private fun initialTag(current: String, mode: String): String {
-        // The first automatic release uses the version already declared in Gradle.
+        // 初回の自動リリースでは Gradle に宣言済みのバージョンを使う。
         val version = current.split('.').map(String::toInt).toMutableList()
         if (mode != "auto") {
             val index = listOf("major", "minor", "patch").indexOf(mode)

@@ -1,12 +1,14 @@
 # HauyneLib
 
-HauyneLib は、NeoForge / Forge 向けのライブラリ Mod です。コンフィグ機能を利用する Mod の開発には、KSP と `hauyne-config-ksp` が必須です。
+[日本語](README.ja.md)
 
-公開バージョンと配布ファイルは [Releases](https://github.com/Lapis256/HauyneLib/releases) を参照してください。
+HauyneLib is a library mod for NeoForge / Forge. Developing mods that use its configuration features requires KSP and `hauyne-config-ksp`.
 
-## Gradle の設定
+See [Releases](https://github.com/Lapis256/HauyneLib/releases) for published versions and distribution files.
 
-`build.gradle.kts` の `repositories` に公開 Maven リポジトリを追加してください。
+## Gradle setup
+
+Add the public Maven repository to `repositories` in your `build.gradle.kts`.
 
 ```kotlin
 repositories {
@@ -14,7 +16,7 @@ repositories {
 }
 ```
 
-NeoForge の MDG プロジェクトでは、Mod 本体を `implementation` に追加します。以下は Minecraft 26.1.2 向けの例です。`<version>` は利用するリリースのバージョンに置き換えてください。
+In a NeoForge MDG project, add the mod to `implementation`. The following example targets Minecraft 26.1.2. Replace `<version>` with the release version you want to use.
 
 ```kotlin
 dependencies {
@@ -22,7 +24,7 @@ dependencies {
 }
 ```
 
-コンフィグ機能を利用する場合は、KSP プラグインを適用し、次の依存関係も追加してください。
+To use the configuration features, apply the KSP plugin and add the following dependency as well.
 
 ```kotlin
 plugins {
@@ -34,9 +36,9 @@ dependencies {
 }
 ```
 
-## サポート対象
+## Supported versions
 
-| Minecraft | ローダー |
+| Minecraft | Loader |
 | --- | --- |
 | 26.1.2 | NeoForge |
 | 1.21.1 | NeoForge |

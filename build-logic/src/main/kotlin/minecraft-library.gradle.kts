@@ -25,7 +25,7 @@ java {
 afterEvaluate {
     version = "${project.name}-${rootProject.version}"
     val artifact = base.archivesName.get()
-    // Gradle must distinguish equally named Stonecutter version nodes.
+    // Gradle が同名の Stonecutter バージョンノードを区別できるようにする。
     group = "${rootProject.property("mavenGroup")}.${artifact.replace('-', '.')}"
 }
 
