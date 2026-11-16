@@ -12,7 +12,7 @@ internal data class FmlModMetadata(
 )
 
 @Serializable
-internal data class FmlMod(val modId: String, val version: String, val displayName: String, val description: String)
+internal data class FmlMod(val modId: String, val version: String, val displayName: String, val description: String, val authors: String)
 
 @Serializable
 internal data class FmlDependency(

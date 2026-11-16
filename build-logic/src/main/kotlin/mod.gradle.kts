@@ -15,6 +15,7 @@ plugins {
 val metadata = extensions.create<HauyneModMetadataExtension>("hauyneMetadata")
 metadata.modId.convention(providers.gradleProperty("modId"))
 metadata.modName.convention(providers.gradleProperty("modName"))
+metadata.modAuthor.convention(providers.gradleProperty("modAuthor"))
 metadata.modPackage.convention(providers.gradleProperty("modPackage"))
 metadata.license.convention(providers.gradleProperty("license"))
 metadata.description.convention(providers.gradleProperty("modDescription"))
@@ -32,6 +33,7 @@ val fml = metadata.selectedMetadata
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
     modName = metadata.modName
+    modAuthor = metadata.modAuthor
     license = metadata.license
     modDescription = metadata.description
     loader = metadata.selectedLoader

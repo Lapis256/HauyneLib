@@ -8,6 +8,7 @@ import javax.inject.Inject
 abstract class HauyneModMetadataExtension @Inject constructor(objects: ObjectFactory) {
     abstract val modId: Property<String>
     abstract val modName: Property<String>
+    abstract val modAuthor: Property<String>
     abstract val modPackage: Property<String>
     abstract val license: Property<String>
     abstract val description: Property<String>
