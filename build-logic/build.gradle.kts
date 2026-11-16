@@ -20,6 +20,11 @@ mutflow {
 
 // internal メソッドの名前を通常コンパイルと揃える。
 tasks.withType<KotlinCompile>().matching { it.name == "compileMutatedMainKotlin" }.configureEach {
+    dependsOn(
+        tasks.named("generateExternalPluginSpecBuilders"),
+        tasks.named("generatePrecompiledScriptPluginAccessors"),
+        tasks.named("generateScriptPluginAdapters"),
+    )
     compilerOptions.moduleName.set(tasks.named<KotlinCompile>("compileKotlin").flatMap { it.compilerOptions.moduleName })
 }
 
