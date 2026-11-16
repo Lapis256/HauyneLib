@@ -53,7 +53,6 @@ abstract class RecordReleaseArtifacts : DefaultTask() {
             }
             val digest = ReleaseArtifacts.sha256(file)
             file.copyTo(assets.resolve(name))
-            entries += "$digest  $path\n"
             entries += "$digest  .release/assets/$name\n"
             checksums += "$digest  $name\n"
         }

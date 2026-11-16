@@ -75,7 +75,7 @@ afterEvaluate {
     val artifactVersion = providers.provider { project.version.toString() }
     val artifactName = base.archivesName.get()
     val compilerMetadata = javaToolchains.compilerFor(java.toolchain).map { it.metadata }
-    val timestamp = providers.gradleProperty("buildTimestamp").map(OffsetDateTime::parse).orNull ?: OffsetDateTime.now()
+    val timestamp = OffsetDateTime.now()
     tasks.withType<Jar>().configureEach {
         manifest.attributes(
             "Specification-Title" to providers.gradleProperty("modName"),

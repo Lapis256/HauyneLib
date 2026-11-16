@@ -4,6 +4,10 @@ import dev.lapis256.hauyne.buildlogic.release.RecordReleaseArtifacts
 tasks.register("publishRelease") {
     group = "publishing"
     description = "Publish the verified release targets to Maven, CurseForge and Modrinth"
+    val manifest = providers.gradleProperty("releaseManifest")
+    doFirst {
+        require(manifest.isPresent) { "releaseManifest is required to publish saved release artifacts" }
+    }
 }
 
 tasks.register<PrepareRelease>("prepareRelease") {

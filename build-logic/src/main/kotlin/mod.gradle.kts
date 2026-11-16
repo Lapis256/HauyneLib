@@ -35,6 +35,7 @@ kotlin.sourceSets.main {
 }
 
 val fml = metadata.selectedMetadata
+val releaseManifest = providers.gradleProperty("releaseManifest")
 val defaultMinecraftVersionRange = extensions.getByType<StonecutterBuildExtension>().current.version.eq()
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
@@ -54,6 +55,9 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
 }
 
 afterEvaluate {
+    if (releaseManifest.isPresent) {
+        publishMods.file = rootProject.layout.projectDirectory.file(".release/assets/${publishMods.file.get().asFile.name}")
+    }
     val loader = requireNotNull(metadata.selectedLoader.orNull) { "Configure hauyneMetadata.forge {} or hauyneMetadata.neoforge {}" }
     validateDependencies(fml.get().dependencyEntries.get(), metadata.modId.get(), loader)
     generateMetadata.configure {
@@ -140,7 +144,7 @@ rootProject.tasks.named("recordReleaseArtifacts") {
 }
 
 rootProject.tasks.named("publishRelease") {
-    dependsOn(tasks.named("publishMods"))
+    if (releaseManifest.isPresent) dependsOn(tasks.named("publishMods"))
 }
 
 val modFile = publishMods.file
@@ -152,7 +156,6 @@ tasks.matching {
     it.name.startsWith("publish") &&
         (it.name.contains("Curseforge", true) || it.name.contains("Modrinth", true) || it.name == "publishMods")
 }.configureEach {
-    val releaseManifest = providers.gradleProperty("releaseManifest")
     val releaseRoot = rootProject.layout.projectDirectory.asFile
     val releaseFile = publishMods.file
     doFirst {

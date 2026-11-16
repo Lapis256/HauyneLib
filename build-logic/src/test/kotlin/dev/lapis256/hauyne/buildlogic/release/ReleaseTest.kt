@@ -123,7 +123,8 @@ class ReleaseTest {
         task.record()
         assertEquals("verified mod", root.resolve(".release/assets/future-loader-1.0.0.jar").readText())
         val manifest = root.resolve(".release/SHA256SUMS")
-        ReleaseArtifacts.verify(root, manifest, listOf(mod))
+        mod.delete()
+        ReleaseArtifacts.verify(root, manifest, listOf(root.resolve(".release/assets/future-loader-1.0.0.jar")))
         val otherMod = root.resolve("other.jar").apply { writeText("unregistered") }
         task.modFiles.setFrom(otherMod)
         val error = assertThrows(IllegalArgumentException::class.java) { task.record() }

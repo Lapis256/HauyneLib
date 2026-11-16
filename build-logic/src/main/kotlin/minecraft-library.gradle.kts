@@ -11,6 +11,12 @@ base {
 
 val sc = extensions.getByType<StonecutterBuildExtension>()
 
+if (providers.gradleProperty("releaseManifest").isPresent) {
+    tasks.matching { it.name == "createMinecraftArtifacts" }.configureEach {
+        enabled = false
+    }
+}
+
 java {
     val javaVersion = when {
         sc.current.parsed >= "26.1" -> 25
