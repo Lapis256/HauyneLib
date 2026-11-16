@@ -24,6 +24,8 @@ import software.amazon.awssdk.http.AbortableInputStream
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.s3.model.GetObjectResponse
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest
+import software.amazon.awssdk.services.s3.model.HeadObjectResponse
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import software.amazon.awssdk.services.s3.model.PutObjectResponse
 import software.amazon.awssdk.services.s3.model.S3Exception
@@ -152,20 +154,13 @@ class R2TasksTest {
         assertEquals("\"old-body\"", remote.puts[2].ifMatch())
         assertEquals("*", remote.puts[3].ifNoneMatch())
         assertFalse(remote.objects.containsKey("baseline-metadata.json"))
+        assertEquals(setOf(jar, checksum, metadata, otherMetadata), remote.heads.toSet())
+        assertTrue(remote.gets.isEmpty())
     }
 
     @Test
-    fun retryReusesSameContentIncludingMetadataWhoseEtagAlreadyChanged() {
-        remote.objects[jar] = Stored("jar".toByteArray(), "\"not-the-hash\"")
-        remote.objects[metadata] = Stored(xml("new").toByteArray(), "\"new-etag\"")
-        stage(mapOf(jar to "jar", metadata to xml("new")), mapOf(metadata to "\"old-etag\""))
-        task(Upload::class.java).upload()
-        assertTrue(remote.puts.isEmpty())
-    }
-
-    @Test
-    fun refusesDifferentImmutableObjectAndDoesNotPublishMetadata() {
-        remote.objects[jar] = Stored("different".toByteArray(), "\"existing\"")
+    fun refusesExistingImmutableObjectEvenWithSameContentAndDoesNotPublishMetadata() {
+        remote.objects[jar] = Stored("jar".toByteArray(), "\"existing\"")
         stage(mapOf(jar to "jar", metadata to xml("new")), mapOf(metadata to null))
         assertThrows(IllegalArgumentException::class.java) { task(Upload::class.java).upload() }
         assertTrue(remote.puts.isEmpty())
@@ -174,9 +169,11 @@ class R2TasksTest {
     @Test
     fun failedPreflightNeverWritesAndDoesNotTreatForbiddenAsAbsence() {
         stage(mapOf(jar to "jar"))
-        remote.getFailure = s3Error(403)
-        assertThrows(S3Exception::class.java) { task(Upload::class.java).upload() }
-        assertTrue(remote.puts.isEmpty())
+        for (status in listOf(403, 429, 500)) {
+            remote.headFailure = s3Error(status)
+            assertThrows(S3Exception::class.java) { task(Upload::class.java).upload() }
+            assertTrue(remote.puts.isEmpty())
+        }
     }
 
     @Test
@@ -208,22 +205,28 @@ class R2TasksTest {
     }
 
     @Test
-    fun reusesConcurrentSameContentAndLostPutResponse() {
-        val upload = task(Upload::class.java)
+    fun conditionalPutRejectsConcurrentSameContent() {
         stage(mapOf(jar to "jar"))
-        remote.beforePut = { remote.objects[jar] = Stored("jar".toByteArray(), "\"racer\"") }
-        upload.upload()
-        remote.beforePut = null
-        remote.objects.clear()
+        remote.beforePut = { remote.objects[jar] = Stored("jar".toByteArray(), "racer") }
+        assertThrows(S3Exception::class.java) { task(Upload::class.java).upload() }
+        assertTrue(remote.gets.isEmpty())
+    }
+
+    @Test
+    fun lostPutResponsePropagatesWithoutReconciliationOrMetadataPut() {
+        stage(mapOf(metadata to xml("new")), mapOf(metadata to null))
         remote.loseResponse = true
-        upload.upload()
+        assertThrows(SdkClientException::class.java) { task(Upload::class.java).upload() }
         assertEquals("jar", remote.objects.getValue(jar).body.toString(Charsets.UTF_8))
+        assertEquals(listOf(jar), remote.puts.map { it.key() })
+        assertTrue(remote.gets.isEmpty())
     }
 
     @Test
     fun missingBaselineEntryFailsBeforeUpload() {
         stage(mapOf(jar to "jar", metadata to xml("new")))
         assertThrows(IllegalArgumentException::class.java) { task(Upload::class.java).upload() }
+        assertTrue(remote.heads.isEmpty())
         assertTrue(remote.gets.isEmpty())
     }
 
@@ -245,27 +248,6 @@ class R2TasksTest {
             writeText("""<!DOCTYPE metadata [<!ENTITY external SYSTEM "file:///not-to-be-read">]><metadata>&external;</metadata>""")
         }
         assertThrows(org.xml.sax.SAXParseException::class.java) { MavenMetadata.versions(file) }
-    }
-
-    @Test
-    fun persistsUploadAndVerificationResultsOnSuccessAndFailure() {
-        stage(mapOf(jar to "jar"))
-        val upload = task(Upload::class.java)
-        upload.upload()
-        val results = root.resolve("release/results")
-        val uploaded = Json.parseToJsonElement(results.resolve("r2-upload.json").readText()).jsonObject
-        assertEquals("success", uploaded.getValue("status").jsonPrimitive.content)
-        assertEquals("uploaded", uploaded.getValue("objects").jsonObject.getValue(jar).jsonObject.getValue("status").jsonPrimitive.content)
-        remote.objects[jar] = Stored("changed".toByteArray(), "\"other\"")
-        assertThrows(IllegalArgumentException::class.java) { upload.upload() }
-        val failed = Json.parseToJsonElement(results.resolve("r2-upload.json").readText()).jsonObject
-        assertEquals("failed", failed.getValue("status").jsonPrimitive.content)
-        assertEquals("conflict", failed.getValue("objects").jsonObject.getValue(jar).jsonObject.getValue("status").jsonPrimitive.content)
-        val verify = task(Verify::class.java)
-        assertThrows(IllegalArgumentException::class.java) { verify.verify() }
-        val verification = Json.parseToJsonElement(results.resolve("r2-verify.json").readText()).jsonObject
-        assertEquals("failed", verification.getValue("status").jsonPrimitive.content)
-        assertEquals("mismatch", verification.getValue("objects").jsonObject.getValue(jar).jsonObject.getValue("status").jsonPrimitive.content)
     }
 
     @Test
@@ -308,8 +290,10 @@ class R2TasksTest {
     private class FakeS3 {
         val objects = mutableMapOf<String, Stored>()
         val gets = mutableListOf<String>()
+        val heads = mutableListOf<String>()
         val puts = mutableListOf<PutObjectRequest>()
         var getFailure: Exception? = null
+        var headFailure: Exception? = null
         var beforePut: (() -> Unit)? = null
         var loseResponse = false
         val client = S3Client::class.java.cast(
@@ -328,6 +312,15 @@ class R2TasksTest {
                             GetObjectResponse.builder().eTag(stored.etag).build(),
                             AbortableInputStream.create(stored.body.inputStream()),
                         )
+                    }
+
+                    "headObject" -> {
+                        val request = args[0] as HeadObjectRequest
+                        assertEquals("releases", request.bucket())
+                        heads += request.key()
+                        headFailure?.let { throw it }
+                        val stored = objects[request.key()] ?: throw s3Error(404)
+                        HeadObjectResponse.builder().eTag(stored.etag).build()
                     }
 
                     "putObject" -> {

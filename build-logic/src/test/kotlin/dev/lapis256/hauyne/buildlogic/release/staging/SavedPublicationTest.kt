@@ -43,7 +43,6 @@ class SavedPublicationTest {
             subprojects { configurations.create("bcv-rt-jvm-cp") }
             tasks.named("downloadMavenMetadata") { enabled = false }
             tasks.register("consumeStaging") {
-                dependsOn("verifyStagedRelease")
                 doLast { file("build/staging/maven").copyRecursively(file("published")) }
             }
             """.trimIndent(),
@@ -88,7 +87,5 @@ class SavedPublicationTest {
         val result = runner.withArguments(common + "consumeStaging").build()
         assertFalse(result.tasks.any { it.path.endsWith(":jar") || it.path.endsWith(":sourcesJar") || "compile" in it.path })
         for ((path, expected) in saved) assertArrayEquals(expected, root.resolve("published/$path").readBytes())
-        staging.resolve("maven/dev/example/lib/1.0/lib-1.0.module").appendText("changed")
-        assertTrue(runner.withArguments(common + "verifyStagedRelease").buildAndFail().output.contains("Release artifact changed"))
     }
 }

@@ -21,9 +21,6 @@ abstract class R2Task : DefaultTask() {
     abstract val stagingDirectory: DirectoryProperty
 
     @get:Internal
-    abstract val resultDirectory: DirectoryProperty
-
-    @get:Internal
     abstract val bucket: Property<String>
 
     @get:Internal
@@ -34,10 +31,6 @@ abstract class R2Task : DefaultTask() {
 
     @get:Internal
     abstract val secretKey: Property<String>
-
-    init {
-        resultDirectory.convention(stagingDirectory.dir("../release/results"))
-    }
 
     protected open fun createS3Client(): S3Client = S3Client.builder()
         .endpointOverride(URI.create(endpoint.get()).also { require(it.scheme == "https") { "R2 endpoint must use HTTPS" } })
@@ -70,9 +63,7 @@ internal fun <T> missingOn404(action: () -> T): T? = try {
     null
 }
 
-internal data class RemoteMavenObject(val etag: String, val sha256: String)
-
-internal fun readRemote(client: S3Client, bucket: String, key: String): RemoteMavenObject? = missingOn404 {
+internal fun remoteSha256(client: S3Client, bucket: String, key: String): String? = missingOn404 {
     client.getObject(GetObjectRequest.builder().bucket(bucket).key(key).build()).use { input ->
         val digest = MessageDigest.getInstance("SHA-256")
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
@@ -81,9 +72,6 @@ internal fun readRemote(client: S3Client, bucket: String, key: String): RemoteMa
             if (count == -1) break
             digest.update(buffer, 0, count)
         }
-        RemoteMavenObject(
-            requireNotNull(input.response().eTag()) { "Missing ETag: $key" },
-            digest.digest().joinToString("") { "%02x".format(it) },
-        )
+        digest.digest().joinToString("") { "%02x".format(it) }
     }
 }

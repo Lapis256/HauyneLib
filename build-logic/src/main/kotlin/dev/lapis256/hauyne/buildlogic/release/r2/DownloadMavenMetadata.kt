@@ -14,7 +14,7 @@ abstract class DownloadMavenMetadata : R2Task() {
     abstract val coordinates: ListProperty<String>
 
     @TaskAction
-    fun download() = R2Results(resultDirectory.get().asFile, "r2-download").run {
+    fun download() {
         val staging = stagingDirectory.get().asFile
         require(!staging.resolve("SHA256SUMS").exists()) { "Cannot modify sealed staging" }
         val modules = coordinates.get().distinct().sorted()
@@ -46,7 +46,6 @@ abstract class DownloadMavenMetadata : R2Task() {
                         if (target.exists()) check(target.delete()) { "Cannot remove stale metadata: $key" }
                     }
                     baseline[key] = MavenMetadata.entry(etag, if (suffix.isEmpty()) target else null)
-                    record(key, if (etag == null) "absent" else "downloaded")
                 }
             }
         }

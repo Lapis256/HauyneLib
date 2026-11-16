@@ -21,8 +21,6 @@ class ModPublishingIntegrationTest {
                 id("net.neoforged.moddev.legacyforge") apply false
                 id("net.neoforged.moddev") apply false
             }
-            tasks.register("verifyStagedRelease")
-            tasks.register("verifyPublishedJars")
             tasks.register("publishMods") {
                 dependsOn(":forge:publishMods", ":neoforge:publishMods")
             }
@@ -65,7 +63,6 @@ class ModPublishingIntegrationTest {
                 gradle.projectsEvaluated {
                     val publication = project.extensions.getByType<PublishingExtension>().publications.getByName("maven") as MavenPublication
                     publishMods.file.fileValue(ModPublishing.stagedJar(rootProject, publication))
-                    tasks.withType<PublishModTask>().forEach { ModPublishing.configure(project, it) }
                 }
                 tasks.register("checkContract") {
                     doLast {
@@ -76,7 +73,6 @@ class ModPublishingIntegrationTest {
                         check(publishMods.file.get().asFile == rootProject.file("build/staging/maven/dev/example/mod-$loader/1.20.1-1.0/mod-$loader-1.20.1-1.0.jar"))
                         check(publishMods.file.get().asFile != finalJar.archiveFile.get().asFile)
                         tasks.withType<PublishModTask>().forEach {
-                            check(it.platform.maxRetries.get() == 1)
                             check(it.platform.file.get().asFile == publishMods.file.get().asFile)
                         }
                         println("MOD_CONTRACT_OK_$loader")
@@ -100,7 +96,6 @@ class ModPublishingIntegrationTest {
         assertTrue(contracts.contains("MOD_CONTRACT_OK_forge"), contracts)
         assertTrue(contracts.contains("MOD_CONTRACT_OK_neoforge"), contracts)
         val graph = runner("publishMods", "--dry-run").build().output
-        assertFalse(graph.contains(":verifyStagedRelease SKIPPED"), graph)
         for (loader in listOf("forge", "neoforge")) {
             assertTrue(graph.contains(":$loader:publishModrinth SKIPPED"), graph)
             assertTrue(graph.contains(":$loader:publishCurseforge SKIPPED"), graph)
@@ -112,27 +107,5 @@ class ModPublishingIntegrationTest {
             },
             graph,
         )
-    }
-
-    @Test
-    fun pluginDryRunValidatesConfigurationWithoutTokensOrResultWrites() {
-        fixture()
-        val output = runner("publishMods").build().output
-        assertTrue(output.contains("Dry run :forge:publishModrinth"), output)
-        assertFalse(root.resolve("build/release/results").exists())
-        assertFalse(root.resolve("forge/build/publishMods").exists())
-        root.resolve("forge/build.gradle.kts").appendText("\npublishMods.modLoaders.set(emptyList())\n")
-        val failure = runner("publishMods").buildAndFail().output
-        assertTrue(failure.contains("Missing Mod loaders"), failure)
-    }
-
-    @Test
-    fun explicitVerificationDoesNotFollowPublishingDryRunDefault() {
-        fixture()
-        val graph = runner("verifyPublishedJars", "--dry-run").build().output
-        assertTrue(graph.contains(":forge:verifyModrinthPublishedJar SKIPPED"), graph)
-        assertTrue(graph.contains(":neoforge:verifyCurseforgePublishedJar SKIPPED"), graph)
-        val output = runner(":forge:verifyModrinthPublishedJar").buildAndFail().output
-        assertTrue(output.contains("SHA256SUMS"), output)
     }
 }

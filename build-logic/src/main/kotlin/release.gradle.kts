@@ -4,7 +4,6 @@ import dev.lapis256.hauyne.buildlogic.release.r2.R2Task
 import dev.lapis256.hauyne.buildlogic.release.r2.UploadStagedMavenToR2
 import dev.lapis256.hauyne.buildlogic.release.r2.VerifyPublishedMaven
 import dev.lapis256.hauyne.buildlogic.release.staging.RecordReleaseArtifacts
-import dev.lapis256.hauyne.buildlogic.release.staging.VerifyStagedRelease
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 
@@ -39,22 +38,12 @@ tasks.register<RecordReleaseArtifacts>("stageRelease") {
     dependsOn(gradle.includedBuilds.filter { it.name == "build-logic" }.map { it.task(":test") })
 }
 
-tasks.register<VerifyStagedRelease>("verifyStagedRelease") {
-    group = "publishing"
-    stagingDirectory = staging
-}
-
 tasks.register<UploadStagedMavenToR2>("uploadStagedMavenToR2") {
     group = "publishing"
 }
 
 tasks.register<VerifyPublishedMaven>("verifyPublishedMaven") {
     group = "publishing"
-}
-
-tasks.register("verifyPublishedJars") {
-    group = "publishing"
-    dependsOn(tasks.named("verifyPublishedMaven"))
 }
 
 gradle.projectsEvaluated {

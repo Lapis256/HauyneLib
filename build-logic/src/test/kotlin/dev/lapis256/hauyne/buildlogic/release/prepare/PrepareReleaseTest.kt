@@ -65,4 +65,29 @@ class PrepareReleaseTest {
         root.resolve("gradle.properties").writeText("modVersion=0.2.0\n")
         assertThrows(IllegalArgumentException::class.java) { task.prepare() }
     }
+
+    @Test
+    fun taggedReleaseNotesMatchPreparedNotes() {
+        val task = prepareTask()
+        git("tag", "v0.1.0")
+        git("commit", "--allow-empty", "-qm", "fix: repaired")
+        task.prepare()
+        val notes = root.resolve("build/release/notes.md").readText()
+        git("add", "gradle.properties", "CHANGELOG.md")
+        git("commit", "-qm", "chore(release): v0.1.1")
+        git("tag", "v0.1.1")
+        val process = ProcessBuilder(
+            "git-cliff",
+            "--offline",
+            "--use-branch-tags",
+            "--config",
+            "cliff.toml",
+            "--current",
+            "--strip",
+            "header",
+        ).directory(root).start()
+        val taggedNotes = process.inputStream.bufferedReader().readText()
+        assertEquals(0, process.waitFor())
+        assertEquals(notes.trim(), taggedNotes.trim())
+    }
 }
