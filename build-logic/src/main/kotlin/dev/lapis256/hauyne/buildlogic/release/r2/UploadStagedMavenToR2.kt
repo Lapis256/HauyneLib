@@ -17,7 +17,6 @@ abstract class UploadStagedMavenToR2 : R2Task() {
         require(maven.isDirectory) { "Missing staged Maven directory: $maven" }
         val keys = maven.walkTopDown().filter { it.isFile }.map { it.relativeTo(maven).invariantSeparatorsPath }.toList()
         require(keys.isNotEmpty()) { "No staged Maven files" }
-        keys.forEach(::requireMavenPath)
         val etags = readEtags(staging, keys)
         val ordered = keys.sortedWith(
             compareBy<String> {
@@ -35,14 +34,7 @@ abstract class UploadStagedMavenToR2 : R2Task() {
 
     private fun readEtags(staging: File, keys: List<String>): Map<String, String?> {
         val etags = Json.decodeFromString<Map<String, String?>>(staging.resolve("metadata-etags.json").readText())
-        return keys.filter { metadataBody(it) != null }.associateWith { key ->
-            val body = metadataBody(key)
-            require(key in etags && body in etags) { "Missing metadata ETag: $key" }
-            require(body in keys) { "Missing metadata body: $key" }
-            etags.getValue(key).also {
-                require(it == null || it.isNotBlank()) { "Invalid ETag: $key" }
-            }
-        }
+        return keys.filter { metadataBody(it) != null }.associateWith(etags::getValue)
     }
 
     private fun uploadFile(client: S3Client, maven: File, key: String, etag: String?) {

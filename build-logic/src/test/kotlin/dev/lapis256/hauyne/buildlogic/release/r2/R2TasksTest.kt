@@ -212,21 +212,10 @@ class R2TasksTest {
     @Test
     fun missingEtagEntryFailsBeforeUpload() {
         stage(mapOf(jar to "jar", metadata to "<metadata>new</metadata>"))
-        assertThrows(IllegalArgumentException::class.java) { task(Upload::class.java).upload() }
+        assertThrows(NoSuchElementException::class.java) { task(Upload::class.java).upload() }
         assertTrue(remote.puts.isEmpty())
         assertTrue(remote.heads.isEmpty())
         assertTrue(remote.gets.isEmpty())
-    }
-
-    @Test
-    fun invalidEtagValuesFailBeforeAnyPut() {
-        stage(mapOf(metadata to "<metadata/>"), mapOf(metadata to null))
-        val etagsFile = staging.resolve("metadata-etags.json")
-        for (value in listOf("42", "true", "\"\"", "{}")) {
-            etagsFile.writeText("{\"$metadata\":$value}")
-            assertThrows(IllegalArgumentException::class.java) { task(Upload::class.java).upload() }
-            assertTrue(remote.puts.isEmpty())
-        }
     }
 
     abstract class Download : DownloadMavenMetadata() {

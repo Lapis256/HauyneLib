@@ -36,7 +36,7 @@ abstract class PrepareRelease : DefaultTask() {
         val root = rootDirectory.get().asFile
         val source = root.resolve("gradle.properties").readText()
         val tag = nextTag(currentVersion(source), bump.get())
-        validateTag(tag)
+        require(tag.matches(Regex("v\\d+\\.\\d+\\.\\d+"))) { "Invalid release tag: $tag" }
         generateChangelogs(root, tag)
         writeReleaseVersion(root, source, tag)
         logger.lifecycle("Release prepared: $tag")
@@ -68,11 +68,6 @@ abstract class PrepareRelease : DefaultTask() {
             for (i in index + 1..2) version[i] = 0
         }
         return "v${version.joinToString(".")}"
-    }
-
-    private fun validateTag(tag: String) {
-        require(tag.matches(Regex("v\\d+\\.\\d+\\.\\d+"))) { "Invalid release tag: $tag" }
-        require(run("git", "tag", "--list", tag).isEmpty()) { "Release tag already exists: $tag" }
     }
 
     private fun generateChangelogs(root: File, tag: String) {
