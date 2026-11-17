@@ -1,0 +1,45 @@
+[versions]
+kotlin = "2.4.21"
+mutflow = "1.7.1"
+binaryCompatibilityValidator = "0.18.2"
+ksp = "2.3.14"
+mdg = "2.0.148"
+stonecutter = "0.10"
+junit = "6.0.1"
+modpublish = "2.2.1"
+nightconfig = "3.8.3"
+ktoml = "0.7.1"
+spotless = "8.11.0"
+ktlint = "1.8.0"
+eclipse = "4.41"
+ec4j = "1.2.0"
+dokka = "2.2.0"
+aws = "2.59.1"
+
+[libraries]
+asm-tree = { module = "org.ow2.asm:asm-tree", version = "9.8" }
+dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
+spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
+ec4j = { module = "org.ec4j.core:ec4j-core", version.ref = "ec4j" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+mdg-gradle = { module = "net.neoforged:moddev-gradle", version.ref = "mdg" }
+modpublish-gradle = { module = "me.modmuss50:mod-publish-plugin", version.ref = "modpublish" }
+stonecutter-gradle = { module = "dev.kikugie.stonecutter:dev.kikugie.stonecutter.gradle.plugin", version.ref = "stonecutter" }
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+nightconfig = { module = "com.electronwill.night-config:toml", version.ref = "nightconfig" }
+ktoml = { module = "com.akuleshov7:ktoml-core", version.ref = "ktoml" }
+aws-s3 = { module = "software.amazon.awssdk:s3", version.ref = "aws" }
+aws-http = { module = "software.amazon.awssdk:url-connection-client", version.ref = "aws" }
+
+[plugins]
+mutflow = { id = "io.github.anschnapp.mutflow", version.ref = "mutflow" }
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+stonecutter = { id = "dev.kikugie.stonecutter", version.ref = "stonecutter" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+mdg = { id = "net.neoforged.moddev", version.ref = "mdg" }
+legacyforge = { id = "net.neoforged.moddev.legacyforge", version.ref = "mdg" }
+modpublish = { id = "me.modmuss50.mod-publish-plugin", version.ref = "modpublish" }

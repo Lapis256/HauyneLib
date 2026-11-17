@@ -1,0 +1,15 @@
+{
+  "version": "0.29.0",
+  "hosts": [
+    "agents",
+    "antigravity",
+    "hermes"
+  ],
+  "opts": {
+    "global": true,
+    "mcp": true,
+    "hooks": true,
+    "statusline": true
+  },
+  "at": "2026-11-14T17:13:24.662Z"
+}

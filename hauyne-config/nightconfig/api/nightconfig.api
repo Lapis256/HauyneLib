@@ -1,0 +1,7 @@
+public final class dev/lapis256/hauyne/config/nightconfig/TomlBackend : dev/lapis256/hauyne/config/Backend, java/lang/AutoCloseable {
+	public fun <init> (Ljava/nio/file/Path;)V
+	public fun close ()V
+	public fun read (Ljava/lang/String;)Ljava/lang/String;
+	public fun write (Ljava/lang/String;Ljava/lang/String;)V
+}
+

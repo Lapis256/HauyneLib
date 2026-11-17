@@ -1,8 +1,8 @@
 <!-- trail:start -->
 ## Trail — repo context graph
 
-This repo is indexed in `.trail/cache/`: small linked markdown nodes that explain each
-system and carry exact file:line spans, kept in sync with the code through git.
+The Trail context graph is in `graft/`: linked Markdown nodes that explain each
+system and carry exact file:line spans. `.trail/cache/` holds the local index used by the Trail CLI.
 
 For ANY task here — understanding how something works, finding where code lives,
 or scoping a change — get context from the graph before grepping or opening
@@ -26,7 +26,7 @@ hotspots), no LLM, no key.
   Add `--direction out` for what it calls, or `--depth N` to walk
   transitively for the full blast radius. For structural questions, skip
   ranking and use this directly.
-- Or browse: `.trail/cache/INDEX.md` lists every node; follow the links.
+- Or browse: `graft/INDEX.md` lists every node; follow the links.
 - Monorepos and folders of multiple repos rank fairly across sub-projects —
   hits carry `[scope/]` labels naming which one they're from. Narrow with
   `trail ask "<task>" --in <scope>/` once you know where you're working.
@@ -39,3 +39,41 @@ re-read whole files.
 After big code changes, refresh the graph with `trail build` (deterministic,
 no API key, $0).
 <!-- trail:end -->
+
+## Writing conventions
+
+- Use Kotlin for implementation, tests, examples, and generated source code. Use Java only when the user explicitly requests it.
+- Use English as the primary language for public-facing essentials, such as the README and public API documentation.
+- Write KDoc in both English and Japanese, with English first.
+- Write code comments and internal development documentation in Japanese, prioritizing the Japanese-speaking maintainer's readability.
+- Write commit messages and pull request titles in English using Conventional Commits.
+- Keep both concise while conveying the necessary scope; commit messages should normally consist of the subject line only.
+- Write all agent-facing documentation in English as an exception to the internal documentation rule.
+
+## Test design
+
+- Create tests to verify explicit specifications, important invariants, or regressions that must be prevented.
+- Before adding a test, identify the bug it should detect and what it covers beyond existing tests.
+- Avoid tests that duplicate checks already adequately covered by the build or CI, such as successful compilation.
+- Do not retest standard behavior guaranteed by Gradle or dependencies unless it is part of a project-specific contract.
+- Prefer verifying user-observable behavior and artifacts over internal implementation details, logs, or execution order.
+- Do not add tests solely to increase test counts or coverage.
+- Consider consolidating or deleting existing tests when the bugs they detect are unclear or their value does not justify their maintenance cost.
+
+## Commit workflow
+
+On any branch other than the default branch, treat explicit or implicit requests to change files as including a request to commit the completed changes. After appropriate verification, create focused commits containing only the task's changes without waiting for a separate commit instruction.
+
+## Agent skills
+
+### Issue tracker
+
+Track issues and specifications in GitHub Issues (`Lapis256/HauyneLib`). Read `docs/agents/issue-tracker.md` before working on issues.
+
+### Triage labels
+
+GitHub label names use spaces. Read the mapping in `docs/agents/triage-labels.md` before classifying issues.
+
+### Domain docs
+
+Domain documentation uses a single structure. Follow `docs/agents/domain.md` to read the glossary and relevant ADRs before examining code.

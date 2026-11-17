@@ -1,0 +1,41 @@
+# build-logic/src/main/kotlin/dev/lapis256/hauyne/buildlogic/metadata/VersionRange.kt
+
+- VersionRange · class · L6-L8 — sealed class VersionRange(val versionRange: String) : Serializable
+- toString · method · L7-L7 — final override fun toString(): String
+- AnyVersion · class · L10-L10 — data object AnyVersion : VersionRange("(,)")
+- Equal · class · L12-L12 — class Equal(version: String) : VersionRange("[${checkedVersion(version)}]")
+- GreaterThan · class · L13-L13 — class GreaterThan(version: String) : VersionRange("(${checkedVersion(version)},)")
+- GreaterThanOrEqual · class · L14-L14 — class GreaterThanOrEqual(version: String) : VersionRange("[${checkedVersion(version)},)")
+- LessThan · class · L15-L15 — class LessThan(version: String) : VersionRange("(,${checkedVersion(version)})")
+- LessThanOrEqual · class · L16-L16 — class LessThanOrEqual(version: String) : VersionRange("(,${checkedVersion(version)}]")
+- NotEqual · class · L17-L17 — class NotEqual(version: String) : VersionRange("(,${checkedVersion(version)}),($version,)")
+- RangeExclusive · class · L19-L19 — class RangeExclusive(min: String, max: String) : VersionRange("(${checkedVersion(min)},${checkedVersion(max)})")
+- RangeInclusive · class · L20-L20 — class RangeInclusive(min: String, max: String) : VersionRange("[${checkedVersion(min)},${checkedVersion(max)}]")
+- RangeInclusiveMin · class · L21-L21 — class RangeInclusiveMin(min: String, max: String) : VersionRange("[${checkedVersion(min)},${checkedVersion(max)})")
+- RangeInclusiveMax · class · L22-L22 — class RangeInclusiveMax(min: String, max: String) : VersionRange("(${checkedVersion(min)},${checkedVersion(max)}]")
+- Or · class · L24-L28 — class Or(vararg ranges: VersionRange) : VersionRange(ranges.joinToString(",") { it.versionRange })
+- checkedVersion · function · L30-L33 — private fun checkedVersion(version: String): String
+- eq · function · L35-L35 — fun String.eq()
+- gt · function · L36-L36 — fun String.gt()
+- gte · function · L37-L37 — fun String.gte()
+- lt · function · L38-L38 — fun String.lt()
+- lte · function · L39-L39 — fun String.lte()
+- neq · function · L40-L40 — fun String.neq()
+- rangeTo · function · L42-L42 — infix operator fun String.rangeTo(other: String)
+- rangeUntil · function · L43-L43 — infix operator fun String.rangeUntil(other: String)
+- rangeToExclusive · function · L44-L44 — infix fun String.rangeToExclusive(other: String)
+- rangeToMax · function · L45-L45 — infix fun String.rangeToMax(other: String)
+- eq · function · L47-L47 — fun Provider<String>.eq(): Provider<Equal>
+- gt · function · L48-L48 — fun Provider<String>.gt(): Provider<GreaterThan>
+- gte · function · L49-L49 — fun Provider<String>.gte(): Provider<GreaterThanOrEqual>
+- lt · function · L50-L50 — fun Provider<String>.lt(): Provider<LessThan>
+- lte · function · L51-L51 — fun Provider<String>.lte(): Provider<LessThanOrEqual>
+- neq · function · L52-L52 — fun Provider<String>.neq(): Provider<NotEqual>
+- rangeTo · function · L54-L54 — infix operator fun Provider<String>.rangeTo(other: Provider<String>): Provider<RangeInclusive>
+- rangeUntil · function · L55-L55 — infix operator fun Provider<String>.rangeUntil(other: Provider<String>): Provider<RangeInclusiveMin>
+- rangeToExclusive · function · L56-L56 — infix fun Provider<String>.rangeToExclusive(other: Provider<String>): Provider<RangeExclusive>
+- rangeToMax · function · L57-L57 — infix fun Provider<String>.rangeToMax(other: Provider<String>): Provider<RangeInclusiveMax>
+- rangeTo · function · L59-L59 — infix operator fun Provider<String>.rangeTo(other: String): Provider<RangeInclusive>
+- rangeUntil · function · L60-L60 — infix operator fun Provider<String>.rangeUntil(other: String): Provider<RangeInclusiveMin>
+- rangeToExclusive · function · L61-L61 — infix fun Provider<String>.rangeToExclusive(other: String): Provider<RangeExclusive>
+- rangeToMax · function · L62-L62 — infix fun Provider<String>.rangeToMax(other: String): Provider<RangeInclusiveMax>

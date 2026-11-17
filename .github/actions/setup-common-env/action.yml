@@ -1,0 +1,15 @@
+name: Setup common environment
+
+description: Install the Gradle runtime JDK and configure Gradle
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v5.1.0
+      with:
+        distribution: temurin
+        java-version: '25'
+
+    - uses: gradle/actions/setup-gradle@v5.0.0
+    - run: chmod +x gradlew
+      shell: bash

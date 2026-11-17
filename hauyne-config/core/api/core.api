@@ -1,0 +1,26 @@
+public abstract interface class dev/lapis256/hauyne/config/Backend {
+	public abstract fun read (Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun write (Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public abstract interface class dev/lapis256/hauyne/config/Codec {
+	public abstract fun decode (Ljava/lang/String;)Ljava/lang/Object;
+	public abstract fun encode (Ljava/lang/Object;)Ljava/lang/String;
+}
+
+public abstract interface annotation class dev/lapis256/hauyne/config/Config : java/lang/annotation/Annotation {
+}
+
+public final class dev/lapis256/hauyne/config/ConfigEntry {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Object;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Object;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Object;)Ldev/lapis256/hauyne/config/ConfigEntry;
+	public static synthetic fun copy$default (Ldev/lapis256/hauyne/config/ConfigEntry;Ljava/lang/String;Ljava/lang/Object;ILjava/lang/Object;)Ldev/lapis256/hauyne/config/ConfigEntry;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDefault ()Ljava/lang/Object;
+	public final fun getKey ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

@@ -1,0 +1,70 @@
+name: Publish release
+run-name: Publish ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT_URL }}
+      CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v6.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: orhun/git-cliff-action@v4.9.1
+        with:
+          version: v2.14.2
+          args: --version
+      - uses: $/.github/actions/setup-common-env
+      - name: Check release tag
+        run: |
+          test "$GITHUB_REF_TYPE" = tag
+          test "modVersion=${TAG#v}" = "$(grep '^modVersion=' gradle.properties)"
+      - name: Generate release notes
+        run: |
+          mkdir -p build/release
+          git-cliff --offline --use-branch-tags --config cliff.toml --current --strip header --output build/release/notes.md
+      - name: Stage and check once
+        run: ./gradlew stageRelease
+      - uses: actions/attest@v4.2.2
+        with:
+          subject-path: build/staging/maven/**/*.jar
+      - name: Create draft with staged JARs
+        run: |
+          mapfile -d '' jars < <(find build/staging/maven -type f -name '*.jar' -print0)
+          gh release create "$TAG" "${jars[@]}" --draft --verify-tag --title "$TAG" --notes-file build/release/notes.md
+      - name: Publish Maven repository
+        run: ./gradlew uploadStagedMavenToR2 --no-configuration-cache
+      - name: Publish mods
+        run: ./gradlew publishMods -PmodPublishDryRun=false --no-configuration-cache
+      - name: Publish GitHub release
+        run: gh release edit "$TAG" --draft=false
+
+  deploy_docs:
+    needs: publish
+    permissions:
+      contents: write
+    uses: ./.github/workflows/deploy_docs.yml
+    with:
+      ref: ${{ github.ref }}

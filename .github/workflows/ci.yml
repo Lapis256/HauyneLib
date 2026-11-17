@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches-ignore: [docs]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.1
+      - uses: orhun/git-cliff-action@v4.9.1
+        with:
+          version: v2.14.2
+          args: --version
+
+      - uses: $/.github/actions/setup-common-env
+      - name: Run tests and formatting checks
+        run: ./gradlew :build-logic:test check
+      - uses: actions/upload-artifact@v6.0.0
+        if: always()
+        with:
+          name: results
+          path: |
+            **/build/reports/
+            **/build/test-results/

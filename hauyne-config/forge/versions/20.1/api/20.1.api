@@ -1,0 +1,7 @@
+public final class dev/lapis256/hauyne/config/forge/ForgeBackend : dev/lapis256/hauyne/config/Backend {
+	public final field spec Lnet/minecraftforge/common/ForgeConfigSpec;
+	public fun <init> (Ljava/util/Map;)V
+	public fun read (Ljava/lang/String;)Ljava/lang/String;
+	public fun write (Ljava/lang/String;Ljava/lang/String;)V
+}
+

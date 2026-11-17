@@ -1,0 +1,17 @@
+["20.1"]
+forgeVersion = "1.20.1-47.3.0"
+mcpVersion = "1.20.1"
+minimumLoaderVersion = "47.3.0"
+minimumJavaFmlLoaderVersion = "47"
+
+["21.1"]
+neoFormVersion = "1.21.1-20240808.144430"
+neoForgeVersion = "21.1.262"
+minimumLoaderVersion = "21.1.262"
+minimumJavaFmlLoaderVersion = "1"
+
+["26.1"]
+neoFormVersion = "26.1.2-1"
+neoForgeVersion = "26.1.2.126"
+minimumLoaderVersion = "26.1.2.126"
+minimumJavaFmlLoaderVersion = "1"
