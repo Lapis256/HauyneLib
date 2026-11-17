@@ -11,10 +11,8 @@ import software.amazon.awssdk.core.checksums.ResponseChecksumValidation
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
-import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.s3.model.S3Exception
 import java.net.URI
-import java.security.MessageDigest
 
 abstract class R2Task : DefaultTask() {
     @get:Internal
@@ -61,17 +59,4 @@ internal fun <T> missingOn404(action: () -> T): T? = try {
 } catch (error: S3Exception) {
     if (error.statusCode() != 404) throw error
     null
-}
-
-internal fun remoteSha256(client: S3Client, bucket: String, key: String): String? = missingOn404 {
-    client.getObject(GetObjectRequest.builder().bucket(bucket).key(key).build()).use { input ->
-        val digest = MessageDigest.getInstance("SHA-256")
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        while (true) {
-            val count = input.read(buffer)
-            if (count == -1) break
-            digest.update(buffer, 0, count)
-        }
-        digest.digest().joinToString("") { "%02x".format(it) }
-    }
 }

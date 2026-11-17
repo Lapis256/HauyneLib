@@ -2,10 +2,7 @@ import dev.lapis256.hauyne.buildlogic.release.prepare.PrepareRelease
 import dev.lapis256.hauyne.buildlogic.release.r2.DownloadMavenMetadata
 import dev.lapis256.hauyne.buildlogic.release.r2.R2Task
 import dev.lapis256.hauyne.buildlogic.release.r2.UploadStagedMavenToR2
-import dev.lapis256.hauyne.buildlogic.release.r2.VerifyPublishedMaven
-import dev.lapis256.hauyne.buildlogic.release.staging.RecordReleaseArtifacts
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 
 val staging = layout.buildDirectory.dir("staging")
 
@@ -29,12 +26,9 @@ tasks.register<DownloadMavenMetadata>("downloadMavenMetadata") {
     coordinates.convention(emptyList())
 }
 
-tasks.register<RecordReleaseArtifacts>("stageRelease") {
+tasks.register("stageRelease") {
     group = "publishing"
-    description = "Build, check and seal the Maven staging repository"
-    rootDirectory = layout.projectDirectory
-    stagingDirectory = staging
-    publicationFiles.convention(emptyMap())
+    description = "Build and check the release artifacts in the Maven staging repository"
     dependsOn(gradle.includedBuilds.filter { it.name == "build-logic" }.map { it.task(":test") })
 }
 
@@ -42,24 +36,16 @@ tasks.register<UploadStagedMavenToR2>("uploadStagedMavenToR2") {
     group = "publishing"
 }
 
-tasks.register<VerifyPublishedMaven>("verifyPublishedMaven") {
-    group = "publishing"
-}
-
 gradle.projectsEvaluated {
     val publications = allprojects.flatMap { target ->
-        target.extensions.findByType(PublishingExtension::class.java)?.publications
-            ?.withType(MavenPublication::class.java)?.map { publication ->
-                require(!publication.version.endsWith("-SNAPSHOT")) { "SNAPSHOT releases are not supported" }
-                Triple(
-                    "${publication.groupId}:${publication.artifactId}",
-                    publication.version,
-                    target.tasks.named("publish${publication.name.replaceFirstChar(Char::uppercaseChar)}PublicationToStagingRepository"),
-                )
-            }.orEmpty()
+        target.tasks.withType(PublishToMavenRepository::class.java).filter { it.repository.name == "Staging" }
     }
-    publications.groupBy { it.first }.values.forEach { module ->
-        module.sortedBy { it.second }.zipWithNext().forEach { (previous, next) -> next.third.configure { mustRunAfter(previous.third) } }
+    for (task in publications) {
+        require(!task.publication.version.endsWith("-SNAPSHOT")) { "SNAPSHOT releases are not supported" }
+    }
+    for (module in publications.groupBy { "${it.publication.groupId}:${it.publication.artifactId}" }.values) {
+        val ordered = module.sortedBy { it.publication.version }
+        ordered.zipWithNext().forEach { (previous, next) -> next.mustRunAfter(previous) }
     }
     tasks.named("stageRelease") {
         dependsOn(allprojects.map { it.tasks.matching { task -> task.name == "check" } })

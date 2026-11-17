@@ -4,7 +4,6 @@ import dev.lapis256.hauyne.buildlogic.metadata.GenerateModConstants
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
 import dev.lapis256.hauyne.buildlogic.metadata.eq
 import dev.lapis256.hauyne.buildlogic.metadata.validateDependencies
-import dev.lapis256.hauyne.buildlogic.release.mod.ModPublishing
 import me.modmuss50.mpp.platforms.curseforge.CurseforgeDependency
 import me.modmuss50.mpp.platforms.modrinth.ModrinthDependency
 
@@ -134,5 +133,8 @@ publishMods {
 
 gradle.projectsEvaluated {
     val publication = project.extensions.getByType<PublishingExtension>().publications.getByName("maven") as MavenPublication
-    publishMods.file.fileValue(ModPublishing.stagedJar(rootProject, publication))
+    val module = "${publication.groupId.replace('.', '/')}/${publication.artifactId}/${publication.version}"
+    publishMods.file = rootProject.layout.buildDirectory.file(
+        "staging/maven/$module/${publication.artifactId}-${publication.version}.jar",
+    )
 }

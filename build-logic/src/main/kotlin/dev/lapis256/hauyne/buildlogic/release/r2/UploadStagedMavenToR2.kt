@@ -1,37 +1,25 @@
 package dev.lapis256.hauyne.buildlogic.release.r2
 
-import dev.lapis256.hauyne.buildlogic.release.staging.MavenMetadata
-import dev.lapis256.hauyne.buildlogic.release.staging.ReleaseArtifacts
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.UntrackedTask
 import software.amazon.awssdk.core.sync.RequestBody
-import software.amazon.awssdk.services.s3.model.HeadObjectRequest
+import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
+import java.io.File
 
-@UntrackedTask(because = "Publishes sealed staging with remote conditional writes")
+@UntrackedTask(because = "Publishes staged files with remote conditional writes")
 abstract class UploadStagedMavenToR2 : R2Task() {
     @TaskAction
     fun upload() {
         val staging = stagingDirectory.get().asFile
-        val manifest = ReleaseArtifacts.readManifest(staging)
-        MavenMetadata.verifyPreservedVersions(staging)
-        val baseline = Json.parseToJsonElement(staging.resolve("baseline-metadata.json").readText()).jsonObject
-        val metadata = manifest.keys.filter { metadataBody(it) != null }
-        manifest.keys.forEach(::requireMavenPath)
-        metadata.forEach { key ->
-            require(key in baseline && metadataBody(key) in baseline) { "Missing metadata baseline: $key" }
-            require(metadataBody(key) in manifest) { "Missing metadata body: $key" }
-        }
-        val expectedEtags = metadata.associateWith { key ->
-            val value = baseline.getValue(key).jsonObject.getValue("etag")
-            if (value == JsonNull) null else value.jsonPrimitive.content.also { require(it.isNotBlank()) { "Empty ETag: $key" } }
-        }
-        // 全成果物、メタデータのチェックサム、本体の順に公開する。
-        val ordered = manifest.keys.sortedWith(
+        val maven = staging.resolve("maven")
+        require(maven.isDirectory) { "Missing staged Maven directory: $maven" }
+        val keys = maven.walkTopDown().filter { it.isFile }.map { it.relativeTo(maven).invariantSeparatorsPath }.toList()
+        require(keys.isNotEmpty()) { "No staged Maven files" }
+        keys.forEach(::requireMavenPath)
+        val etags = readEtags(staging, keys)
+        val ordered = keys.sortedWith(
             compareBy<String> {
                 when {
                     it.endsWith("/maven-metadata.xml") -> 2
@@ -41,27 +29,25 @@ abstract class UploadStagedMavenToR2 : R2Task() {
             }.thenBy { it },
         )
         createS3Client().use { client ->
-            for (key in ordered) {
-                val current = missingOn404 {
-                    client.headObject(HeadObjectRequest.builder().bucket(bucket.get()).key(key).build())
-                }
-                val valid = if (metadataBody(key) != null) {
-                    if (current == null) {
-                        expectedEtags[key] == null
-                    } else {
-                        requireNotNull(current.eTag()) { "Missing ETag: $key" } == expectedEtags[key]
-                    }
-                } else {
-                    current == null
-                }
-                require(valid) { "Remote object conflicts with staging: $key" }
-            }
-            for (key in ordered) {
-                val request = PutObjectRequest.builder().bucket(bucket.get()).key(key)
-                val etag = expectedEtags[key]
-                if (etag == null) request.ifNoneMatch("*") else request.ifMatch(etag)
-                client.putObject(request.build(), RequestBody.fromFile(staging.resolve("maven/$key")))
+            for (key in ordered) uploadFile(client, maven, key, etags[key])
+        }
+    }
+
+    private fun readEtags(staging: File, keys: List<String>): Map<String, String?> {
+        val etags = Json.decodeFromString<Map<String, String?>>(staging.resolve("metadata-etags.json").readText())
+        return keys.filter { metadataBody(it) != null }.associateWith { key ->
+            val body = metadataBody(key)
+            require(key in etags && body in etags) { "Missing metadata ETag: $key" }
+            require(body in keys) { "Missing metadata body: $key" }
+            etags.getValue(key).also {
+                require(it == null || it.isNotBlank()) { "Invalid ETag: $key" }
             }
         }
+    }
+
+    private fun uploadFile(client: S3Client, maven: File, key: String, etag: String?) {
+        val request = PutObjectRequest.builder().bucket(bucket.get()).key(key)
+        if (etag == null) request.ifNoneMatch("*") else request.ifMatch(etag)
+        client.putObject(request.build(), RequestBody.fromFile(maven.resolve(key)))
     }
 }

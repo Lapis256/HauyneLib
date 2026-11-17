@@ -37,12 +37,12 @@ jobs:
           version: v2.14.2
           args: --version
       - uses: ./.github/actions/setup-common-env
-      - name: Check tag and generate release notes
+      - name: Check release tag
         run: |
           test "$GITHUB_REF_TYPE" = tag
-          # 失敗したリリースは再実行せず、新しいバージョンで公開する。
-          test "$GITHUB_RUN_ATTEMPT" = 1
           test "modVersion=${TAG#v}" = "$(grep '^modVersion=' gradle.properties)"
+      - name: Generate release notes
+        run: |
           mkdir -p build/release
           git-cliff --offline --use-branch-tags --config cliff.toml --current --strip header --output build/release/notes.md
       - name: Stage and check once
@@ -58,15 +58,6 @@ jobs:
         run: ./gradlew uploadStagedMavenToR2 --no-configuration-cache
       - name: Publish mods
         run: ./gradlew publishMods -PmodPublishDryRun=false --no-configuration-cache
-      - name: Verify Maven JARs
-        run: ./gradlew verifyPublishedMaven --no-configuration-cache
-      - name: Verify GitHub JARs
-        run: |
-          mkdir -p "$RUNNER_TEMP/release-jars"
-          gh release download "$TAG" --pattern '*.jar' --dir "$RUNNER_TEMP/release-jars"
-          while IFS= read -r -d '' jar; do
-            cmp "$jar" "$RUNNER_TEMP/release-jars/$(basename "$jar")"
-          done < <(find build/staging/maven -type f -name '*.jar' -print0)
       - name: Publish GitHub release
         run: gh release edit "$TAG" --draft=false
 

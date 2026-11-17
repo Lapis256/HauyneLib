@@ -4,6 +4,8 @@ import com.electronwill.nightconfig.core.Config
 import com.electronwill.nightconfig.toml.TomlParser
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
@@ -12,8 +14,7 @@ class MetadataPublicationTest {
     @TempDir
     lateinit var root: File
 
-    @Test
-    fun modPluginConnectsDeclarationsToMetadataAndPublicationPlatforms() {
+    private fun fixture() {
         for (path in listOf("core", "minecraft/test", "forge/test", "neoforge/test")) {
             root.resolve("hauyne-config/$path").mkdirs()
         }
@@ -125,6 +126,45 @@ class MetadataPublicationTest {
                 """.trimIndent(),
             )
         }
+    }
+
+    @Test
+    fun publishesStagedJarsWithoutBuilding() {
+        fixture()
+        for (loader in listOf("forge", "neoforge")) {
+            root.resolve("hauyne-lib/$loader/build.gradle.kts").appendText(
+                "\n" +
+                    """
+
+                tasks.register("checkStagedModJar") {
+                    doLast {
+                        val module = "dev/example/hauyne-lib-$loader/test-1.0"
+                        check(publishMods.file.get().asFile == rootProject.file("build/staging/maven/" + module + "/hauyne-lib-$loader-test-1.0.jar"))
+                        tasks.withType<me.modmuss50.mpp.PublishModTask>().forEach {
+                            check(it.platform.file.get().asFile == publishMods.file.get().asFile)
+                        }
+                    }
+                }
+                    """.trimIndent(),
+            )
+        }
+        val contract = GradleRunner.create().withProjectDir(root).withPluginClasspath()
+            .withArguments("checkStagedModJar", "--offline", "--no-configuration-cache").build()
+        assertTrue(contract.output.contains("checkStagedModJar"))
+        val publishing = GradleRunner.create().withProjectDir(root).withPluginClasspath()
+            .withArguments("publishMods", "--dry-run", "--offline", "--no-configuration-cache").build().output
+        assertFalse(
+            publishing.lineSequence().any {
+                it.startsWith(":") &&
+                    Regex("(?i)(:jar |reobfJar |compile|stageRelease |ToStagingRepository|createMinecraftArtifacts)").containsMatchIn(it)
+            },
+            publishing,
+        )
+    }
+
+    @Test
+    fun modPluginConnectsDeclarationsToMetadataAndPublicationPlatforms() {
+        fixture()
         val runner = GradleRunner.create().withProjectDir(root).withPluginClasspath()
             .withArguments(
                 ":hauyne-lib:forge:test:generateModMetadata",

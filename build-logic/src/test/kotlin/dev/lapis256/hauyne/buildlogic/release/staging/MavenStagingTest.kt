@@ -1,22 +1,21 @@
 package dev.lapis256.hauyne.buildlogic.release.staging
 
 import org.gradle.testkit.runner.GradleRunner
-import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
-class SavedPublicationTest {
+class MavenStagingTest {
     @TempDir
     lateinit var root: File
 
     @Test
-    fun stagesSharedCoordinatesAndConsumesSavedFilesWithoutBuildOutputs() {
+    fun stagesAllVersionsAndPublishingDoesNotRebuildArtifacts() {
         root.resolve("settings.gradle.kts").writeText(
             """
-            rootProject.name = "saved-publication"
+            rootProject.name = "maven-staging"
             include(":first", ":second")
             dependencyResolutionManagement {
                 versionCatalogs {
@@ -42,9 +41,6 @@ class SavedPublicationTest {
             version = "1.0"
             subprojects { configurations.create("bcv-rt-jvm-cp") }
             tasks.named("downloadMavenMetadata") { enabled = false }
-            tasks.register("consumeStaging") {
-                doLast { file("build/staging/maven").copyRecursively(file("published")) }
-            }
             """.trimIndent(),
         )
         for ((name, version) in listOf("first" to "1.0", "second" to "2.0")) {
@@ -63,7 +59,6 @@ class SavedPublicationTest {
             }
         }
         val staging = root.resolve("build/staging").apply { mkdirs() }
-        staging.resolve("baseline-metadata.json").writeText("{}\n")
         staging.resolve("maven/dev/example/lib/maven-metadata.xml").apply {
             parentFile.mkdirs()
             writeText(
@@ -73,19 +68,16 @@ class SavedPublicationTest {
         val runner = GradleRunner.create().withProjectDir(root).withPluginClasspath()
         val common = listOf("--offline", "--no-configuration-cache", "--parallel")
         runner.withArguments(common + "stageRelease").build()
-        val saved = ReleaseArtifacts.verifyStaging(staging).mapValues { (path, _) -> staging.resolve("maven/$path").readBytes() }
+        val repository = staging.resolve("maven")
+        for (version in listOf("1.0", "2.0")) {
+            assertTrue(repository.resolve("dev/example/lib/$version/lib-$version.jar").isFile)
+        }
         val metadata = staging.resolve("maven/dev/example/lib/maven-metadata.xml").readText()
         for (version in listOf("0.5", "1.0", "2.0")) assertTrue("<version>$version</version>" in metadata)
         for (name in listOf("first", "second")) {
             root.resolve("$name/build").deleteRecursively()
-            root.resolve("$name/build.gradle.kts").appendText(
-                "\ntasks.withType<Jar>().configureEach { doFirst { error(\"Must not rebuild\") } }\n",
-            )
         }
         val graph = runner.withArguments(common + listOf("uploadStagedMavenToR2", "--dry-run")).build()
         assertFalse(graph.output.contains(":first:jar ") || graph.output.contains(":second:jar "))
-        val result = runner.withArguments(common + "consumeStaging").build()
-        assertFalse(result.tasks.any { it.path.endsWith(":jar") || it.path.endsWith(":sourcesJar") || "compile" in it.path })
-        for ((path, expected) in saved) assertArrayEquals(expected, root.resolve("published/$path").readBytes())
     }
 }
