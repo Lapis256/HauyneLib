@@ -17,16 +17,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - uses: orhun/git-cliff-action@a9a95522b26fe6403f7bb24031f21fb573d0f5ff # v4
+      - uses: actions/checkout@v6.0.1
+      - uses: orhun/git-cliff-action@v4.9.1
         with:
           version: v2.14.2
           args: --version
 
-      - uses: ./.github/actions/setup-common-env
+      - uses: $/.github/actions/setup-common-env
       - name: Run tests and formatting checks
         run: ./gradlew :build-logic:test check
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@v6.0.0
         if: always()
         with:
           name: results
