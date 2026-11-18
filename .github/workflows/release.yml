@@ -12,7 +12,7 @@ on:
       dry_run:
         description: Check staging without publishing
         type: boolean
-        default: false
+        default: true
 
 concurrency:
   group: release
