@@ -32,10 +32,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: orhun/git-cliff-action@v4.9.1
+      - uses: taiki-e/install-action@v2.90.6
         with:
-          version: v2.14.2
-          args: --version
+          tool: git-cliff@2.14.2
       - uses: $/.github/actions/setup-common-env
       - name: Check release tag
         run: |

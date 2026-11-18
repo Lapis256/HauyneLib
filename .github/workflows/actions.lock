@@ -8,7 +8,7 @@ workflows:
         - 'actions/setup-java@v5.1.0'
         - 'actions/upload-artifact@v6.0.0'
         - 'gradle/actions@v5.0.0'
-        - 'orhun/git-cliff-action@v4.9.1'
+        - 'taiki-e/install-action@v2.90.6'
     '.github/workflows/deploy_docs.yml':
         - 'actions/checkout@v6.0.1'
         - 'actions/setup-java@v5.1.0'
@@ -18,12 +18,12 @@ workflows:
         - 'actions/checkout@v6.0.1'
         - 'actions/setup-java@v5.1.0'
         - 'gradle/actions@v5.0.0'
-        - 'orhun/git-cliff-action@v4.9.1'
+        - 'taiki-e/install-action@v2.90.6'
     '.github/workflows/release.yml':
         - 'actions/checkout@v6.0.1'
         - 'actions/setup-java@v5.1.0'
         - 'gradle/actions@v5.0.0'
-        - 'orhun/git-cliff-action@v4.9.1'
+        - 'taiki-e/install-action@v2.90.6'
 dependencies:
     'actions/attest@v4.2.2':
         ref: 'v4.2.2'
@@ -50,8 +50,8 @@ dependencies:
         commit: 'sha1-4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2'
         owner_id: 124156
         repo_id: 743626948
-    'orhun/git-cliff-action@v4.9.1':
-        ref: 'v4.9.1'
-        commit: 'sha1-a9a95522b26fe6403f7bb24031f21fb573d0f5ff'
-        owner_id: 24392180
-        repo_id: 377964066
+    'taiki-e/install-action@v2.90.6':
+        ref: 'v2.90.6'
+        commit: 'sha1-75a7c0f87bd666af3cdb75c5b9e9d03ab6044e6f'
+        owner_id: 43724913
+        repo_id: 442947557
