@@ -43,8 +43,7 @@ class ModMetadataTest {
             task.kotlinVersionRange.set("[2.4.21,)")
             MutFlow.underTest { task.generate() }
             val metadata = TomlParser().parse(task.outputFile.get().asFile.readText())
-            assertEquals("[2.4.21,)", metadata.get<String>("features.hauynelib.hauyneKotlinVersion"))
-            assertEquals("true", metadata.get<String>("features.hauynelib.Kotlin runtime (install a compatible KotlinLangForge release)"))
+            assertEquals(mapOf("hauyneKotlinVersion" to "[2.4.21,)"), metadata.get<Config>("features.hauynelib").valueMap())
             assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4,)", metadata.get<String>("loaderVersion"))
             assertEquals("MIT", metadata.get<String>("license"))

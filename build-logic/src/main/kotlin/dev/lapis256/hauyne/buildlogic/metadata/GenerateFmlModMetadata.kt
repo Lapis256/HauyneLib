@@ -90,16 +90,7 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
             issueTrackerURL = issueTrackerUrl.get(),
             mods = listOf(FmlMod(id, modVersion.get(), modName.get(), modDescription.get(), modAuthor.get(), displayUrl.get())),
             dependencies = mapOf(id to dependencies),
-            features = kotlinVersionRange.orNull?.let {
-                mapOf(
-                    id to mapOf(
-                        "hauyneKotlinVersion" to it,
-                        // Kotlin がなければバージョンを登録できず、標準画面には要求範囲と NONE だけが出る。
-                        // 導入先も表示するため、存在チェックの機能名に案内を書き、Kotlin を検出したときだけ成立させる。
-                        "Kotlin runtime (install a compatible KotlinLangForge release)" to "true",
-                    ),
-                )
-            },
+            features = kotlinVersionRange.orNull?.let { mapOf(id to mapOf("hauyneKotlinVersion" to it)) },
         )
         val file = outputFile.get().asFile
         file.parentFile.mkdirs()
