@@ -26,10 +26,10 @@ dependencies {
     }
 }
 
-if (stonecutter.current.parsed >= "26.1") {
+if (stonecutter.current.parsed < "26.1") {
     sourceSets.main {
-        java.exclude("**/KotlinCheckMixinPlugin.java")
-        resources.exclude("hauynelib-kotlin-check.mixins.json")
+        java.srcDir("src/legacy/java")
+        resources.srcDir("src/legacy/resources")
     }
 }
 
