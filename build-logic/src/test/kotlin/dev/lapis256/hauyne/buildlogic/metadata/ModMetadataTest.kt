@@ -40,8 +40,11 @@ class ModMetadataTest {
     fun requiredDependenciesUseEachLoadersSchema() {
         for (loader in HauyneFmlLoader.entries) {
             val task = task(loader)
+            task.kotlinVersionRange.set("[2.4.21,)")
             MutFlow.underTest { task.generate() }
             val metadata = TomlParser().parse(task.outputFile.get().asFile.readText())
+            assertEquals("[2.4.21,)", metadata.get<String>("features.hauynelib.hauyneKotlinVersion"))
+            assertEquals("true", metadata.get<String>("features.hauynelib.Kotlin runtime (install a compatible KotlinLangForge release)"))
             assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4,)", metadata.get<String>("loaderVersion"))
             assertEquals("MIT", metadata.get<String>("license"))

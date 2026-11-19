@@ -27,7 +27,17 @@ include(
     ":hauyne-config:nightconfig",
     ":hauyne-lib:forge",
     ":hauyne-lib:neoforge",
+    ":hauyne-lib:kotlin-check-20.1",
+    ":hauyne-lib:kotlin-check-21.1",
+    ":hauyne-lib:kotlin-check-26.1",
 )
+
+for ((minecraft, variant) in mapOf("20.1" to "forge", "21.1" to "neoforge21", "26.1" to "neoforge26")) {
+    project(":hauyne-lib:kotlin-check-$minecraft").apply {
+        projectDir = file("hauyne-lib/kotlin-check/$variant")
+        buildFileName = "../../kotlin-check.gradle.kts"
+    }
+}
 
 stonecutter {
     kotlinController = true

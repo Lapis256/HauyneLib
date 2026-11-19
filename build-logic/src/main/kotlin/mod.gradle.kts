@@ -3,9 +3,11 @@ import dev.lapis256.hauyne.buildlogic.metadata.GenerateFmlModMetadata
 import dev.lapis256.hauyne.buildlogic.metadata.GenerateModConstants
 import dev.lapis256.hauyne.buildlogic.metadata.HauyneModMetadataExtension
 import dev.lapis256.hauyne.buildlogic.metadata.eq
+import dev.lapis256.hauyne.buildlogic.metadata.gte
 import dev.lapis256.hauyne.buildlogic.metadata.validateDependencies
 import me.modmuss50.mpp.platforms.curseforge.CurseforgeDependency
 import me.modmuss50.mpp.platforms.modrinth.ModrinthDependency
+import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {
     id("minecraft-library")
@@ -34,6 +36,7 @@ kotlin.sourceSets.main {
 
 val fml = metadata.selectedMetadata
 val defaultMinecraftVersionRange = extensions.getByType<StonecutterBuildExtension>().current.version.eq()
+val kotlinVersion = extensions.getByType<VersionCatalogsExtension>().named("libs").findVersion("kotlin").get().requiredVersion
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
     modName = metadata.modName
@@ -48,6 +51,7 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
         .map { it.versionRange }
     loaderVersionRange = fml.flatMap { it.loaderVersionRange }.map { it.versionRange }
     javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }.map { it.versionRange }
+    kotlinVersionRange = kotlinVersion.gte().versionRange
     modDependencies = fml.flatMap { it.dependencyEntries }
 }
 
@@ -70,9 +74,13 @@ tasks.withType<Jar>().configureEach {
 
 val configBackend = project(":hauyne-config:${parent!!.name}:${project.name}")
 val configMinecraft = project(":hauyne-config:minecraft:${project.name}")
+val kotlinCheckPath = ":hauyne-lib:kotlin-check-${project.name}"
+val kotlinCheckFiles = configurations.detachedConfiguration(dependencies.project(mapOf("path" to kotlinCheckPath)))
 
 dependencies {
     api(configBackend)
+    // 開発環境では Mod 本体をクラスディレクトリから読み込むため、検査 JAR をクラスパスに追加する。
+    runtimeOnly(files(kotlinCheckFiles))
 }
 
 for (loaderPlugin in listOf("net.neoforged.moddev", "net.neoforged.moddev.legacyforge")) {
@@ -81,6 +89,7 @@ for (loaderPlugin in listOf("net.neoforged.moddev", "net.neoforged.moddev.legacy
             add("jarJar", project(":hauyne-config:core"))
             add("jarJar", configMinecraft)
             add("jarJar", configBackend)
+            add("jarJar", project(kotlinCheckPath))
         }
     }
 }
