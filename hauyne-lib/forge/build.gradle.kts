@@ -11,7 +11,6 @@ val kotlinCheckMixinConfig = "hauynelib-kotlin-check.mixins.json"
 
 sourceSets.main {
     val sharedSources = rootProject.layout.projectDirectory.dir("hauyne-lib/src/main")
-    java.srcDir(sharedSources.dir("java"))
     resources.srcDir(sharedSources.dir("resources"))
 }
 

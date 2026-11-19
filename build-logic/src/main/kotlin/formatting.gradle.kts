@@ -31,6 +31,7 @@ spotless {
             org.eclipse.jdt.core.formatter.tabulation.size=${editorConfig.getValue("indent_size").sourceValue}
             org.eclipse.jdt.core.formatter.indentation.size=${editorConfig.getValue("indent_size").sourceValue}
             org.eclipse.jdt.core.formatter.lineSplit=${editorConfig.getValue("max_line_length").sourceValue}
+            org.eclipse.jdt.core.formatter.use_on_off_tags=true
             """.trimIndent(),
         )
         trimTrailingWhitespace()

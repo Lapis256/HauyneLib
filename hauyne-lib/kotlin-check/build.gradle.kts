@@ -13,12 +13,23 @@ repositories {
 dependencies {
     if (stonecutter.current.parsed < "1.20.5") {
         compileOnly("net.minecraftforge:forgespi:7.0.1")
+        compileOnly("net.minecraftforge:fmlloader:${stonecutter.properties["forgeVersion"]}")
         compileOnly("net.minecraftforge:mergetool:1.1.7:api")
     } else {
         compileOnly("net.neoforged.fancymodloader:loader:${stonecutter.properties["fancyModLoaderVersion"]}")
         compileOnly("net.neoforged:mergetool:2.0.0:api")
     }
     compileOnly("org.apache.maven:maven-artifact:3.9.9")
+    if (stonecutter.current.parsed < "26.1") {
+        compileOnly("org.spongepowered:mixin:0.8.5")
+        compileOnly(libs.asm.tree)
+    }
+}
+
+if (stonecutter.current.parsed >= "26.1") {
+    sourceSets.main {
+        java.exclude("**/KotlinCheckMixinPlugin.java")
+    }
 }
 
 configurations.compileClasspath {

@@ -12,7 +12,6 @@ val mc = stonecutter.current.version
 if (mc == "1.21.1") {
     sourceSets.main {
         val sharedSources = rootProject.layout.projectDirectory.dir("hauyne-lib/src/main")
-        java.srcDir(sharedSources.dir("java"))
         resources.srcDir(sharedSources.dir("resources"))
     }
 

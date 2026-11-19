@@ -17,8 +17,6 @@ version = providers.gradleProperty("modVersion").get()
 
 apiValidation {
     ignoredProjects.add("jvm")
-    // ServiceLoader と Mixin が読み込む公開クラスは、利用側 Mod 向けの API ではない。
-    ignoredPackages.add("dev.lapis256.hauyne.lib.loading")
 }
 
 dependencies {

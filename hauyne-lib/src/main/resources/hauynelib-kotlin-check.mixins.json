@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.lapis256.hauyne.lib.loading.mixin",
-  "plugin": "dev.lapis256.hauyne.lib.loading.KotlinCheckMixinPlugin",
+  "package": "dev.lapis256.hauyne.kotlincheck.mixin",
+  "plugin": "dev.lapis256.hauyne.kotlincheck.KotlinCheckMixinPlugin",
   "mixins": []
 }
