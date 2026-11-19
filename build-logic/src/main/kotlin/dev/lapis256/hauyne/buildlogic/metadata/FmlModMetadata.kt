@@ -10,8 +10,12 @@ internal data class FmlModMetadata(
     val mods: List<FmlMod>,
     val dependencies: Map<String, List<FmlDependency>>,
     val features: Map<String, Map<String, String>>? = null,
+    val mixins: List<FmlMixin>? = null,
     val modLoader: String = "javafml",
 )
+
+@Serializable
+internal data class FmlMixin(val config: String)
 
 @Serializable
 internal data class FmlMod(

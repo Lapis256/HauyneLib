@@ -41,9 +41,16 @@ class ModMetadataTest {
         for (loader in HauyneFmlLoader.entries) {
             val task = task(loader)
             task.kotlinVersionRange.set("[2.4.21,)")
+            if (loader == HauyneFmlLoader.NEOFORGE) task.mixinConfig.set("hauynelib-kotlin-check.mixins.json")
             MutFlow.underTest { task.generate() }
             val metadata = TomlParser().parse(task.outputFile.get().asFile.readText())
             assertEquals(mapOf("hauyneKotlinVersion" to "[2.4.21,)"), metadata.get<Config>("features.hauynelib").valueMap())
+            val mixins = metadata.getOptional<List<Config>>("mixins")
+            if (loader == HauyneFmlLoader.NEOFORGE) {
+                assertEquals("hauynelib-kotlin-check.mixins.json", mixins.orElseThrow().single().get<String>("config"))
+            } else {
+                assertTrue(mixins.isEmpty)
+            }
             assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4,)", metadata.get<String>("loaderVersion"))
             assertEquals("MIT", metadata.get<String>("license"))
