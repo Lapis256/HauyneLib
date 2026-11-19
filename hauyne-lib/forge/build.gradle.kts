@@ -9,11 +9,6 @@ plugins {
 val mc = stonecutter.current.version
 val kotlinCheckMixinConfig = "hauynelib-kotlin-check.mixins.json"
 
-sourceSets.main {
-    val sharedSources = rootProject.layout.projectDirectory.dir("hauyne-lib/src/main")
-    resources.srcDir(sharedSources.dir("resources"))
-}
-
 tasks.withType<Jar>().configureEach {
     manifest.attributes("MixinConfigs" to kotlinCheckMixinConfig)
 }

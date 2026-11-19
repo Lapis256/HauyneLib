@@ -29,6 +29,7 @@ dependencies {
 if (stonecutter.current.parsed >= "26.1") {
     sourceSets.main {
         java.exclude("**/KotlinCheckMixinPlugin.java")
+        resources.exclude("hauynelib-kotlin-check.mixins.json")
     }
 }
 
