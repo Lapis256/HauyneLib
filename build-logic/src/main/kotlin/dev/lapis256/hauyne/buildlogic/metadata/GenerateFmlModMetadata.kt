@@ -54,10 +54,6 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
     @get:Optional
     abstract val kotlinVersionRange: Property<String>
 
-    @get:Input
-    @get:Optional
-    abstract val mixinConfig: Property<String>
-
     @get:Nested
     abstract val modDependencies: ListProperty<HauyneDependency>
 
@@ -95,7 +91,6 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
             mods = listOf(FmlMod(id, modVersion.get(), modName.get(), modDescription.get(), modAuthor.get(), displayUrl.get())),
             dependencies = mapOf(id to dependencies),
             features = kotlinVersionRange.orNull?.let { mapOf(id to mapOf("hauyneKotlinVersion" to it)) },
-            mixins = mixinConfig.orNull?.let { listOf(FmlMixin(it)) },
         )
         val file = outputFile.get().asFile
         file.parentFile.mkdirs()
