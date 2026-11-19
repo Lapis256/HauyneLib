@@ -4,8 +4,18 @@ import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 
 final class KotlinRuntime {
     static final String FEATURE = "hauyneKotlinVersion";
+    private static final String INSTALLATION_GUIDANCE = "Install a mod that provides a compatible Kotlin standard library, such as KotlinLangForge (recommended).";
 
     private KotlinRuntime() {
+    }
+
+    static String requirementMessage(String modId, String required, Object detected) {
+        return """
+                %s requires the Kotlin standard library.
+                Required version: %s
+                Detected version: %s
+
+                %s""".formatted(modId, required, detected, INSTALLATION_GUIDANCE);
     }
 
     static DefaultArtifactVersion detect(ClassLoader loader) {
@@ -15,7 +25,7 @@ final class KotlinRuntime {
             return new DefaultArtifactVersion(version);
         } catch (ClassNotFoundException e) {
             System.getLogger(KotlinRuntime.class.getName()).log(System.Logger.Level.WARNING,
-                    "Kotlin standard library is missing. Install a compatible KotlinLangForge release.");
+                    "Kotlin standard library is missing.\n" + INSTALLATION_GUIDANCE);
             return null;
         } catch (LinkageError | ReflectiveOperationException e) {
             System.getLogger(KotlinRuntime.class.getName()).log(System.Logger.Level.WARNING, "Unable to read the Kotlin standard library version.",

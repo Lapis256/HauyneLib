@@ -10,6 +10,9 @@ plugins {
 val mc = stonecutter.current.version
 
 if (mc == "1.21.1") {
+    sourceSets.main {
+        resources.srcDir(rootProject.layout.projectDirectory.dir("hauyne-lib/src/main/resources"))
+    }
     tasks.named<GenerateFmlModMetadata>("generateModMetadata") {
         mixinConfig = "hauynelib-kotlin-check.mixins.json"
     }

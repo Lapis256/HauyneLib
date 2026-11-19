@@ -29,8 +29,7 @@ public final class KotlinCheckMixinPlugin implements IMixinConfigPlugin {
         for (var mod : loading.getMods()) {
             for (var bound : mod.getForgeFeatures()) {
                 if (KotlinRuntime.FEATURE.equals(bound.featureName()) && !ForgeFeature.testFeature(FMLEnvironment.dist, bound)) {
-                    var message = "%s requires Kotlin %s (detected: %s). Install a compatible KotlinLangForge release.".formatted(mod.getModId(),
-                            bound.featureBound(), ForgeFeature.featureValue(bound));
+                    var message = KotlinRuntime.requirementMessage(mod.getModId(), bound.featureBound(), ForgeFeature.featureValue(bound));
                     // @formatter:off
                     //? if <1.20.5 {
                     /*

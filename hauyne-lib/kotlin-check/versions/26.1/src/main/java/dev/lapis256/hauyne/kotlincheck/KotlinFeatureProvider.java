@@ -20,8 +20,7 @@ public final class KotlinFeatureProvider implements ClassProcessorProvider {
             for (var bound : mod.getForgeFeatures()) {
                 if (KotlinRuntime.FEATURE.equals(bound.featureName()) && !ForgeFeature.testFeature(loader.getDist(), bound)) {
                     var detected = version == null ? "not installed or unavailable" : version.toString();
-                    var message = "%s requires Kotlin %s (detected: %s). Install a compatible KotlinLangForge release.".formatted(mod.getModId(),
-                            bound.featureBound(), detected);
+                    var message = KotlinRuntime.requirementMessage(mod.getModId(), bound.featureBound(), detected);
                     ModLoader.addLoadingIssue(ModLoadingIssue.error("fml.modloadingissue.technical_error", message).withAffectedMod(mod));
                 }
             }

@@ -29,7 +29,6 @@ dependencies {
 if (stonecutter.current.parsed < "26.1") {
     sourceSets.main {
         java.srcDir("src/legacy/java")
-        resources.srcDir("src/legacy/resources")
     }
 }
 
