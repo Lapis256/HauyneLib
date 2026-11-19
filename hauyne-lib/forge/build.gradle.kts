@@ -7,6 +7,17 @@ plugins {
 }
 
 val mc = stonecutter.current.version
+val kotlinCheckMixinConfig = "hauynelib-kotlin-check.mixins.json"
+
+sourceSets.main {
+    val sharedSources = rootProject.layout.projectDirectory.dir("hauyne-lib/src/main")
+    java.srcDir(sharedSources.dir("java"))
+    resources.srcDir(sharedSources.dir("resources"))
+}
+
+tasks.withType<Jar>().configureEach {
+    manifest.attributes("MixinConfigs" to kotlinCheckMixinConfig)
+}
 
 hauyneMetadata {
     forge {
@@ -20,6 +31,11 @@ legacyForge {
 
     addModdingDependenciesTo(sourceSets.test.get())
     runs {
+        // 開発ランは JAR のマニフェストを経由しないため、起動引数で同じ設定を渡す。
+        configureEach {
+            programArgument("--mixin.config")
+            programArgument(kotlinCheckMixinConfig)
+        }
         create("server") {
             server()
             gameDirectory = layout.projectDirectory.dir("run-server")

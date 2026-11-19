@@ -7,7 +7,6 @@ import dev.lapis256.hauyne.buildlogic.metadata.gte
 import dev.lapis256.hauyne.buildlogic.metadata.validateDependencies
 import me.modmuss50.mpp.platforms.curseforge.CurseforgeDependency
 import me.modmuss50.mpp.platforms.modrinth.ModrinthDependency
-import net.neoforged.moddevgradle.dsl.ModDevExtension
 import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {
@@ -38,14 +37,6 @@ kotlin.sourceSets.main {
 val fml = metadata.selectedMetadata
 val minecraft = extensions.getByType<StonecutterBuildExtension>().current
 val defaultMinecraftVersionRange = minecraft.version.eq()
-val kotlinCheckMixinConfig = "hauynelib-kotlin-check.mixins.json"
-if (minecraft.parsed < "26.1") {
-    sourceSets.main {
-        val sharedSources = rootProject.layout.projectDirectory.dir("hauyne-lib/src/main")
-        java.srcDir(sharedSources.dir("java"))
-        resources.srcDir(sharedSources.dir("resources"))
-    }
-}
 val kotlinVersion = extensions.getByType<VersionCatalogsExtension>().named("libs").findVersion("kotlin").get().requiredVersion
 val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetadata") {
     modId = metadata.modId
@@ -62,9 +53,6 @@ val generateMetadata = tasks.register<GenerateFmlModMetadata>("generateModMetada
     loaderVersionRange = fml.flatMap { it.loaderVersionRange }.map { it.versionRange }
     javaFmlLoaderVersionRange = fml.flatMap { it.javaFmlLoaderVersionRange }.map { it.versionRange }
     kotlinVersionRange = kotlinVersion.gte().versionRange
-    if (minecraft.version == "1.21.1") {
-        mixinConfig = kotlinCheckMixinConfig
-    }
     modDependencies = fml.flatMap { it.dependencyEntries }
 }
 
@@ -83,9 +71,6 @@ tasks.named<ProcessResources>("processResources") {
 
 tasks.withType<Jar>().configureEach {
     manifest.attributes("FMLModType" to "MOD")
-    if (minecraft.version == "1.20.1") {
-        manifest.attributes("MixinConfigs" to kotlinCheckMixinConfig)
-    }
 }
 
 val configBackend = project(":hauyne-config:${parent!!.name}:${project.name}")
@@ -101,13 +86,6 @@ dependencies {
 
 for (loaderPlugin in listOf("net.neoforged.moddev", "net.neoforged.moddev.legacyforge")) {
     pluginManager.withPlugin(loaderPlugin) {
-        if (loaderPlugin.endsWith(".legacyforge")) {
-            // 開発ランは JAR のマニフェストを経由しないため、起動引数で同じ設定を渡す。
-            extensions.getByType<ModDevExtension>().runs.configureEach {
-                programArgument("--mixin.config")
-                programArgument(kotlinCheckMixinConfig)
-            }
-        }
         dependencies {
             add("jarJar", project(":hauyne-config:core"))
             add("jarJar", configMinecraft)
