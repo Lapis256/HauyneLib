@@ -1,14 +1,7 @@
 plugins {
-    `java-library`
+    id("minecraft-artifact")
     alias(libs.plugins.stonecutter)
 }
-
-base {
-    archivesName = parent!!.path.trim(':').replace(':', '-')
-}
-
-group = "${rootProject.property("mavenGroup")}.hauyne.lib.kotlin.check"
-version = "${project.name}-${rootProject.version}"
 
 repositories {
     mavenCentral()
@@ -31,21 +24,10 @@ configurations.compileClasspath {
     isTransitive = false
 }
 
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(
-        when {
-            stonecutter.current.parsed >= "26.1" -> 25
-            stonecutter.current.parsed >= "1.20.5" -> 21
-            else -> 17
-        },
-    )
-}
-
 tasks.jar {
     from(rootProject.file("LICENSE"))
     manifest.attributes(
-        "Automatic-Module-Name" to "dev.lapis256.hauyne.kotlincheck",
         "FMLModType" to "LIBRARY",
-        "Implementation-Version" to project.version,
+        "Implementation-Version" to providers.provider { project.version.toString() },
     )
 }
