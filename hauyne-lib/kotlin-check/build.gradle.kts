@@ -13,10 +13,8 @@ repositories {
 dependencies {
     if (stonecutter.current.parsed < "1.20.5") {
         compileOnly("net.minecraftforge:forgespi:7.0.1")
-        compileOnly("net.minecraftforge:mergetool:1.1.7:api")
     } else {
         compileOnly("net.neoforged.fancymodloader:loader:${stonecutter.properties["fancyModLoaderVersion"]}")
-        compileOnly("net.neoforged:mergetool:2.0.0:api")
     }
     compileOnly("org.apache.maven:maven-artifact:3.9.9")
 }
