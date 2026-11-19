@@ -1,11 +1,17 @@
 plugins {
     `java-library`
+    alias(libs.plugins.stonecutter)
 }
 
 group = "dev.lapis256.hauyne"
-version = rootProject.version
+version = "${project.name}-${rootProject.version}"
 
-val variant = projectDir.name
+val variant = when (stonecutter.current.version) {
+    "1.20.1" -> "forge"
+    "1.21.1" -> "neoforge21"
+    "26.1.2" -> "neoforge26"
+    else -> error("Unsupported Minecraft version: ${stonecutter.current.version}")
+}
 
 repositories {
     mavenCentral()
@@ -43,7 +49,9 @@ java {
 }
 
 sourceSets.main {
-    java.srcDir("../common/src/main/java")
+    val variantSources = rootProject.layout.projectDirectory.dir("hauyne-lib/kotlin-check/src/$variant")
+    java.srcDir(variantSources.dir("java"))
+    resources.srcDir(variantSources.dir("resources"))
 }
 
 tasks.jar {

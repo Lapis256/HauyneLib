@@ -74,7 +74,7 @@ tasks.withType<Jar>().configureEach {
 
 val configBackend = project(":hauyne-config:${parent!!.name}:${project.name}")
 val configMinecraft = project(":hauyne-config:minecraft:${project.name}")
-val kotlinCheckPath = ":hauyne-lib:kotlin-check-${project.name}"
+val kotlinCheckPath = ":hauyne-lib:kotlin-check:${project.name}"
 val kotlinCheckFiles = configurations.detachedConfiguration(dependencies.project(mapOf("path" to kotlinCheckPath)))
 
 dependencies {

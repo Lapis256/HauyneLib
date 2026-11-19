@@ -94,7 +94,8 @@ abstract class GenerateFmlModMetadata : DefaultTask() {
                 mapOf(
                     id to mapOf(
                         "hauyneKotlinVersion" to it,
-                        // FML は未登録の機能に固定の検出値を表示するため、導入案内は機能名に含める。
+                        // Kotlin がなければバージョンを登録できず、標準画面には要求範囲と NONE だけが出る。
+                        // 導入先も表示するため、存在チェックの機能名に案内を書き、Kotlin を検出したときだけ成立させる。
                         "Kotlin runtime (install a compatible KotlinLangForge release)" to "true",
                     ),
                 )
