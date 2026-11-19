@@ -12,15 +12,13 @@ public final class KotlinFeatureProvider implements ClassProcessorProvider {
     public void createProcessors(Context context, Collector collector) {
         var loader = FMLLoader.getCurrent();
         var version = KotlinRuntime.detect(getClass().getClassLoader());
-        var feature = version == null ? null : new ForgeFeature.VersionFeatureTest(IModInfo.DependencySide.BOTH, version);
-        if (feature != null) {
-            ForgeFeature.registerFeature(KotlinRuntime.FEATURE, feature);
+        if (version != null) {
+            ForgeFeature.registerFeature(KotlinRuntime.FEATURE, new ForgeFeature.VersionFeatureTest(IModInfo.DependencySide.BOTH, version));
         }
 
         for (var mod : loader.getLoadingModList().getMods()) {
             for (var bound : mod.getForgeFeatures()) {
-                if (KotlinRuntime.FEATURE.equals(bound.featureName())
-                        && (feature == null || !feature.test(feature.convertFromString(bound.featureBound())))) {
+                if (KotlinRuntime.FEATURE.equals(bound.featureName()) && !ForgeFeature.testFeature(loader.getDist(), bound)) {
                     var detected = version == null ? "not installed or unavailable" : version.toString();
                     var message = "%s requires Kotlin %s (detected: %s). Install a compatible KotlinLangForge release.".formatted(mod.getModId(),
                             bound.featureBound(), detected);
