@@ -3,15 +3,12 @@ plugins {
     alias(libs.plugins.stonecutter)
 }
 
-group = "dev.lapis256.hauyne"
-version = "${project.name}-${rootProject.version}"
-
-val variant = when (stonecutter.current.version) {
-    "1.20.1" -> "forge"
-    "1.21.1" -> "neoforge21"
-    "26.1.2" -> "neoforge26"
-    else -> error("Unsupported Minecraft version: ${stonecutter.current.version}")
+base {
+    archivesName = parent!!.path.trim(':').replace(':', '-')
 }
+
+group = "${rootProject.property("mavenGroup")}.hauyne.lib.kotlin.check"
+version = "${project.name}-${rootProject.version}"
 
 repositories {
     mavenCentral()
@@ -21,15 +18,11 @@ repositories {
 }
 
 dependencies {
-    when (variant) {
-        "forge" -> {
-            compileOnly("net.minecraftforge:forgespi:7.0.1")
-            compileOnly("net.minecraftforge:mergetool:1.1.7:api")
-        }
-
-        "neoforge21" -> compileOnly("net.neoforged.fancymodloader:loader:4.0.45")
-
-        else -> compileOnly("net.neoforged.fancymodloader:loader:11.0.15")
+    if (stonecutter.current.parsed < "1.20.5") {
+        compileOnly("net.minecraftforge:forgespi:7.0.1")
+        compileOnly("net.minecraftforge:mergetool:1.1.7:api")
+    } else {
+        compileOnly("net.neoforged.fancymodloader:loader:${stonecutter.properties["fancyModLoaderVersion"]}")
     }
     compileOnly("org.apache.maven:maven-artifact:3.9.9")
 }
@@ -40,18 +33,12 @@ configurations.compileClasspath {
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(
-        when (variant) {
-            "forge" -> 17
-            "neoforge21" -> 21
-            else -> 25
+        when {
+            stonecutter.current.parsed >= "26.1" -> 25
+            stonecutter.current.parsed >= "1.20.5" -> 21
+            else -> 17
         },
     )
-}
-
-sourceSets.main {
-    val variantSources = rootProject.layout.projectDirectory.dir("hauyne-lib/kotlin-check/src/$variant")
-    java.srcDir(variantSources.dir("java"))
-    resources.srcDir(variantSources.dir("resources"))
 }
 
 tasks.jar {

@@ -7,11 +7,13 @@ minimumJavaFmlLoaderVersion = "47"
 ["21.1"]
 neoFormVersion = "1.21.1-20240808.144430"
 neoForgeVersion = "21.1.262"
+fancyModLoaderVersion = "4.0.45"
 minimumLoaderVersion = "21.1.262"
 minimumJavaFmlLoaderVersion = "1"
 
 ["26.1"]
 neoFormVersion = "26.1.2-1"
 neoForgeVersion = "26.1.2.126"
+fancyModLoaderVersion = "11.0.15"
 minimumLoaderVersion = "26.1.2.126"
 minimumJavaFmlLoaderVersion = "1"
