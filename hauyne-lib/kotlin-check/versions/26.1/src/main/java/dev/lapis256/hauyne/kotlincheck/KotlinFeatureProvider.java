@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import net.neoforged.fml.ModLoader;
 import net.neoforged.fml.ModLoadingIssue;
-import net.neoforged.fml.i18n.FMLTranslations;
-import net.neoforged.fml.loading.FMLConfig;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforgespi.language.IModInfo;
 import net.neoforged.neoforgespi.locating.ForgeFeature;
@@ -27,9 +25,6 @@ public final class KotlinFeatureProvider implements ClassProcessorProvider {
                     var detected = version == null ? KotlinRuntime.NOT_INSTALLED : version;
                     var issue = ModLoadingIssue.error("fml.modloadingissue.missingdependency", KotlinRuntime.DEPENDENCY_NAME, mod.getModId(),
                             required, detected, Optional.of(KotlinRuntime.INSTALLATION_GUIDANCE));
-                    if (loader.getDist().isClient() && !FMLConfig.getBoolConfigValue(FMLConfig.ConfigValue.EARLY_WINDOW_CONTROL)) {
-                        issue = ModLoadingIssue.error("{0}", FMLTranslations.stripControlCodes(FMLTranslations.translateIssue(issue)));
-                    }
                     ModLoader.addLoadingIssue(issue.withAffectedMod(mod));
                 }
             }
