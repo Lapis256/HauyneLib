@@ -9,13 +9,14 @@ final class KotlinRuntime {
     private KotlinRuntime() {
     }
 
-    static String requirementMessage(String modId, String required, Object detected) {
-        return """
-                %s requires the Kotlin standard library.
-                Required version: %s
-                Detected version: %s
+    static String requirementMessage(String modId, String required, Object detected, boolean styled) {
+        var template = """
+                §e%s§r requires the §6Kotlin standard library§r.
+                Required version: §o%s§r
+                §7Detected version: §o%s§r
 
-                %s""".formatted(modId, required, detected, INSTALLATION_GUIDANCE);
+                %s""";
+        return (styled ? template : template.replaceAll("§[67eor]", "")).formatted(modId, required, detected, INSTALLATION_GUIDANCE);
     }
 
     static DefaultArtifactVersion detect(ClassLoader loader) {
