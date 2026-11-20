@@ -1,22 +1,24 @@
 package dev.lapis256.hauyne.kotlincheck;
 
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.InvalidVersionSpecificationException;
+import org.apache.maven.artifact.versioning.VersionRange;
 
 final class KotlinRuntime {
     static final String FEATURE = "hauyneKotlinVersion";
-    private static final String INSTALLATION_GUIDANCE = "Install a mod that provides a compatible Kotlin standard library, such as KotlinLangForge (recommended).";
+    static final String DEPENDENCY_NAME = "Kotlin standard library";
+    static final String INSTALLATION_GUIDANCE = "Install a mod that provides a compatible Kotlin standard library, such as KotlinLangForge (recommended).";
+    static final DefaultArtifactVersion NOT_INSTALLED = new DefaultArtifactVersion("null");
 
     private KotlinRuntime() {
     }
 
-    static String requirementMessage(String modId, String required, Object detected, boolean styled) {
-        var template = """
-                §e%s§r requires the §6Kotlin standard library§r.
-                Required version: §o%s§r
-                §7Detected version: §o%s§r
-
-                %s""";
-        return (styled ? template : template.replaceAll("§[67eor]", "")).formatted(modId, required, detected, INSTALLATION_GUIDANCE);
+    static VersionRange dependencyRange(String required) {
+        try {
+            return VersionRange.createFromVersionSpec(required);
+        } catch (InvalidVersionSpecificationException e) {
+            return VersionRange.createFromVersion(required);
+        }
     }
 
     static DefaultArtifactVersion detect(ClassLoader loader) {

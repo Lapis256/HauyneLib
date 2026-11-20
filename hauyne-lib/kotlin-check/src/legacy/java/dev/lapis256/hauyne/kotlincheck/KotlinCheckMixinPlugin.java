@@ -1,6 +1,7 @@
 package dev.lapis256.hauyne.kotlincheck;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 //? if <1.20.5 {
@@ -35,16 +36,19 @@ public final class KotlinCheckMixinPlugin implements IMixinConfigPlugin {
         for (var mod : loading.getMods()) {
             for (var bound : mod.getForgeFeatures()) {
                 if (KotlinRuntime.FEATURE.equals(bound.featureName()) && !ForgeFeature.testFeature(FMLEnvironment.dist, bound)) {
-                    var message = KotlinRuntime.requirementMessage(mod.getModId(), bound.featureBound(), ForgeFeature.featureValue(bound),
-                            FMLEnvironment.dist.isClient());
+                    var required = KotlinRuntime.dependencyRange(bound.featureBound());
+                    var detected = version == null ? KotlinRuntime.NOT_INSTALLED : version;
                     // @formatter:off
                     //? if <1.20.5 {
                     /*
-                    var error = new EarlyLoadingException.ExceptionData("Kotlin runtime check failed: {3}", mod, message);
-                    loading.getErrors().add(new EarlyLoadingException(message, null, List.of(error)));
+                    var error = new EarlyLoadingException.ExceptionData("fml.modloading.missingdependency", mod,
+                            KotlinRuntime.DEPENDENCY_NAME, mod.getModId(), required, detected);
+                    loading.getErrors().add(new EarlyLoadingException(KotlinRuntime.INSTALLATION_GUIDANCE, null, List.of(error)));
                     */
                     //?} else {
-                    ModLoader.addLoadingIssue(ModLoadingIssue.error("fml.modloadingissue.technical_error", message).withAffectedMod(mod));
+                    ModLoader.addLoadingIssue(ModLoadingIssue.error("fml.modloadingissue.missingdependency",
+                            KotlinRuntime.DEPENDENCY_NAME, mod.getModId(), required, detected,
+                            Optional.of(KotlinRuntime.INSTALLATION_GUIDANCE)).withAffectedMod(mod));
                     //?}
                     // @formatter:on
                 }
