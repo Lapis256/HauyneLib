@@ -73,7 +73,12 @@ tasks.withType<Jar>().configureEach {
     manifest.attributes("FMLModType" to "MOD")
 }
 
-val configBackend = project(":hauyne-config:${parent!!.name}:${project.name}")
+val loader = parent!!.name
+base {
+    archivesName = "hauyne-lib-$loader"
+}
+
+val configBackend = project(":hauyne-config:$loader:${project.name}")
 val configMinecraft = project(":hauyne-config:minecraft:${project.name}")
 val kotlinCheckPath = ":hauyne-lib:kotlin-check:${project.name}"
 
