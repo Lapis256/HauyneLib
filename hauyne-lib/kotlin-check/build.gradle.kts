@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.stonecutter)
 }
 
+val usesMixin = stonecutter.current.parsed < "26.1"
+
 repositories {
     mavenCentral()
     maven("https://maven.minecraftforge.net")
@@ -20,15 +22,16 @@ dependencies {
         compileOnly("net.neoforged:mergetool:2.0.0:api")
     }
     compileOnly("org.apache.maven:maven-artifact:3.9.9")
-    if (stonecutter.current.parsed < "26.1") {
+    if (usesMixin) {
         compileOnly("org.spongepowered:mixin:0.8.5")
         compileOnly(libs.asm.tree)
     }
 }
 
-if (stonecutter.current.parsed < "26.1") {
+if (usesMixin) {
     sourceSets.main {
         java.srcDir("src/legacy/java")
+        resources.srcDir("src/legacy/resources")
     }
 }
 
@@ -38,8 +41,11 @@ configurations.compileClasspath {
 
 tasks.jar {
     from(rootProject.file("LICENSE"))
+    if (usesMixin) {
+        manifest.attributes("MixinConfigs" to "hauynelib-kotlin-check.mixins.json")
+    }
     manifest.attributes(
-        "FMLModType" to "LIBRARY",
+        "FMLModType" to if (usesMixin) "GAMELIBRARY" else "LIBRARY",
         "Implementation-Version" to providers.provider { project.version.toString() },
     )
 }

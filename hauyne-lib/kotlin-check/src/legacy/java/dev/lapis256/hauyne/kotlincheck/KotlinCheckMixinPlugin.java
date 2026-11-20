@@ -9,6 +9,7 @@ import net.minecraftforge.fml.loading.EarlyLoadingException;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.forgespi.locating.ForgeFeature;
+import net.minecraftforge.forgespi.language.IModInfo;
 */
 //?} else {
 import net.neoforged.fml.ModLoader;
@@ -16,6 +17,7 @@ import net.neoforged.fml.ModLoadingIssue;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforgespi.locating.ForgeFeature;
+import net.neoforged.neoforgespi.language.IModInfo;
 //?}
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -24,7 +26,11 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 public final class KotlinCheckMixinPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
-        // 言語ローダーの初期化時点では Mod 一覧が未確定なので、ここで要求元を調べる。
+        var version = KotlinRuntime.detect(KotlinCheckMixinPlugin.class.getClassLoader());
+        if (version != null) {
+            ForgeFeature.registerFeature(KotlinRuntime.FEATURE, new ForgeFeature.VersionFeatureTest(IModInfo.DependencySide.BOTH, version));
+        }
+
         var loading = FMLLoader.getLoadingModList();
         for (var mod : loading.getMods()) {
             for (var bound : mod.getForgeFeatures()) {
