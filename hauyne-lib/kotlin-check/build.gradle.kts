@@ -14,16 +14,20 @@ repositories {
 
 dependencies {
     if (stonecutter.current.parsed < "1.20.5") {
-        compileOnly("net.minecraftforge:forgespi:7.0.1")
-        compileOnly("net.minecraftforge:fmlloader:${stonecutter.properties["forgeVersion"]}")
-        compileOnly("net.minecraftforge:mergetool:1.1.7:api")
+        compileOnly(libs.forge.forgespi)
+        compileOnly(libs.forge.fmlloader) {
+            version { require(stonecutter.properties["forgeVersion"]) }
+        }
+        compileOnly(variantOf(libs.forge.mergetool) { classifier("api") })
     } else {
-        compileOnly("net.neoforged.fancymodloader:loader:${stonecutter.properties["fancyModLoaderVersion"]}")
-        compileOnly("net.neoforged:mergetool:2.0.0:api")
+        compileOnly(libs.neoforge.fmlloader) {
+            version { require(stonecutter.properties["fancyModLoaderVersion"]) }
+        }
+        compileOnly(variantOf(libs.neoforge.mergetool) { classifier("api") })
     }
-    compileOnly("org.apache.maven:maven-artifact:3.9.9")
+    compileOnly(libs.maven.artifact)
     if (usesMixin) {
-        compileOnly("org.spongepowered:mixin:0.8.5")
+        compileOnly(libs.mixin)
         compileOnly(libs.asm.tree)
     }
 }
