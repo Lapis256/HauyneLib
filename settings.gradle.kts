@@ -25,8 +25,9 @@ include(
     ":hauyne-config:minecraft",
     ":hauyne-config:neoforge",
     ":hauyne-config:nightconfig",
-    ":hauyne-lib:forge",
-    ":hauyne-lib:neoforge",
+    ":hauyne-lib:mod:forge",
+    ":hauyne-lib:mod:neoforge",
+    ":hauyne-lib:kotlin-check",
 )
 
 stonecutter {
@@ -45,16 +46,22 @@ stonecutter {
         version("21.1", "1.21.1")
         vcsVersion = "26.1"
     }
-    create(":hauyne-lib:neoforge") {
+    create(":hauyne-lib:mod:neoforge") {
         version("26.1", "26.1.2")
         version("21.1", "1.21.1")
+        vcsVersion = "26.1"
+    }
+    create(":hauyne-lib:kotlin-check") {
+        version("26.1", "26.1.2")
+        version("21.1", "1.21.1")
+        version("20.1", "1.20.1")
         vcsVersion = "26.1"
     }
     create(":hauyne-config:forge") {
         version("20.1", "1.20.1")
         vcsVersion = "20.1"
     }
-    create(":hauyne-lib:forge") {
+    create(":hauyne-lib:mod:forge") {
         version("20.1", "1.20.1")
         vcsVersion = "20.1"
     }

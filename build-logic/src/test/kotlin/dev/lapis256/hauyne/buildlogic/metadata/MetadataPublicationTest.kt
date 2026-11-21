@@ -31,8 +31,8 @@ class MetadataPublicationTest {
             stonecutter {
                 kotlinController = true
                 centralScript = "build.gradle.kts"
-                create(":hauyne-lib:forge") { version("test", "1.20.1"); vcsVersion = "test" }
-                create(":hauyne-lib:neoforge") { version("test", "1.21.1"); vcsVersion = "test" }
+                create(":hauyne-lib:mod:forge") { version("test", "1.20.1"); vcsVersion = "test" }
+                create(":hauyne-lib:mod:neoforge") { version("test", "1.21.1"); vcsVersion = "test" }
             }
             """.trimIndent(),
         )
@@ -69,7 +69,7 @@ class MetadataPublicationTest {
             } else {
                 ""
             }
-            val controller = root.resolve("hauyne-lib/$loader").apply { mkdirs() }
+            val controller = root.resolve("hauyne-lib/mod/$loader").apply { mkdirs() }
             controller.resolve("stonecutter.gradle.kts").writeText("plugins { id(\"dev.kikugie.stonecutter\") }\nstonecutter active \"test\"\n")
             controller.resolve("build.gradle.kts").writeText(
                 """
@@ -132,7 +132,7 @@ class MetadataPublicationTest {
     fun publishesStagedJarsWithoutBuilding() {
         fixture()
         for (loader in listOf("forge", "neoforge")) {
-            root.resolve("hauyne-lib/$loader/build.gradle.kts").appendText(
+            root.resolve("hauyne-lib/mod/$loader/build.gradle.kts").appendText(
                 "\n" +
                     """
 
@@ -167,8 +167,8 @@ class MetadataPublicationTest {
         fixture()
         val runner = GradleRunner.create().withProjectDir(root).withPluginClasspath()
             .withArguments(
-                ":hauyne-lib:forge:test:generateModMetadata",
-                ":hauyne-lib:neoforge:test:generateModMetadata",
+                ":hauyne-lib:mod:forge:test:generateModMetadata",
+                ":hauyne-lib:mod:neoforge:test:generateModMetadata",
                 "--configuration-cache",
                 "--offline",
                 "--console=plain",
@@ -176,7 +176,7 @@ class MetadataPublicationTest {
         runner.build()
         runner.build()
         for (loader in HauyneFmlLoader.entries) {
-            val file = root.resolve("hauyne-lib/${loader.modId}/versions/test/build/generated/resources/modMetadata/${loader.metadataFileName}")
+            val file = root.resolve("hauyne-lib/mod/${loader.modId}/versions/test/build/generated/resources/modMetadata/${loader.metadataFileName}")
             val metadata = TomlParser().parse(file.readText())
             assertEquals("javafml", metadata.get<String>("modLoader"))
             assertEquals("[4]", metadata.get<String>("loaderVersion"))

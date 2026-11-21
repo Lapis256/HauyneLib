@@ -36,6 +36,15 @@ dependencies {
 }
 ```
 
+## Kotlin runtime requirement
+
+HauyneLib checks the Kotlin standard library before mod initialization. Install a compatible KotlinLangForge release to provide the runtime. A mod can declare its own requirement in its `neoforge.mods.toml` or `mods.toml`, using its mod ID and a Maven version range.
+
+```toml
+[features.examplemod]
+hauyneKotlinVersion = "[2.4.21,)"
+```
+
 ## Supported versions
 
 | Minecraft | Loader |

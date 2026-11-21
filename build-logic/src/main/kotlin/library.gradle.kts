@@ -56,12 +56,8 @@ tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
 
-val licenseFileName = "LICENSE_${rootProject.property("modId")}"
-
 tasks.withType<Jar>().configureEach {
-    from(rootProject.file("LICENSE")) {
-        rename("LICENSE", licenseFileName)
-    }
+    from(rootProject.file("LICENSE"))
 }
 
 tasks.withType<Test>().configureEach {
